@@ -46,14 +46,18 @@ struct MainTabView: View {
     
     // Distransparent tab bar when over scroll
     private func makeTabBarOpaque() {
+        
+        /// Cancel Transparent bottom Tab bar
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
         
-        let ap = UINavigationBar()
-        ap.tintColor = .messagesWhite
-//        UINavigationBarAppearance.configureWithOpaqueBackground(.init(barAppearance: ))
+        /// Cancel Transparent top Navigation bar
+        let ap = UINavigationBarAppearance()
+        ap.configureWithOpaqueBackground()
+        UINavigationBar.appearance().standardAppearance = ap
+        UINavigationBar.appearance().scrollEdgeAppearance = ap
     }
 }
 
