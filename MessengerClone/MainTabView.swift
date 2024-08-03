@@ -10,6 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     
     @State private var searchText = ""
+    @State private var openCreateNewMessage = false
     
     init() {
         makeTabBarOpaque()
@@ -20,17 +21,17 @@ struct MainTabView: View {
             TabView {
                 ChatScreen()
                     .tabItem {
-                        Image(systemName: "message")
+                        itemTab(.chat)
                     }
                 
                 Text("Friends")
                     .tabItem {
-                        Image(systemName: "person.2")
+                        itemTab(.people)
                     }
                 
                 Text("Locations")
                     .tabItem {
-                        Image(systemName: "safari")
+                        itemTab(.story)
                     }
             }
             .tint(.messagesBlack)
@@ -42,6 +43,9 @@ struct MainTabView: View {
             trailingButton()
         }
         .searchable(text: $searchText)
+        .sheet(isPresented: $openCreateNewMessage, content: {
+            CreateChatView()
+        })
     }
     
     // Distransparent tab bar when over scroll
@@ -59,6 +63,7 @@ struct MainTabView: View {
         UINavigationBar.appearance().standardAppearance = ap
         UINavigationBar.appearance().scrollEdgeAppearance = ap
     }
+
 }
 
 extension MainTabView {
@@ -79,14 +84,45 @@ extension MainTabView {
     private func trailingButton() -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                
+                openCreateNewMessage.toggle()
             } label: {
                 Image(systemName: "square.and.pencil")
                     .fontWeight(.bold)
             }
         }
     }
+    
+    @ViewBuilder
+    private func itemTab(_ itemTab: MainTabViewOption) -> some View {
+        VStack {
+            Image(systemName: itemTab.icon)
+            Text(itemTab.title)
+        }
+    }
 }
+
+enum MainTabViewOption: String {
+    case chat = "Chat"
+    case people = "People"
+    case story = "Story"
+    
+    var icon: String {
+        switch self {
+        case .chat:
+            return "message"
+        case .people:
+            return "person.2"
+        case .story:
+            return "safari"
+        }
+    }
+    
+    var title: String {
+        return rawValue
+    }
+}
+
+
 
 #Preview {
     NavigationStack {

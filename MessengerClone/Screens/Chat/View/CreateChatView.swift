@@ -10,39 +10,47 @@ import SwiftUI
 struct CreateChatView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @Binding var search: String
+    @State private var search: String = ""
     
     var body: some View {
-        VStack {
-            List {
-                Section {
+        NavigationStack {
+            VStack {
+                List {
                     Section {
-                        Text("Create a new group")
-                        Text("Community")
-                    }
-                    
-                    Section {
-                        ForEach(0..<12) { _ in
-                            HStack {
-                                Circle()
-                                    .frame(width: 65, height: 65)
-                                Text("User name")
+                        Section {
+                            ForEach(CreateChatViewOption.allCases) { item in
+                                buttonChoice(item: item)
+                                    .listRowSeparator(.hidden)
                             }
                         }
+                        
+                        Section {
+                            ForEach(0..<12) { _ in
+                                HStack {
+                                    Circle()
+                                        .frame(width: 65, height: 65)
+                                    Text("User name")
+                                }
+                            }
+                        } header: {
+                            Text("Suggested")
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color(.systemGray))
+                        }
                     } header: {
-                        Text("Suggested")
+                        searchBar()
+                            .listRowInsets(EdgeInsets())
+                            .padding(.horizontal, 25)
+                            .background(Color(.systemGray6))
                     }
-    
-                } header: {
-                    searchBar()
                 }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
-        }
-        .navigationTitle("New message")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            buttonLeading()
+            .navigationTitle("New message")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                buttonLeading()
+            }
         }
     }
     
@@ -56,9 +64,7 @@ struct CreateChatView: View {
             }
         }
     }
-}
-
-extension CreateChatView {
+    
     @ViewBuilder
     private func searchBar() -> some View {
         HStack {
@@ -66,14 +72,73 @@ extension CreateChatView {
             TextField(text: $search) {
                 
             }
+            .font(.system(size: 18))
         }
         .frame(maxWidth: .infinity)
         .frame(height: 40)
     }
 }
 
+extension CreateChatView {
+    
+    private struct buttonChoice: View {
+        
+        let item: CreateChatViewOption
+        
+        var body: some View {
+            Button {
+                
+            } label: {
+                buttonBody()
+            }
+        }
+        
+        private func buttonBody() -> some View {
+            HStack(spacing: 10) {
+                Image(systemName: item.icon)
+                    .frame(width: 30, height: 30)
+                    .padding(5)
+                    .foregroundStyle(.messagesBlack)
+                    .background(Color(.systemGray))
+                    .clipShape(Circle())
+                
+                Text(item.title)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(Color(.systemGray))
+            }
+        }
+    }
+}
+
+
+enum CreateChatViewOption: String, CaseIterable, Identifiable {
+    case newGroup = "Create a new group"
+    case community = "Community"
+    
+    var id: String {
+        return rawValue
+    }
+    
+    var title: String {
+        return rawValue
+    }
+    
+    var icon: String {
+        switch self {
+        case .newGroup:
+            return "person.3.fill"
+        case .community:
+            return "message.fill"
+        }
+    }
+}
+
 #Preview {
     NavigationStack {
-        CreateChatView(search: .constant(""))
+        CreateChatView()
     }
 }
