@@ -11,6 +11,11 @@ struct MainTabView: View {
     
     @State private var searchText = ""
     @State private var openCreateNewMessage = false
+    @State private var tabViewOption: MainTabViewOption = .chat
+    
+    private var isSearchVisible: Bool {
+        return tabViewOption == .chat
+    }
     
     init() {
         makeTabBarOpaque()
@@ -23,29 +28,46 @@ struct MainTabView: View {
                     .tabItem {
                         itemTab(.chat)
                     }
+                    .onAppear {
+                        tabViewOption = .chat
+                    }
                 
-                Text("Friends")
+                Text("People")
                     .tabItem {
                         itemTab(.people)
                     }
+                    .onAppear {
+                        tabViewOption = .people
+                    }
                 
-                Text("Locations")
+                StoryScreen()
                     .tabItem {
                         itemTab(.story)
+                    }
+                    .onAppear {
+                        tabViewOption = .story
                     }
             }
             .tint(.messagesBlack)
         }
-        .navigationTitle("Chats")
+        .navigationTitle(tabViewOption.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             leadingButton()
-            trailingButton()
+            trailingButton(tabViewOption)
         }
-        .searchable(text: $searchText)
         .sheet(isPresented: $openCreateNewMessage, content: {
             CreateChatView()
         })
+        
+        if isSearchVisible {
+            Text("")
+                .frame(height: 0)
+                .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        } else {
+            Text("")
+                .frame(height: 0)
+        }
     }
     
     // Distransparent tab bar when over scroll
@@ -81,12 +103,12 @@ extension MainTabView {
     }
     
     @ToolbarContentBuilder
-    private func trailingButton() -> some ToolbarContent {
+    private func trailingButton(_ tabItem: MainTabViewOption) -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 openCreateNewMessage.toggle()
             } label: {
-                Image(systemName: "square.and.pencil")
+                Image(systemName: tabItem.trailingIcon)
                     .fontWeight(.bold)
             }
         }
@@ -104,7 +126,7 @@ extension MainTabView {
 enum MainTabViewOption: String {
     case chat = "Chat"
     case people = "People"
-    case story = "Story"
+    case story = "Stories"
     
     var icon: String {
         switch self {
@@ -119,6 +141,17 @@ enum MainTabViewOption: String {
     
     var title: String {
         return rawValue
+    }
+    
+    var trailingIcon: String {
+        switch self {
+        case .chat:
+            return "square.and.pencil"
+        case .people:
+            return "person.crop.rectangle.stack"
+        default:
+            return ""
+        }
     }
 }
 

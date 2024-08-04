@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
+		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46B804E92C58DE9B0091020E /* CreateChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B804E82C58DE9B0091020E /* CreateChatView.swift */; };
 		46E0B54C2C50D14B0059C928 /* MessengerCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */; };
 		46E0B5502C50D14C0059C928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E0B54F2C50D14C0059C928 /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
+		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46B804E82C58DE9B0091020E /* CreateChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatView.swift; sourceTree = "<group>"; };
 		46E0B5482C50D14B0059C928 /* MessengerClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerCloneApp.swift; sourceTree = "<group>"; };
@@ -83,6 +87,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		469A69CB2C5F89A80017E763 /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				469A69CC2C5F89AD0017E763 /* View */,
+			);
+			path = Story;
+			sourceTree = "<group>";
+		};
+		469A69CC2C5F89AD0017E763 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				469A69CD2C5F89CD0017E763 /* StoryScreen.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		469A69CF2C5F8BFE0017E763 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		469A69D02C5F8C050017E763 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				46E0B57D2C50DB6C0059C928 /* Screens */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		46E0B53F2C50D14B0059C928 = {
 			isa = PBXGroup;
 			children = (
@@ -106,7 +142,8 @@
 		46E0B54A2C50D14B0059C928 /* MessengerClone */ = {
 			isa = PBXGroup;
 			children = (
-				46E0B57D2C50DB6C0059C928 /* Screens */,
+				469A69D02C5F8C050017E763 /* Core */,
+				469A69CF2C5F8BFE0017E763 /* Extensions */,
 				46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */,
 				46E0B5752C50D3A70059C928 /* MainTabView.swift */,
 				46E0B54F2C50D14C0059C928 /* Assets.xcassets */,
@@ -143,6 +180,7 @@
 		46E0B57D2C50DB6C0059C928 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				469A69CB2C5F89A80017E763 /* Story */,
 				46E0B57E2C50DB750059C928 /* Chat */,
 			);
 			path = Screens;
@@ -315,7 +353,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */,
 				46E0B54C2C50D14B0059C928 /* MessengerCloneApp.swift in Sources */,
+				469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */,
 				46E0B5832C50DBE00059C928 /* ListChannelView.swift in Sources */,
 				46E0B57C2C50DB2A0059C928 /* ListStoryView.swift in Sources */,
 				46E0B5852C50DC980059C928 /* ChannelItem.swift in Sources */,
