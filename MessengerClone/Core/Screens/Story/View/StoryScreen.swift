@@ -9,22 +9,20 @@ import SwiftUI
 
 struct StoryScreen: View {
     
-    private var items = [
+    let actionHandler: () -> Void
+    
+    var items = [
         GridItem(.flexible(), spacing: 1),
         GridItem(.flexible(), spacing: 1),
     ]
-    
-    private var widthOfStory: CGFloat {
-        return ((UIWindowScene.current?.screenWidth ?? 0) / 2) - 10
-    }
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(columns: items, spacing: 10) {
                 ForEach(0..<12) { _ in
-                    Rectangle()
-                        .frame(width: widthOfStory, height: 250)
-                        .cornerRadius(20)
+                    StoryCellView() {
+                        actionHandler()
+                    }
                 }
             }
         }
@@ -33,5 +31,7 @@ struct StoryScreen: View {
 }
 
 #Preview {
-    StoryScreen()
+    StoryScreen() {
+        
+    }
 }

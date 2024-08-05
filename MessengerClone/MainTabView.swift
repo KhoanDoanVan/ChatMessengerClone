@@ -11,6 +11,7 @@ struct MainTabView: View {
     
     @State private var searchText = ""
     @State private var openCreateNewMessage = false
+    @State private var openCreateNewStory = false
     @State private var tabViewOption: MainTabViewOption = .chat
     
     private var isSearchVisible: Bool {
@@ -40,7 +41,9 @@ struct MainTabView: View {
                         tabViewOption = .people
                     }
                 
-                StoryScreen()
+                StoryScreen() {
+                    openCreateStory()
+                }
                     .tabItem {
                         itemTab(.story)
                     }
@@ -58,6 +61,9 @@ struct MainTabView: View {
         }
         .sheet(isPresented: $openCreateNewMessage, content: {
             CreateChatView()
+        })
+        .sheet(isPresented: $openCreateNewStory, content: {
+            AddToStoryView()
         })
         
         if isSearchVisible {
@@ -85,7 +91,10 @@ struct MainTabView: View {
         UINavigationBar.appearance().standardAppearance = ap
         UINavigationBar.appearance().scrollEdgeAppearance = ap
     }
-
+    
+    private func openCreateStory() {
+        openCreateNewStory.toggle()
+    }
 }
 
 extension MainTabView {
