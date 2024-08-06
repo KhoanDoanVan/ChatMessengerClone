@@ -12,6 +12,8 @@
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
 		46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92642C60DE91003F9CEB /* AddToStoryView.swift */; };
 		46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */; };
+		46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92722C6232D4003F9CEB /* SidebarScreen.swift */; };
+		46AA92752C623308003F9CEB /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92742C623308003F9CEB /* View+Extension.swift */; };
 		46B804E92C58DE9B0091020E /* CreateChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B804E82C58DE9B0091020E /* CreateChatView.swift */; };
 		46E0B54C2C50D14B0059C928 /* MessengerCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */; };
 		46E0B5502C50D14C0059C928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E0B54F2C50D14C0059C928 /* Assets.xcassets */; };
@@ -50,6 +52,8 @@
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
 		46AA92642C60DE91003F9CEB /* AddToStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToStoryView.swift; sourceTree = "<group>"; };
 		46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypeStoryView.swift; sourceTree = "<group>"; };
+		46AA92722C6232D4003F9CEB /* SidebarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarScreen.swift; sourceTree = "<group>"; };
+		46AA92742C623308003F9CEB /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		46B804E82C58DE9B0091020E /* CreateChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatView.swift; sourceTree = "<group>"; };
 		46E0B5482C50D14B0059C928 /* MessengerClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessengerCloneApp.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */,
+				46AA92742C623308003F9CEB /* View+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -123,9 +128,26 @@
 		469A69D02C5F8C050017E763 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				46AA92702C6232BE003F9CEB /* Sidebar */,
 				46E0B57D2C50DB6C0059C928 /* Screens */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		46AA92702C6232BE003F9CEB /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				46AA92712C6232C6003F9CEB /* View */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		46AA92712C6232C6003F9CEB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				46AA92722C6232D4003F9CEB /* SidebarScreen.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		46E0B53F2C50D14B0059C928 = {
@@ -368,6 +390,8 @@
 				469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */,
 				46E0B5832C50DBE00059C928 /* ListChannelView.swift in Sources */,
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
+				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
+				46AA92752C623308003F9CEB /* View+Extension.swift in Sources */,
 				46E0B57C2C50DB2A0059C928 /* ListStoryView.swift in Sources */,
 				46E0B5852C50DC980059C928 /* ChannelItem.swift in Sources */,
 				46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */,
