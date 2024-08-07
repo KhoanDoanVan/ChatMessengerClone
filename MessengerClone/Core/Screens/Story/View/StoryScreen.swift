@@ -9,29 +9,78 @@ import SwiftUI
 
 struct StoryScreen: View {
     
-    let actionHandler: () -> Void
+    @State private var openCreateNewStory = false
+    @Binding var showSidebarScreen: Bool
     
     var items = [
         GridItem(.flexible(), spacing: 1),
         GridItem(.flexible(), spacing: 1),
     ]
     
+    init(showSidebarScreen: Binding<Bool>) {
+        self._showSidebarScreen = showSidebarScreen
+        self.makeTabBarOpaque()
+    }
+    
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVGrid(columns: items, spacing: 10) {
-                ForEach(0..<12) { _ in
-                    StoryCellView() {
-                        actionHandler()
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVGrid(columns: items, spacing: 10) {
+                    ForEach(0..<12) { _ in
+                        StoryCellView() {
+                            openCreateStory()
+                        }
                     }
                 }
             }
+            .padding(.top)
+            .navigationTitle("Chats")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                leadingButton()
+            }
+            .sheet(isPresented: $openCreateNewStory, content: {
+                AddToStoryView()
+            })
         }
-        .padding(.top)
+    }
+    
+    private func openCreateStory() {
+        openCreateNewStory.toggle()
+    }
+    
+    // Distransparent tab bar when over scroll
+    private func makeTabBarOpaque() {
+        /// Cancel Transparent bottom Tab bar
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+        
+        /// Cancel Transparent top Navigation bar
+        let ap = UINavigationBarAppearance()
+        ap.configureWithOpaqueBackground()
+        UINavigationBar.appearance().standardAppearance = ap
+        UINavigationBar.appearance().scrollEdgeAppearance = ap
+    }
+}
+
+extension StoryScreen {
+    @ToolbarContentBuilder
+    private func leadingButton() -> some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                showSidebarScreen.toggle()
+            } label: {
+                Image(systemName: "list.bullet")
+                    .fontWeight(.bold)
+            }
+        }
     }
 }
 
 #Preview {
-    StoryScreen() {
-        
+    NavigationStack {
+        StoryScreen(showSidebarScreen: .constant(false))
     }
 }

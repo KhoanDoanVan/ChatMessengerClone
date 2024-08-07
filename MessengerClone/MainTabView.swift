@@ -9,23 +9,10 @@ import SwiftUI
 
 struct MainTabView: View {
     
-    @State private var searchText = ""
-    @State private var openCreateNewMessage = false
-    @State private var openCreateNewStory = false
-    @State private var tabViewOption: MainTabViewOption = .chat
-    
     @State private var showSidebarScreen: Bool = false
-    
     @State private var offset: CGFloat = 0
     @State private var lastStoredOffset: CGFloat = 0
-    
-    private var isSearchVisible: Bool {
-        return tabViewOption == .chat
-    }
-    
-    init() {
-        makeTabBarOpaque()
-    }
+
     
     var body: some View {
         
@@ -34,65 +21,28 @@ struct MainTabView: View {
         HStack(spacing: 0) {
             SidebarScreen()
             
-            VStack {
-                VStack {
-                    TabView {
-                        ChatScreen()
-                            .tabItem {
-                                itemTab(.chat)
-                            }
-                            .onAppear {
-                                tabViewOption = .chat
-                            }
-                        
-                        Text("People")
-                            .tabItem {
-                                itemTab(.people)
-                            }
-                            .onAppear {
-                                tabViewOption = .people
-                            }
-                        
-                        StoryScreen() {
-                            openCreateStory()
-                        }
-                            .tabItem {
-                                itemTab(.story)
-                            }
-                            .onAppear {
-                                tabViewOption = .story
-                            }
+            TabView {
+                ChatScreen(showSidebarScreen: $showSidebarScreen)
+                    .tabItem {
+                        itemTab(.chat)
                     }
-                    .tint(.messagesBlack)
-                }
-                .navigationTitle(tabViewOption.title)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    leadingButton()
-                    trailingButton(tabViewOption)
-                }
-                .sheet(isPresented: $openCreateNewMessage, content: {
-                    CreateChatView()
-                })
-                .sheet(isPresented: $openCreateNewStory, content: {
-                    AddToStoryView()
-                })
                 
-                if isSearchVisible {
-                    Text("")
-                        .frame(height: 0)
-                        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
-                } else {
-                    Text("")
-                        .frame(height: 0)
-                }
+                Text("People")
+                    .tabItem {
+                        itemTab(.people)
+                    }
+                
+                StoryScreen(showSidebarScreen: $showSidebarScreen)
+                    .tabItem {
+                        itemTab(.story)
+                    }
             }
             .frame(width: UIWindowScene.current?.screenWidth ?? 0)
             .overlay (
                 Rectangle()
                     .fill(
                         Color.primary
-                            .opacity(Double(offset / sideBarWidth / 5))
+                            .opacity(Double(offset / sideBarWidth / 10))
                     )
                     .ignoresSafeArea(.container, edges: .vertical)
                     .onTapGesture {
@@ -118,53 +68,9 @@ struct MainTabView: View {
             }
         }
     }
-    
-    // Distransparent tab bar when over scroll
-    private func makeTabBarOpaque() {
-        
-        /// Cancel Transparent bottom Tab bar
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        UITabBar.appearance().standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
-        
-        /// Cancel Transparent top Navigation bar
-        let ap = UINavigationBarAppearance()
-        ap.configureWithOpaqueBackground()
-        UINavigationBar.appearance().standardAppearance = ap
-        UINavigationBar.appearance().scrollEdgeAppearance = ap
-    }
-    
-    private func openCreateStory() {
-        openCreateNewStory.toggle()
-    }
 }
 
 extension MainTabView {
-    
-    @ToolbarContentBuilder
-    private func leadingButton() -> some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                showSidebarScreen.toggle()
-            } label: {
-                Image(systemName: "list.bullet")
-                    .fontWeight(.bold)
-            }
-        }
-    }
-    
-    @ToolbarContentBuilder
-    private func trailingButton(_ tabItem: MainTabViewOption) -> some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                openCreateNewMessage.toggle()
-            } label: {
-                Image(systemName: tabItem.trailingIcon)
-                    .fontWeight(.bold)
-            }
-        }
-    }
     
     @ViewBuilder
     private func itemTab(_ itemTab: MainTabViewOption) -> some View {
@@ -210,7 +116,5 @@ enum MainTabViewOption: String {
 
 
 #Preview {
-    NavigationStack {
-        MainTabView()
-    }
+    MainTabView()
 }

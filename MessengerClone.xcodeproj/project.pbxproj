@@ -175,8 +175,8 @@
 			children = (
 				469A69D02C5F8C050017E763 /* Core */,
 				469A69CF2C5F8BFE0017E763 /* Extensions */,
-				46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */,
 				46E0B5752C50D3A70059C928 /* MainTabView.swift */,
+				46E0B54B2C50D14B0059C928 /* MessengerCloneApp.swift */,
 				46E0B54F2C50D14C0059C928 /* Assets.xcassets */,
 				46E0B5512C50D14C0059C928 /* Preview Content */,
 			);
