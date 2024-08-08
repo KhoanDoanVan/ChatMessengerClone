@@ -26,7 +26,7 @@ struct MainTabView: View {
             }
             
             TabView {
-                ChatScreen(showSidebarScreen: $showSidebarScreen)
+                ChatTabScreen(showSidebarScreen: $showSidebarScreen)
                     .tabItem {
                         itemTab(.chat)
                     }

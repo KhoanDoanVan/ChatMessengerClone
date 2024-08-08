@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatScreen: View {
+struct ChatTabScreen: View {
     
     @State private var searchText = ""
     @State private var openCreateNewMessage = false
@@ -65,7 +65,7 @@ struct ChatScreen: View {
     }
 }
 
-extension ChatScreen {
+extension ChatTabScreen {
     @ToolbarContentBuilder
     private func leadingButton() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
@@ -93,6 +93,6 @@ extension ChatScreen {
 
 #Preview {
     NavigationStack {
-        ChatScreen(showSidebarScreen: .constant(false))
+        ChatTabScreen(showSidebarScreen: .constant(false))
     }
 }
