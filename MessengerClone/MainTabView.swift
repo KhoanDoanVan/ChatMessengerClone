@@ -31,7 +31,7 @@ struct MainTabView: View {
                         itemTab(.chat)
                     }
                 
-                Text("People")
+                PeopleScreen(showSidebarScreen: $showSidebarScreen)
                     .tabItem {
                         itemTab(.people)
                     }

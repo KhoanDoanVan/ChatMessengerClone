@@ -23,6 +23,7 @@ struct SidebarScreen: View {
         .frame(width: (UIWindowScene.current?.screenWidth ?? 0) - 50)
         .frame(maxHeight: .infinity)
         .background(.messagesGray)
+        .padding(.top, -20)
     }
     
     private func actionList() -> some View {
