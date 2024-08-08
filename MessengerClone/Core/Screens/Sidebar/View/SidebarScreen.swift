@@ -11,6 +11,8 @@ struct SidebarScreen: View {
     
     @State private var actionSelected: SidebarAction = .chats
     
+    let actionHandle: (_ action: ActionOpenSheet) -> Void
+    
     var body: some View {
         VStack(spacing: 0) {
             headerSidebar()
@@ -156,7 +158,7 @@ extension SidebarScreen {
     @ViewBuilder
     private func buttonSettings() -> some View {
         Button {
-            
+            actionHandle(.openSettings)
         } label: {
             Image(systemName: "gearshape.fill")
                 .font(.title)
@@ -166,7 +168,7 @@ extension SidebarScreen {
     @ViewBuilder
     private func buttonSwitchAccount() -> some View {
         Button {
-            
+            actionHandle(.openSwitchAccount)
         } label: {
             HStack(spacing: 3) {
                 Text("User name")
@@ -235,5 +237,7 @@ enum SidebarAction: String, Identifiable, CaseIterable {
 }
 
 #Preview {
-    SidebarScreen()
+    SidebarScreen() { action in
+        
+    }
 }

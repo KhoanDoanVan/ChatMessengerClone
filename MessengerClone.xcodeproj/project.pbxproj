@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46749F5D2C649DF100A8A4BD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F5C2C649DF100A8A4BD /* SettingsView.swift */; };
+		46749F5F2C64ABAC00A8A4BD /* SwitchAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F5E2C64ABAC00A8A4BD /* SwitchAccountView.swift */; };
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		46749F5C2C649DF100A8A4BD /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		46749F5E2C64ABAC00A8A4BD /* SwitchAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchAccountView.swift; sourceTree = "<group>"; };
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
@@ -97,6 +101,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46749F582C649D9900A8A4BD /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		46749F592C649DB000A8A4BD /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				46AA92712C6232C6003F9CEB /* View */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		46749F5A2C649DD200A8A4BD /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				46749F5B2C649DDC00A8A4BD /* View */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		46749F5B2C649DDC00A8A4BD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				46749F5C2C649DF100A8A4BD /* SettingsView.swift */,
+				46749F5E2C64ABAC00A8A4BD /* SwitchAccountView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		469A69CB2C5F89A80017E763 /* Story */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,18 +164,10 @@
 		469A69D02C5F8C050017E763 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				46AA92702C6232BE003F9CEB /* Sidebar */,
+				46749F582C649D9900A8A4BD /* New Group */,
 				46E0B57D2C50DB6C0059C928 /* Screens */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		46AA92702C6232BE003F9CEB /* Sidebar */ = {
-			isa = PBXGroup;
-			children = (
-				46AA92712C6232C6003F9CEB /* View */,
-			);
-			path = Sidebar;
 			sourceTree = "<group>";
 		};
 		46AA92712C6232C6003F9CEB /* View */ = {
@@ -211,6 +239,8 @@
 		46E0B57D2C50DB6C0059C928 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				46749F5A2C649DD200A8A4BD /* Settings */,
+				46749F592C649DB000A8A4BD /* Sidebar */,
 				469A69CB2C5F89A80017E763 /* Story */,
 				46E0B57E2C50DB750059C928 /* Chat */,
 			);
@@ -391,8 +421,10 @@
 				46E0B5832C50DBE00059C928 /* ListChannelView.swift in Sources */,
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
+				46749F5F2C64ABAC00A8A4BD /* SwitchAccountView.swift in Sources */,
 				46AA92752C623308003F9CEB /* View+Extension.swift in Sources */,
 				46E0B57C2C50DB2A0059C928 /* ListStoryView.swift in Sources */,
+				46749F5D2C649DF100A8A4BD /* SettingsView.swift in Sources */,
 				46E0B5852C50DC980059C928 /* ChannelItem.swift in Sources */,
 				46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */,
 				46E0B5762C50D3A70059C928 /* MainTabView.swift in Sources */,

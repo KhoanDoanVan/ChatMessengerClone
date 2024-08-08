@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MainTabView: View {
     
-    @State private var showSidebarScreen: Bool = false
     @State private var offset: CGFloat = 0
     @State private var lastStoredOffset: CGFloat = 0
+    @State private var showSidebarScreen: Bool = false
+    @State private var openSettings: Bool = false
+    @State private var openSwitchAccount: Bool = false
 
     
     var body: some View {
@@ -19,7 +21,9 @@ struct MainTabView: View {
         let sideBarWidth = (UIWindowScene.current?.screenWidth ?? 0) - 50
         
         HStack(spacing: 0) {
-            SidebarScreen()
+            SidebarScreen() { action in
+                handleAction(action)
+            }
             
             TabView {
                 ChatScreen(showSidebarScreen: $showSidebarScreen)
@@ -67,6 +71,32 @@ struct MainTabView: View {
                 lastStoredOffset = 0
             }
         }
+        .sheet(isPresented: $openSettings, content: {
+            SettingsView()
+        })
+        .sheet(isPresented: $openSwitchAccount, content: {
+            SwitchAccountView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(.blue.opacity(0.2))
+                .presentationDetents([.large, .height(500)])
+        })
+    }
+    
+    private func handleAction(_ actionSheet: ActionOpenSheet) {
+        switch actionSheet {
+        case .openSettings:
+            openSettingsSheet()
+        case .openSwitchAccount:
+            openSwitchAccountSheet()
+        }
+    }
+    
+    private func openSettingsSheet() {
+        openSettings.toggle()
+    }
+    
+    private func openSwitchAccountSheet() {
+        openSwitchAccount.toggle()
     }
 }
 
@@ -79,6 +109,10 @@ extension MainTabView {
             Text(itemTab.title)
         }
     }
+}
+
+enum ActionOpenSheet {
+    case openSettings, openSwitchAccount
 }
 
 enum MainTabViewOption: String {
