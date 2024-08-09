@@ -11,6 +11,7 @@ struct CreateChatView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var search: String = ""
+    let onCreate: () -> Void
     
     var body: some View {
         NavigationStack {
@@ -26,10 +27,14 @@ struct CreateChatView: View {
                         
                         Section {
                             ForEach(0..<12) { _ in
-                                HStack {
-                                    Circle()
-                                        .frame(width: 65, height: 65)
-                                    Text("User name")
+                                Button {
+                                    onCreate()
+                                } label: {
+                                    HStack {
+                                        Circle()
+                                            .frame(width: 65, height: 65)
+                                        Text("User name")
+                                    }
                                 }
                             }
                         } header: {
@@ -86,8 +91,8 @@ extension CreateChatView {
         let item: CreateChatViewOption
         
         var body: some View {
-            Button {
-                
+            NavigationLink {
+                GroupChatPickerView()
             } label: {
                 buttonBody()
             }
@@ -104,11 +109,6 @@ extension CreateChatView {
                 
                 Text(item.title)
                     .fontWeight(.bold)
-                
-                Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(Color(.systemGray))
             }
         }
     }
@@ -139,6 +139,8 @@ enum CreateChatViewOption: String, CaseIterable, Identifiable {
 
 #Preview {
     NavigationStack {
-        CreateChatView()
+        CreateChatView() {
+            
+        }
     }
 }

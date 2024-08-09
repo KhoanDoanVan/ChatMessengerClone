@@ -19,6 +19,9 @@
 		46749F732C66137500A8A4BD /* MessageItem+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F722C66137500A8A4BD /* MessageItem+Types.swift */; };
 		46749F752C6613FE00A8A4BD /* BubbleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F742C6613FE00A8A4BD /* BubbleTextView.swift */; };
 		46749F772C661D5200A8A4BD /* ConfigChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F762C661D5200A8A4BD /* ConfigChatView.swift */; };
+		46749F792C662C5E00A8A4BD /* ChatTabScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F782C662C5E00A8A4BD /* ChatTabScreenViewModel.swift */; };
+		46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F7A2C662F9C00A8A4BD /* GroupChatPickerView.swift */; };
+		46749F7D2C6637E400A8A4BD /* ChatPartnerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F7C2C6637E400A8A4BD /* ChatPartnerRowView.swift */; };
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
@@ -71,6 +74,9 @@
 		46749F722C66137500A8A4BD /* MessageItem+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageItem+Types.swift"; sourceTree = "<group>"; };
 		46749F742C6613FE00A8A4BD /* BubbleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleTextView.swift; sourceTree = "<group>"; };
 		46749F762C661D5200A8A4BD /* ConfigChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigChatView.swift; sourceTree = "<group>"; };
+		46749F782C662C5E00A8A4BD /* ChatTabScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabScreenViewModel.swift; sourceTree = "<group>"; };
+		46749F7A2C662F9C00A8A4BD /* GroupChatPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChatPickerView.swift; sourceTree = "<group>"; };
+		46749F7C2C6637E400A8A4BD /* ChatPartnerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPartnerRowView.swift; sourceTree = "<group>"; };
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
@@ -308,6 +314,8 @@
 			children = (
 				46E0B5772C50D87A0059C928 /* ChatTabScreen.swift */,
 				46B804E82C58DE9B0091020E /* CreateChatView.swift */,
+				46749F7A2C662F9C00A8A4BD /* GroupChatPickerView.swift */,
+				46749F7C2C6637E400A8A4BD /* ChatPartnerRowView.swift */,
 				46E0B57B2C50DB2A0059C928 /* ListStoryView.swift */,
 				46E0B5822C50DBE00059C928 /* ListChannelView.swift */,
 				46E0B5792C50DAD90059C928 /* StoryItemView.swift */,
@@ -319,6 +327,7 @@
 		46E0B5802C50DB7F0059C928 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				46749F782C662C5E00A8A4BD /* ChatTabScreenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -465,6 +474,7 @@
 				46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */,
 				46749F622C64D23B00A8A4BD /* PeopleScreen.swift in Sources */,
 				46E0B54C2C50D14B0059C928 /* MessengerCloneApp.swift in Sources */,
+				46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */,
 				46749F6A2C65FA7300A8A4BD /* TextInputArea.swift in Sources */,
 				469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */,
 				46E0B5832C50DBE00059C928 /* ListChannelView.swift in Sources */,
@@ -473,6 +483,7 @@
 				46749F5F2C64ABAC00A8A4BD /* SwitchAccountView.swift in Sources */,
 				46AA92752C623308003F9CEB /* View+Extension.swift in Sources */,
 				46E0B57C2C50DB2A0059C928 /* ListStoryView.swift in Sources */,
+				46749F7D2C6637E400A8A4BD /* ChatPartnerRowView.swift in Sources */,
 				46749F5D2C649DF100A8A4BD /* SettingsView.swift in Sources */,
 				46749F6E2C660D1B00A8A4BD /* MessageListController.swift in Sources */,
 				46E0B5852C50DC980059C928 /* ChannelItem.swift in Sources */,
@@ -482,6 +493,7 @@
 				46749F702C6612F100A8A4BD /* BubbleView.swift in Sources */,
 				46749F682C64DE7B00A8A4BD /* ChatRoomScreen.swift in Sources */,
 				46749F6C2C660CE200A8A4BD /* MessageListView.swift in Sources */,
+				46749F792C662C5E00A8A4BD /* ChatTabScreenViewModel.swift in Sources */,
 				46749F752C6613FE00A8A4BD /* BubbleTextView.swift in Sources */,
 				46749F732C66137500A8A4BD /* MessageItem+Types.swift in Sources */,
 				46E0B57A2C50DAD90059C928 /* StoryItemView.swift in Sources */,

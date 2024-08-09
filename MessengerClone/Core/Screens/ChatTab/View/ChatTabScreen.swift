@@ -10,7 +10,7 @@ import SwiftUI
 struct ChatTabScreen: View {
     
     @State private var searchText = ""
-    @State private var openCreateNewMessage = false
+    @StateObject private var viewModel = ChatTabScreenViewModel()
     @Binding var showSidebarScreen: Bool
     
     init(showSidebarScreen: Binding<Bool>) {
@@ -36,8 +36,11 @@ struct ChatTabScreen: View {
                 leadingButton()
                 trailingButton()
             }
-            .sheet(isPresented: $openCreateNewMessage, content: {
-                CreateChatView()
+            .sheet(isPresented: $viewModel.openCreateNewMessage, content: {
+                CreateChatView(onCreate: viewModel.createNewChat)
+            })
+            .navigationDestination(isPresented: $viewModel.navigationToChatRoom, destination: {
+                ChatRoomScreen()
             })
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         }
@@ -77,7 +80,7 @@ extension ChatTabScreen {
     private func trailingButton() -> some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                openCreateNewMessage.toggle()
+                viewModel.openCreateNewMessage.toggle()
             } label: {
                 Image(systemName: "square.and.pencil")
                     .fontWeight(.bold)
