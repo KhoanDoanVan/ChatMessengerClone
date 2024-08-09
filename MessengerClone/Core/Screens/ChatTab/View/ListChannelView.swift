@@ -9,12 +9,16 @@ import SwiftUI
 
 struct ListChannelView: View {
     var body: some View {
-        VStack {
-            ForEach(0..<12) { _ in
+        ForEach(0..<12) { nav in
+            NavigationLink(destination: ChatRoomScreen()) {
                 ChannelItem()
             }
+            .buttonStyle(PlainButtonStyle())
+            .listRowSeparator(.hidden)
+            .padding(.vertical, 10)
         }
-        .padding(.top, 20)
+        .listRowInsets(EdgeInsets())
+        .padding(.horizontal, 10)
     }
 }
 

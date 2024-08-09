@@ -23,17 +23,12 @@ struct ChatTabScreen: View {
         NavigationStack {
             VStack(spacing: 0){
                 List {
-                    Section {
-                        ListStoryView()
-                            .listRowSeparator(.hidden)
-                            .padding(.top)
-                        ListChannelView()
-                            .listRowSeparator(.hidden)
-                    }
-                    .listRowInsets(EdgeInsets())
-                    .padding(.horizontal, 10)
+                    ListStoryView()
+                    
+                    ListChannelView()
                 }
                 .listStyle(.plain)
+                .scrollIndicators(.hidden)
             }
             .navigationTitle("Chats")
             .navigationBarTitleDisplayMode(.inline)

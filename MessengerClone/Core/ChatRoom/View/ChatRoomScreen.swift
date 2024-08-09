@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ChatRoomScreen: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var text: String = ""
+    
     var body: some View {
-        VStack {
-            
-        }
+        MessageListView()
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden()
         .toolbar {
             buttonBack()
@@ -19,7 +21,16 @@ struct ChatRoomScreen: View {
             buttonVideo()
             headerChatRoom()
         }
+        .safeAreaInset(edge: .bottom) {
+            VStack {
+                Divider()
+                TextInputArea()
+                    .padding(.top, 5)
+            }
+        }
     }
+    
+    
 }
 
 extension ChatRoomScreen {
@@ -27,7 +38,7 @@ extension ChatRoomScreen {
     private func buttonBack() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                
+                dismiss()
             } label: {
                 Image(systemName: "chevron.left")
                     .bold()
@@ -62,8 +73,8 @@ extension ChatRoomScreen {
     @ToolbarContentBuilder
     private func headerChatRoom() -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            Button {
-                
+            NavigationLink {
+                ConfigChatView()
             } label: {
                 HStack {
                     Circle()

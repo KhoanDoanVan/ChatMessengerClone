@@ -10,13 +10,14 @@ import SwiftUI
 struct ListStoryView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 10) {
-                
+            LazyHStack(spacing: 0) {
                 ForEach(0..<12) { _ in
                     StoryItemView(isStory: true, isOnline: true)
                 }
             }
         }
+        .padding(.top)
+        .listRowInsets(EdgeInsets())
     }
 }
 

@@ -28,6 +28,7 @@ struct StoryItemView: View {
             }
             Text("Username")
         }
+        .padding(.leading, 10)
     }
     
     @ViewBuilder
