@@ -1,0 +1,56 @@
+//
+//  StoryCellView.swift
+//  MessengerClone
+//
+//  Created by Đoàn Văn Khoan on 5/8/24.
+//
+
+import SwiftUI
+
+struct StoryCellView: View {
+    
+    let actionHandler: () -> Void
+    
+    private var widthOfStory: CGFloat {
+        return ((UIWindowScene.current?.screenWidth ?? 0) / 2) - 10
+    }
+    
+    var body: some View {
+        Button {
+            actionHandler()
+        } label: {
+            storyBoard()
+        }
+    }
+    
+    
+    @ViewBuilder
+    private func storyBoard() -> some View {
+        Rectangle()
+            .frame(width: widthOfStory, height: 250)
+            .cornerRadius(20)
+            .overlay(alignment: .topLeading) {
+                Circle()
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.white)
+                    .padding([.top, .horizontal], 10)
+                    .overlay {
+                        Image(systemName: "plus")
+                            .foregroundStyle(.black)
+                            .padding(.top, 10)
+                    }
+            }
+            .overlay(alignment: .bottomLeading) {
+                Text("Add to story")
+                    .foregroundStyle(.white)
+                    .padding([.bottom, .horizontal], 10)
+            }
+            .foregroundStyle(.messagesWhite)
+    }
+}
+
+#Preview {
+    StoryCellView() {
+        
+    }
+}

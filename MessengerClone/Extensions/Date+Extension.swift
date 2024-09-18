@@ -1,0 +1,47 @@
+//
+//  Date+Extension.swift
+//  MessengerClone
+//
+//  Created by Đoàn Văn Khoan on 11/9/24.
+//
+
+import Foundation
+
+extension Date {
+    
+    /// Check same day
+    func isSameDay(as otherDate: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(self, inSameDayAs: otherDate)
+    }
+    
+    
+    // MARK: Relative time of message
+    var relativeDateString: String {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(self) {
+            return toString(format: "h:mm a") // 9:20 am
+        } else if isCurrentWeek {
+            return toString(format: "MMM h:mm a") // Mon 9:30 pm
+        } else if isCurrentYear {
+            return toString(format: "MMM d 'at' h:mm a") // Feb 19 at 2:23 pm
+        } else {
+            return toString(format: "MMM dd, YYYY") // Mon, Feb 19, 2020
+        }
+    }
+    
+    func toString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+    
+    private var isCurrentWeek: Bool {
+        return Calendar.current.isDate(self, equalTo: Date(), toGranularity: .weekday)
+    }
+    
+    private var isCurrentYear: Bool {
+        return Calendar.current.isDate(self, equalTo: Date(), toGranularity: .year)
+    }
+    // MARK: END
+}
