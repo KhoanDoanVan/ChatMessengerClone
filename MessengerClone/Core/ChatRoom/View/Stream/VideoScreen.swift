@@ -11,6 +11,7 @@ import StreamVideo
 import StreamVideoSwiftUI
 
 struct VideoScreen: View {
+
     @State var call: Call
     @ObservedObject var state: CallState
     @State var callCreated: Bool = false
@@ -19,10 +20,8 @@ struct VideoScreen: View {
     private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0V4YXJfS3VuIiwidXNlcl9pZCI6IkV4YXJfS3VuIiwidmFsaWRpdHlfaW5fc2Vjb25kcyI6NjA0ODAwLCJpYXQiOjE3MjY2MzY3ODgsImV4cCI6MTcyNzI0MTU4OH0.hRSXGcC6gPVaml00Pk2THc_NPPAEe-T4DHAke18-Rfg"
     private let callId: String = "pE6mv8NIuCPM"
     
-    // Hello
-    
     // MARK: View Model
-    @ObservedObject var viewModel = CallViewModel()
+    @StateObject var viewModel = CallViewModel()
     
     // MARK: Properties
     @State private var user: UserItem

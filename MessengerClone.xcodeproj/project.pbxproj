@@ -73,6 +73,7 @@
 		4677AE2B2C8FE34D000795C7 /* ReactionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE2A2C8FE34D000795C7 /* ReactionPickerView.swift */; };
 		4677AE2D2C8FE6C2000795C7 /* MenuPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE2C2C8FE6C2000795C7 /* MenuPickerView.swift */; };
 		4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE2E2C9125F3000795C7 /* Date+Extension.swift */; };
+		4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4695D0F12C9BC18F00350444 /* UserStreamItem.swift */; };
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
@@ -173,9 +174,10 @@
 		4677AE2A2C8FE34D000795C7 /* ReactionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionPickerView.swift; sourceTree = "<group>"; };
 		4677AE2C2C8FE6C2000795C7 /* MenuPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPickerView.swift; sourceTree = "<group>"; };
 		4677AE2E2C9125F3000795C7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		4695D0E82C9AEDFF00350444 /* MessengerClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MessengerClone.app; path = "/Users/doanvankhoan/Documents/Code/App IOS/MessengerClone/build/Debug-iphoneos/MessengerClone.app"; sourceTree = "<absolute>"; };
-		4695D0E92C9AEDFF00350444 /* MessengerCloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MessengerCloneTests.xctest; path = "/Users/doanvankhoan/Documents/Code/App IOS/MessengerClone/build/Debug-iphoneos/MessengerClone.app/PlugIns/MessengerCloneTests.xctest"; sourceTree = "<absolute>"; };
-		4695D0EA2C9AEDFF00350444 /* MessengerCloneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MessengerCloneUITests.xctest; path = "/Users/doanvankhoan/Documents/Code/App IOS/MessengerClone/build/Debug-iphoneos/MessengerCloneUITests-Runner.app/PlugIns/MessengerCloneUITests.xctest"; sourceTree = "<absolute>"; };
+		4695D0EE2C9BBC6100350444 /* MessengerClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4695D0EF2C9BBC6100350444 /* MessengerCloneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerCloneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4695D0F02C9BBC6100350444 /* MessengerCloneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerCloneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4695D0F12C9BC18F00350444 /* UserStreamItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamItem.swift; sourceTree = "<group>"; };
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
@@ -363,7 +365,7 @@
 		46749F662C64DE6000A8A4BD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				46EE7B6F2C993EF30077ABAB /* New Group */,
+				46EE7B6F2C993EF30077ABAB /* Stream */,
 				46749F672C64DE7B00A8A4BD /* ChatRoomScreen.swift */,
 				46749F6B2C660CE200A8A4BD /* MessageListView.swift */,
 				46749F6D2C660D1B00A8A4BD /* MessageListController.swift */,
@@ -390,6 +392,7 @@
 				46749F722C66137500A8A4BD /* MessageItem+Types.swift */,
 				46749F902C68A60800A8A4BD /* MessageItem.swift */,
 				46389BDF2C75CD8A0020D804 /* MediaPickerItem_Types.swift */,
+				4695D0F12C9BC18F00350444 /* UserStreamItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -482,6 +485,9 @@
 				465EBE822C6B736A00A97E77 /* GoogleService-Info.plist */,
 				46E0B5652C50D14D0059C928 /* MessengerCloneUITests */,
 				46E0B55B2C50D14D0059C928 /* MessengerCloneTests */,
+				4695D0EE2C9BBC6100350444 /* MessengerClone.app */,
+				4695D0EF2C9BBC6100350444 /* MessengerCloneTests.xctest */,
+				4695D0F02C9BBC6100350444 /* MessengerCloneUITests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -581,7 +587,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		46EE7B6F2C993EF30077ABAB /* New Group */ = {
+		46EE7B6F2C993EF30077ABAB /* Stream */ = {
 			isa = PBXGroup;
 			children = (
 				46EE7B702C993F260077ABAB /* VideoScreen.swift */,
@@ -589,7 +595,7 @@
 				46EE7B742C9942880077ABAB /* FloatingParticipantView.swift */,
 				46EE7B762C9AB7010077ABAB /* CallControlsView.swift */,
 			);
-			path = "New Group";
+			path = Stream;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -618,7 +624,7 @@
 				46EE7B692C9939A20077ABAB /* StreamVideoSwiftUI */,
 			);
 			productName = MessengerClone;
-			productReference = 4695D0E82C9AEDFF00350444 /* MessengerClone.app */;
+			productReference = 4695D0EE2C9BBC6100350444 /* MessengerClone.app */;
 			productType = "com.apple.product-type.application";
 		};
 		46E0B5572C50D14D0059C928 /* MessengerCloneTests */ = {
@@ -636,7 +642,7 @@
 			);
 			name = MessengerCloneTests;
 			productName = MessengerCloneTests;
-			productReference = 4695D0E92C9AEDFF00350444 /* MessengerCloneTests.xctest */;
+			productReference = 4695D0EF2C9BBC6100350444 /* MessengerCloneTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		46E0B5612C50D14D0059C928 /* MessengerCloneUITests */ = {
@@ -654,7 +660,7 @@
 			);
 			name = MessengerCloneUITests;
 			productName = MessengerCloneUITests;
-			productReference = 4695D0EA2C9AEDFF00350444 /* MessengerCloneUITests.xctest */;
+			productReference = 4695D0F02C9BBC6100350444 /* MessengerCloneUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -747,6 +753,7 @@
 				466EA9722C9ACCDF0021F753 /* MainTabView.swift in Sources */,
 				465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */,
 				46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */,
+				4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */,
 				465EBE6F2C6B5F8F00A97E77 /* AuthService.swift in Sources */,
 				46749F6A2C65FA7300A8A4BD /* TextInputArea.swift in Sources */,
 				469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */,

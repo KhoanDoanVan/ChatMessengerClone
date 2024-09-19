@@ -33,7 +33,7 @@ struct UserService {
         
         let users: [UserItem] = allUserObjects.compactMap { userSnapshot in
             let userDict = userSnapshot.value as? [String:Any] ?? [:]
-            return UserItem(userDict)
+            return UserItem(userDict, token: nil)
         }
         
         /// If users has been converted has count(successfully convert) == mainDataSnapshot count before

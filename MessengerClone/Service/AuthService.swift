@@ -51,21 +51,50 @@ final class AuthManager: AuthService {
     
     /// Login
     func login(with email: String, and password: String) async throws {
+
         do {
-            let _ = try await Auth.auth().signIn(withEmail: email, password: password)
-            fetchCurrentInfo()
+            let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
+            
+            /// Fetch Token
+            let token = try await fetchAuthToken(for: authResult.user)
+            
+            /// Fetch Info
+            await fetchCurrentInfo(token: token)
         } catch {
             print("Failed to login an account. Error: \(error.localizedDescription)")
             throw AuthError.signUpFailed(error.localizedDescription)
         }
     }
     
+    /// Fetch Auth Token
+    private func fetchAuthToken(for user: User) async throws -> String {
+        return try await withCheckedThrowingContinuation { continuation in
+            user.getIDToken { token, error in
+                if let error = error {
+                    print("Error fetching token: \(error.localizedDescription)")
+                    continuation.resume(throwing: error)
+                } else if let token = token {
+                    print("Successfully fetched token: \(token)")
+                    continuation.resume(returning: token)
+                }
+            }
+        }
+    }
+    
     /// Auto Login
     func autoLogin() async {
-        if Auth.auth().currentUser == nil {
-            authState.send(.loggedOut)
+        if let currentUser = Auth.auth().currentUser {
+            do {
+                /// Fetch token
+                let token = try await fetchAuthToken(for: currentUser)
+                /// Fetch user info
+                await fetchCurrentInfo(token: token)
+            } catch {
+                print("Failure Auto Login: \(error.localizedDescription)")
+                authState.send(.loggedOut)
+            }
         } else {
-            fetchCurrentInfo()
+            authState.send(.loggedOut)
         }
     }
     
@@ -99,17 +128,20 @@ extension AuthManager {
     }
     
     /// Fetch User Current Info
-    private func fetchCurrentInfo() {
+    private func fetchCurrentInfo(token: String?) async {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
         FirebaseConstants.UserRef.child(currentUid).observeSingleEvent(of: .value) { snapshot in
-            guard let userDict = snapshot.value as? [String: Any] else { return }
-            let loggedUser = UserItem(userDict)
+            guard let userDict = snapshot.value as? [String: Any],
+                  let token
+            else { return }
+            /// Set up Dict
+            let loggedUser = UserItem(userDict, token: token)
+            /// Log
             self.authState.send(.loggedIn(loggedUser))
         } withCancel: { error in
             print(error.localizedDescription)
         }
-
     }
 }
 

@@ -13,6 +13,7 @@ struct UserItem: Identifiable, Hashable, Decodable {
     let email: String
     var bio: String? = nil
     var profileImage: String? = nil
+    var token: String? = nil
     
     var id: String {
         return uid
@@ -35,11 +36,12 @@ struct UserItem: Identifiable, Hashable, Decodable {
 }
 
 extension UserItem {
-    init(_ userDict: [String: Any]) {
+    init(_ userDict: [String: Any], token: String?) {
         self.uid = userDict[.uid] as? String ?? ""
         self.username = userDict[.username] as? String ?? ""
         self.email = userDict[.email] as? String ?? ""
         self.profileImage = userDict[.profileImage] as? String? ?? nil
+        self.token = token
     }
 }
 
@@ -48,4 +50,5 @@ extension String {
     static let username = "username"
     static let email = "email"
     static let profileImage = "profileImage"
+    static let token = "token"
 }
