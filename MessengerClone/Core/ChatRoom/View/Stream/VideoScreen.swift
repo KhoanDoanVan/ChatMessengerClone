@@ -16,14 +16,17 @@ struct VideoScreen: View {
     
     // MARK: View Model
     @StateObject var callViewModel = CallViewModel()
+    
+    let handleLeaveStream: () -> Void
 
-    init(_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem) {
+    init(_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem, handleLeaveStream: @escaping () -> Void) {
         self._viewModel = ObservedObject(wrappedValue: StreamCallViewModel(user, partner, channel))
+        self.handleLeaveStream = handleLeaveStream
     }
 
     var body: some View {
         VStack {
-            if viewModel.callCreated && viewModel.state.participants.count > 1 {
+            if viewModel.callCreated && (viewModel.state?.participants.count ?? 0) > 1 {
                 ZStack {
                     ParticipantsView(
                         call: viewModel.call,
@@ -33,7 +36,7 @@ struct VideoScreen: View {
                     FloatingParticipantView(participant: viewModel.call.state.localParticipant)
                     VStack {
                         Spacer()
-                        makeCallControlsView(viewModel: callViewModel)
+                        makeCallControlsView(viewModel: viewModel)
                     }
                 }
             } else {
@@ -41,7 +44,7 @@ struct VideoScreen: View {
                     screenWaiting()
                     VStack {
                         Spacer()
-                        makeCallControlsView(viewModel: callViewModel)
+                        makeCallControlsView(viewModel: viewModel)
                     }
                 }
                 .background(.fill)
@@ -117,7 +120,7 @@ extension VideoScreen {
         }
     }
     
-    func makeCallControlsView(viewModel: CallViewModel) -> some View {
-        CallControlsView(viewModel: viewModel)
+    func makeCallControlsView(viewModel: StreamCallViewModel) -> some View {
+        CallControlsView(viewModel: viewModel, handleLeaveStream: handleLeaveStream)
     }
 }

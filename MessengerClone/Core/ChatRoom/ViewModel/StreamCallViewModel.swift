@@ -16,13 +16,19 @@ struct StreamCallConstants {
 
 @MainActor
 class StreamCallViewModel: ObservableObject {
+    
+    @Published var partner: UserItem
+    
     // MARK: Properties
     @Published var call: Call
     @Published var callCreated: Bool = false
     @Published var token: String?
-    @Published var state: CallState
+    @Published var state: CallState?
     
-    @Published var partner: UserItem
+    // MARK: Camera and Microphone
+    @Published var camera: CameraManager?
+    @Published var microphone: MicrophoneManager?
+    @Published var speaker: SpeakerManager?
     
     // MARK: Init
     init (_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem) {
@@ -47,15 +53,112 @@ class StreamCallViewModel: ObservableObject {
 
         // Initialize the call object
         let call = streamVideo.call(callType: "default", callId: channel.id)
-
         self.call = call
-        self.state = call.state
+        
+        self.camera = call.camera
+        self.microphone = call.microphone
+        self.speaker = call.speaker
     }
     
     /// Join Stream
     func joinStream() async throws {
         guard callCreated == false else { return }
         try await self.call.join(create: true)
+        self.state = call.state
         callCreated = true
+    }
+    
+    /// Leave Stream
+    func leaveStream() {
+        self.call.leave()
+        self.callCreated = false
+        self.state = nil
+        self.camera = nil
+        self.microphone = nil
+        self.speaker = nil
+    }
+    
+    // MARK: Camera
+    /// Control Camera
+    func controlCamera() async throws {
+        if self.camera?.status == .disabled {
+            try await self.enableCamera()
+        } else {
+            try await self.disableCamera()
+        }
+    }
+    
+    /// Enable Camera
+    private func enableCamera() async throws {
+        do {
+            try await self.camera?.enable()
+        } catch {
+            print("Error control enable camera: \(error.localizedDescription)")
+        }
+    }
+    
+    /// Disable Camera
+    private func disableCamera() async throws {
+        do {
+            try await self.camera?.enable()
+        } catch {
+            print("Error control disable camera: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: Microphone
+    /// Control Microphone
+    func controlMicrophone() async throws {
+        if self.microphone?.status == .disabled {
+            try await self.enableMicrophone()
+        } else {
+            try await self.disableMicrophone()
+        }
+    }
+    
+    /// Enable Microphone
+    private func enableMicrophone() async throws {
+        do {
+            try await self.microphone?.enable()
+        } catch {
+            print("Error control enable microphone: \(error.localizedDescription)")
+        }
+    }
+    
+    /// Disable Microphone
+    private func disableMicrophone() async throws {
+        do {
+            try await self.microphone?.enable()
+        } catch {
+            print("Error control disable microphone: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: Speaker
+    /// Control Speaker
+    func controlSpeaker() async throws {
+        if self.speaker?.status == .disabled {
+            try await self.enableSpeaker()
+        } else {
+            try await self.disableSpeaker()
+        }
+    }
+    
+    /// Enable Microphone
+    private func enableSpeaker() async throws {
+        do {
+            try await self.speaker?.enableSpeakerPhone()
+        } catch {
+            print("Error control enable Speaker: \(error.localizedDescription)")
+        }
+    }
+    
+    /// Disable Microphone
+    private func disableSpeaker() async throws {
+        do {
+            try await self.speaker?.disableSpeakerPhone()
+        } catch {
+            print("Error control disable Speaker: \(error.localizedDescription)")
+        }
     }
 }

@@ -11,12 +11,16 @@ import StreamVideoSwiftUI
 
 struct CallControlsView: View {
     
-    @ObservedObject var viewModel: CallViewModel
+    @ObservedObject var viewModel: StreamCallViewModel
+    
+    let handleLeaveStream: () -> Void
     
     var body: some View {
         HStack(spacing: 24) {
             Button {
-                viewModel.toggleCameraEnabled()
+                Task {
+                    try await viewModel.controlCamera()
+                }
             } label: {
                 Image(systemName: "video.fill")
             }
@@ -24,7 +28,7 @@ struct CallControlsView: View {
             Spacer()
             
             Button {
-                viewModel.toggleMicrophoneEnabled()
+//                viewModel.toggleMicrophoneEnabled()
             } label: {
                 Image(systemName: "mic.fill")
             }
@@ -32,14 +36,14 @@ struct CallControlsView: View {
             Spacer()
             
             Button {
-                viewModel.toggleCameraPosition()
+//                viewModel.toggleCameraPosition()
             } label: {
                 Image(systemName: "arrow.triangle.2.circlepath.camera.fill")
             }
             
             Spacer()
             
-            HangUpIconView(viewModel: viewModel)
+            leaveStreamButton()
         }
         .foregroundStyle(.white)
         .padding(.vertical, 8)
@@ -47,6 +51,20 @@ struct CallControlsView: View {
         .background(Color(.systemGray2))
         .clipShape(Capsule())
         .padding(.horizontal, 16)
+    }
+    
+    private func leaveStreamButton() -> some View {
+        Button {
+            viewModel.leaveStream()
+            handleLeaveStream()
+        } label: {
+            Image(systemName: "phone.down.fill")
+                .padding()
+                .foregroundStyle(.white)
+                .font(.title2)
+                .background(Color(.systemRed))
+                .clipShape(Circle())
+        }
     }
 }
 
@@ -64,8 +82,4 @@ struct BackgroundModifier: ViewModifier {
                 .cornerRadius(24)
         }
     }
-}
-
-#Preview {
-    CallControlsView(viewModel: CallViewModel())
 }
