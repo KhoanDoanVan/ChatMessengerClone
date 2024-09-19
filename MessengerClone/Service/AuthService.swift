@@ -38,10 +38,16 @@ final class AuthManager: AuthService {
     /// Create an account
     func createAnAcounnt(for username: String, with email: String, and password: String) async throws {
         do {
-            let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            let uuid = result.user.uid
-            let newUserForRealtimeDB = UserItem(uid: uuid, username: username, email: email)
+            let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+            
+            /// Fetch token
+            let token = try await fetchAuthToken(for: authResult.user)
+            
+            let uuid = authResult.user.uid
+            var newUserForRealtimeDB = UserItem(uid: uuid, username: username, email: email)
             try await saveUserInfoToRealtimeDB(user: newUserForRealtimeDB)
+            /// Add token
+            newUserForRealtimeDB.token = token
             self.authState.send(.loggedIn(newUserForRealtimeDB))
         } catch {
             print("Failed to create an account. Error: \(error.localizedDescription)")
