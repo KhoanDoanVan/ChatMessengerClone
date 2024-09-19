@@ -69,6 +69,11 @@ struct BubbleView: View {
             ) { state, message in
                 handleAction(state, message)
             }
+        case .videoCall:
+            BubbleVideoCallView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender
+            )
         }
     }
     

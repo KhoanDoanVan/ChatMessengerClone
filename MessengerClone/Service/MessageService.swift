@@ -76,6 +76,31 @@ struct MessageService {
         onComplete()
     }
     
+    /// Send Video Call Message
+    static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, onComplete: () -> Void) {
+        
+        let timestamp = Date().timeIntervalSince1970
+        guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageTimestamp: timestamp,
+            .lastMessageType: MessageType.videoCall.title
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: "",
+            .type: MessageType.videoCall.title,
+            .timeStamp: timestamp,
+            .ownerUid: currentUser.uid,
+            .videoCallDuration: timeVideoCall
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+    }
+    
     /// Send Media Message
     static func sendMediaMessage(to channel: ChannelItem, params: MessageMediaUploadParams, completion: @escaping () -> Void) {
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }

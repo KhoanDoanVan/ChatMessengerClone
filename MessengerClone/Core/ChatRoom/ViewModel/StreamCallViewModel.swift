@@ -8,6 +8,7 @@
 import Foundation
 import StreamVideo
 import StreamVideoSwiftUI
+import Combine
 
 struct StreamCallConstants {
     static let apiKey: String = "mmhfdzb5evj2"
@@ -26,9 +27,15 @@ class StreamCallViewModel: ObservableObject {
     @Published var state: CallState?
     
     // MARK: Camera and Microphone
-    @Published var camera: CameraManager?
-    @Published var microphone: MicrophoneManager?
-    @Published var speaker: SpeakerManager?
+    @Published var camera: Bool?
+    @Published var microphone: Bool?
+    @Published var speaker: Bool?
+    
+    // MARK: Time Video Call
+    @Published var timeVideoCall: TimeInterval = 0
+    @Published var startTime: Date?
+    @Published var timer: AnyCancellable?
+    @Published var elaspedTime: TimeInterval = 0
     
     // MARK: Init
     init (_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem) {
@@ -55,9 +62,9 @@ class StreamCallViewModel: ObservableObject {
         let call = streamVideo.call(callType: "default", callId: channel.id)
         self.call = call
         
-        self.camera = call.camera
-        self.microphone = call.microphone
-        self.speaker = call.speaker
+        self.camera = true
+        self.microphone = true
+        self.speaker = true
     }
     
     /// Join Stream
@@ -66,6 +73,18 @@ class StreamCallViewModel: ObservableObject {
         try await self.call.join(create: true)
         self.state = call.state
         callCreated = true
+        startTime = Date()
+        timerStart()
+    }
+    
+    /// Setup timer
+    private func timerStart() {
+        timer = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let startTime = self?.startTime else { return }
+                self?.elaspedTime = Date().timeIntervalSince(startTime)
+            }
     }
     
     /// Leave Stream
@@ -76,12 +95,15 @@ class StreamCallViewModel: ObservableObject {
         self.camera = nil
         self.microphone = nil
         self.speaker = nil
+        self.timeVideoCall = elaspedTime
+        elaspedTime = 0
+        timer?.cancel()
     }
     
     // MARK: Camera
     /// Control Camera
     func controlCamera() async throws {
-        if self.camera?.status == .disabled {
+        if self.call.camera.status == .disabled {
             try await self.enableCamera()
         } else {
             try await self.disableCamera()
@@ -91,7 +113,8 @@ class StreamCallViewModel: ObservableObject {
     /// Enable Camera
     private func enableCamera() async throws {
         do {
-            try await self.camera?.enable()
+            try await self.call.camera.enable()
+            camera = true
         } catch {
             print("Error control enable camera: \(error.localizedDescription)")
         }
@@ -100,7 +123,8 @@ class StreamCallViewModel: ObservableObject {
     /// Disable Camera
     private func disableCamera() async throws {
         do {
-            try await self.camera?.enable()
+            try await self.call.camera.disable()
+            camera = false
         } catch {
             print("Error control disable camera: \(error.localizedDescription)")
         }
@@ -109,7 +133,7 @@ class StreamCallViewModel: ObservableObject {
     // MARK: Microphone
     /// Control Microphone
     func controlMicrophone() async throws {
-        if self.microphone?.status == .disabled {
+        if self.call.microphone.status == .disabled {
             try await self.enableMicrophone()
         } else {
             try await self.disableMicrophone()
@@ -119,7 +143,8 @@ class StreamCallViewModel: ObservableObject {
     /// Enable Microphone
     private func enableMicrophone() async throws {
         do {
-            try await self.microphone?.enable()
+            try await self.call.microphone.enable()
+            microphone = true
         } catch {
             print("Error control enable microphone: \(error.localizedDescription)")
         }
@@ -128,7 +153,8 @@ class StreamCallViewModel: ObservableObject {
     /// Disable Microphone
     private func disableMicrophone() async throws {
         do {
-            try await self.microphone?.enable()
+            try await self.call.microphone.disable()
+            microphone = false
         } catch {
             print("Error control disable microphone: \(error.localizedDescription)")
         }
@@ -137,7 +163,7 @@ class StreamCallViewModel: ObservableObject {
     // MARK: Speaker
     /// Control Speaker
     func controlSpeaker() async throws {
-        if self.speaker?.status == .disabled {
+        if self.call.speaker.status == .disabled {
             try await self.enableSpeaker()
         } else {
             try await self.disableSpeaker()
@@ -147,7 +173,8 @@ class StreamCallViewModel: ObservableObject {
     /// Enable Microphone
     private func enableSpeaker() async throws {
         do {
-            try await self.speaker?.enableSpeakerPhone()
+            try await self.call.speaker.enableSpeakerPhone()
+            speaker = true
         } catch {
             print("Error control enable Speaker: \(error.localizedDescription)")
         }
@@ -156,7 +183,8 @@ class StreamCallViewModel: ObservableObject {
     /// Disable Microphone
     private func disableSpeaker() async throws {
         do {
-            try await self.speaker?.disableSpeakerPhone()
+            try await self.call.speaker.disableSpeakerPhone()
+            speaker = false
         } catch {
             print("Error control disable Speaker: \(error.localizedDescription)")
         }

@@ -56,8 +56,9 @@ struct ChatRoomScreen: View {
             .animation(.easeInOut, value: viewModel.showPickerAttachment)
             .fullScreenCover(isPresented: $viewModel.isShowVideoCall) {
                 if let userCurrent = viewModel.userCurrent {
-                    VideoScreen(userCurrent, channel.usersChannel[0], channel) {
+                    VideoScreen(userCurrent, channel.usersChannel[0], channel) { timeVideoCall in
                         viewModel.isShowVideoCall = false
+                        viewModel.sendVideoCallMessage(timeVideoCall)
                     }
                 }
             }
@@ -103,7 +104,7 @@ extension ChatRoomScreen {
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 8) {
                 Button {
-                    
+                    viewModel.isShowVideoCall = true
                 } label: {
                     Image(systemName: "phone.fill")
                         .bold()

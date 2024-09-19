@@ -184,6 +184,17 @@ class ChatRoomScreenViewModel: ObservableObject {
         }
     }
     
+    /// Send duration of video call message
+    func sendVideoCallMessage(_ timeVideoCall: TimeInterval) {
+        guard let userCurrent = userCurrent else { return }
+        
+        if timeVideoCall != 0 {
+            MessageService.sendVideoCallMessage(to: channel, from: userCurrent, timeVideoCall) {
+                print("sendVideoCallMessage success")
+            }
+        }
+    }
+    
     /// Send images message action
     private func sendMediasMessage(_ listAttachmentPicker: [MediaAttachment]) {
         sendMultipleMediaMessage(text, attachments: listAttachmentPicker)

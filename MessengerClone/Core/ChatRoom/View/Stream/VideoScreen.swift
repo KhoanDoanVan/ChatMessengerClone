@@ -17,9 +17,9 @@ struct VideoScreen: View {
     // MARK: View Model
     @StateObject var callViewModel = CallViewModel()
     
-    let handleLeaveStream: () -> Void
+    let handleLeaveStream: (_ timeVideoCall: TimeInterval) -> Void
 
-    init(_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem, handleLeaveStream: @escaping () -> Void) {
+    init(_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem, handleLeaveStream: @escaping (TimeInterval) -> Void) {
         self._viewModel = ObservedObject(wrappedValue: StreamCallViewModel(user, partner, channel))
         self.handleLeaveStream = handleLeaveStream
     }

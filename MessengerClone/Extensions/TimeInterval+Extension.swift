@@ -13,4 +13,21 @@ extension TimeInterval {
         let seconds = Int(self) % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+    
+    // Convert TimeInterval to a human-readable string
+    func formattedTimeDurationVideoCall() -> String {
+        let totalSeconds = Int(self)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        
+        if minutes > 0 {
+            if seconds > 0 {
+                return "\(minutes) mins, \(seconds) secs"
+            } else {
+                return "\(minutes) mins"
+            }
+        } else {
+            return "\(seconds) secs"
+        }
+    }
 }

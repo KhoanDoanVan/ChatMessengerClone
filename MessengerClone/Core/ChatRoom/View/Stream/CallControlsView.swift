@@ -13,7 +13,7 @@ struct CallControlsView: View {
     
     @ObservedObject var viewModel: StreamCallViewModel
     
-    let handleLeaveStream: () -> Void
+    let handleLeaveStream: (_ timeVideoCall: TimeInterval) -> Void
     
     var body: some View {
         HStack(spacing: 24) {
@@ -23,22 +23,32 @@ struct CallControlsView: View {
                 }
             } label: {
                 Image(systemName: "video.fill")
+                    .font(.title2)
+                    .foregroundStyle(viewModel.camera ?? false ? .white : Color(.systemGray))
             }
             
             Spacer()
             
             Button {
-//                viewModel.toggleMicrophoneEnabled()
+                Task {
+                    try await viewModel.controlMicrophone()
+                }
             } label: {
                 Image(systemName: "mic.fill")
+                    .font(.title2)
+                    .foregroundStyle(viewModel.microphone ?? false ? .white : Color(.systemGray))
             }
             
             Spacer()
             
             Button {
-//                viewModel.toggleCameraPosition()
+                Task {
+                    try await viewModel.controlSpeaker()
+                }
             } label: {
                 Image(systemName: "arrow.triangle.2.circlepath.camera.fill")
+                    .font(.title2)
+                    .foregroundStyle(viewModel.speaker ?? false ? .white : Color(.systemGray))
             }
             
             Spacer()
@@ -56,7 +66,7 @@ struct CallControlsView: View {
     private func leaveStreamButton() -> some View {
         Button {
             viewModel.leaveStream()
-            handleLeaveStream()
+            handleLeaveStream(viewModel.timeVideoCall)
         } label: {
             Image(systemName: "phone.down.fill")
                 .padding()

@@ -75,6 +75,7 @@
 		4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE2E2C9125F3000795C7 /* Date+Extension.swift */; };
 		4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4695D0F12C9BC18F00350444 /* UserStreamItem.swift */; };
 		4695D0F42C9BD79900350444 /* StreamCallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4695D0F32C9BD79900350444 /* StreamCallViewModel.swift */; };
+		4695D0F62C9C408E00350444 /* BubbleVideoCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4695D0F52C9C408E00350444 /* BubbleVideoCallView.swift */; };
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
@@ -180,6 +181,7 @@
 		4695D0F02C9BBC6100350444 /* MessengerCloneUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MessengerCloneUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4695D0F12C9BC18F00350444 /* UserStreamItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamItem.swift; sourceTree = "<group>"; };
 		4695D0F32C9BD79900350444 /* StreamCallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCallViewModel.swift; sourceTree = "<group>"; };
+		4695D0F52C9C408E00350444 /* BubbleVideoCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleVideoCallView.swift; sourceTree = "<group>"; };
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				46749F742C6613FE00A8A4BD /* BubbleTextView.swift */,
 				46749F8E2C68A46B00A8A4BD /* BubbleImageView.swift */,
 				4677AE222C87157C000795C7 /* BubbleAudioView.swift */,
+				4695D0F52C9C408E00350444 /* BubbleVideoCallView.swift */,
 				465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */,
 				46749F762C661D5200A8A4BD /* ConfigChatView.swift */,
 				46BF4CDF2C81D5A40024928C /* PreviewVoiceRecordView.swift */,
@@ -795,6 +798,7 @@
 				46749F912C68A60800A8A4BD /* MessageItem.swift in Sources */,
 				465EBE892C6B773900A97E77 /* RootViewModel.swift in Sources */,
 				46749F642C64D6B400A8A4BD /* ContactsView.swift in Sources */,
+				4695D0F62C9C408E00350444 /* BubbleVideoCallView.swift in Sources */,
 				4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */,
 				46749F702C6612F100A8A4BD /* BubbleView.swift in Sources */,
 				46749F682C64DE7B00A8A4BD /* ChatRoomScreen.swift in Sources */,
