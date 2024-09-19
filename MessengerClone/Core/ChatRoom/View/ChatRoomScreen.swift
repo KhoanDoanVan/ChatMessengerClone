@@ -56,7 +56,7 @@ struct ChatRoomScreen: View {
             .animation(.easeInOut, value: viewModel.showPickerAttachment)
             .fullScreenCover(isPresented: $viewModel.isShowVideoCall) {
                 if let userCurrent = viewModel.userCurrent {
-                    VideoScreen(userCurrent, channel.usersChannel[0])
+                    VideoScreen(userCurrent, channel.usersChannel[0], channel)
                 }
             }
         }

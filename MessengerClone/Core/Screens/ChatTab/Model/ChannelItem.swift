@@ -138,6 +138,7 @@ extension ChannelItem {
         self.createdBy = channelDict[.createdBy] as? String ?? ""
         let messageType = channelDict[.lastMessageType] as? String ?? "text"
         self.lastMessageType = MessageType(messageType) ?? .text
+        print("ChannelId: \(self.id)")
     }
 }
 

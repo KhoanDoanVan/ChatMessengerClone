@@ -12,58 +12,28 @@ import StreamVideoSwiftUI
 
 struct VideoScreen: View {
 
-    @State var call: Call
-    @ObservedObject var state: CallState
-    @State var callCreated: Bool = false
-    private var client: StreamVideo
-    private let apiKey: String = "mmhfdzb5evj2"
-    private let token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0V4YXJfS3VuIiwidXNlcl9pZCI6IkV4YXJfS3VuIiwidmFsaWRpdHlfaW5fc2Vjb25kcyI6NjA0ODAwLCJpYXQiOjE3MjY2MzY3ODgsImV4cCI6MTcyNzI0MTU4OH0.hRSXGcC6gPVaml00Pk2THc_NPPAEe-T4DHAke18-Rfg"
-    private let callId: String = "pE6mv8NIuCPM"
+    @ObservedObject private var viewModel: StreamCallViewModel
     
     // MARK: View Model
-    @StateObject var viewModel = CallViewModel()
-    
-    // MARK: Properties
-    @State private var user: UserItem
-    @State private var partner: UserItem
+    @StateObject var callViewModel = CallViewModel()
 
-    init(_ user: UserItem, _ partner: UserItem) {
-        self.user = user
-        self.partner = partner
-        
-        let user = User(
-            id: user.uid,
-            name: user.username,
-            imageURL: URL(string: user.profileImage ?? "")
-        )
-
-        // Initialize Stream Video client
-        self.client = StreamVideo(
-            apiKey: apiKey,
-            user: user,
-            token: .init(stringLiteral: token)
-        )
-
-        // Initialize the call object
-        let call = client.call(callType: "default", callId: callId)
-
-        self.call = call
-        self.state = call.state
+    init(_ user: UserItem, _ partner: UserItem, _ channel: ChannelItem) {
+        self._viewModel = ObservedObject(wrappedValue: StreamCallViewModel(user, partner, channel))
     }
 
     var body: some View {
         VStack {
-            if callCreated && state.participants.count > 1 {
+            if viewModel.callCreated && viewModel.state.participants.count > 1 {
                 ZStack {
                     ParticipantsView(
-                        call: call,
-                        participants: call.state.remoteParticipants,
+                        call: viewModel.call,
+                        participants: viewModel.call.state.remoteParticipants,
                         onChangeTrackVisibility: changeTrackVisibility(_:isVisible:)
                     )
-                    FloatingParticipantView(participant: call.state.localParticipant)
+                    FloatingParticipantView(participant: viewModel.call.state.localParticipant)
                     VStack {
                         Spacer()
-                        makeCallControlsView(viewModel: viewModel)
+                        makeCallControlsView(viewModel: callViewModel)
                     }
                 }
             } else {
@@ -71,16 +41,14 @@ struct VideoScreen: View {
                     screenWaiting()
                     VStack {
                         Spacer()
-                        makeCallControlsView(viewModel: viewModel)
+                        makeCallControlsView(viewModel: callViewModel)
                     }
                 }
                 .background(.fill)
             }
         }.onAppear {
             Task {
-                guard callCreated == false else { return }
-                try await call.join(create: true)
-                callCreated = true
+                try await viewModel.joinStream()
             }
         }
     }
@@ -125,9 +93,9 @@ struct VideoScreen: View {
     /// Image and Name User at center screen
     private func centerViewImageUser() -> some View {
         VStack(spacing: 10) {
-            CircularProfileImage(partner.profileImage, size: .large)
+            CircularProfileImage(viewModel.partner.profileImage, size: .large)
             VStack(spacing: 0) {
-                Text(partner.username)
+                Text(viewModel.partner.username)
                     .font(.title)
                     .bold()
                     .foregroundStyle(.white)
@@ -145,7 +113,7 @@ extension VideoScreen {
     private func changeTrackVisibility(_ participant: CallParticipant?, isVisible: Bool) {
         guard let participant else { return }
         Task {
-            await call.changeTrackVisibility(for: participant, isVisible: isVisible)
+            await viewModel.call.changeTrackVisibility(for: participant, isVisible: isVisible)
         }
     }
     
