@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */; };
+		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
+		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		46335F692C78678300ED9DFC /* PickerPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46335F682C78678300ED9DFC /* PickerPhotoView.swift */; };
 		46389BDC2C75C9A40020D804 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */; };
 		46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDF2C75CD8A0020D804 /* MediaPickerItem_Types.swift */; };
@@ -115,6 +117,8 @@
 
 /* Begin PBXFileReference section */
 		46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionPickerMenuViewModel.swift; sourceTree = "<group>"; };
+		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
+		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		46335F682C78678300ED9DFC /* PickerPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerPhotoView.swift; sourceTree = "<group>"; };
 		46335F6A2C7876CC00ED9DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				465EBE802C6B708200A97E77 /* FirebaseConstants.swift */,
+				460E085C2C9D2ED900D542EF /* APIConstants.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -398,6 +403,7 @@
 				46749F902C68A60800A8A4BD /* MessageItem.swift */,
 				46389BDF2C75CD8A0020D804 /* MediaPickerItem_Types.swift */,
 				4695D0F12C9BC18F00350444 /* UserStreamItem.swift */,
+				460E085A2C9D2B0800D542EF /* StickerItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -774,6 +780,7 @@
 				465EBE6A2C6B5E1E00A97E77 /* AuthViewModel.swift in Sources */,
 				4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */,
 				466EA9742C9ACD1B0021F753 /* MessengerCloneApp.swift in Sources */,
+				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
 				466EA9702C9ACCA60021F753 /* ChannelItemView.swift in Sources */,
@@ -808,6 +815,7 @@
 				46749F6C2C660CE200A8A4BD /* MessageListView.swift in Sources */,
 				46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */,
 				465EBE7D2C6B648200A97E77 /* RootView.swift in Sources */,
+				460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */,
 				46749F792C662C5E00A8A4BD /* ChatTabScreenViewModel.swift in Sources */,
 				46749F752C6613FE00A8A4BD /* BubbleTextView.swift in Sources */,
 				46EE7B732C9940210077ABAB /* ParticipantsView.swift in Sources */,

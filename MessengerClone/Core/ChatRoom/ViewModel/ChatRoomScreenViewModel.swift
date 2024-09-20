@@ -67,6 +67,9 @@ class ChatRoomScreenViewModel: ObservableObject {
     // MARK: VideoCall
     @Published var isShowVideoCall: Bool = false
     
+    // MARK: Sticker
+    @Published var stickers: [DataClass] = []
+    
     var avAudioPlayer: AVAudioPlayer?
     
     // MARK: Init
@@ -173,7 +176,41 @@ class ChatRoomScreenViewModel: ObservableObject {
             actionPreviewRecord()
         case .sendRecord:
             sendAudioMessage(text: text)
+        case .presentStickers:
+            fetchStickers() { stickers in
+                if let stickers = stickers {
+                    self.stickers = stickers
+                    print("Fetch stickers success")
+                } else {
+                    print("Failed to load stickers")
+                }
+            }
         }
+    }
+    
+    /// Fetch Stickers
+    func fetchStickers(completion: @escaping ([DataClass]?) -> Void) {
+        guard let url = URL(string: "https://api.mojilala.com/v1/stickers/trending?api_key=dc6zaTOxFJmzC") else {
+            print("URL Not Exactly")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch data: \(String(describing: error?.localizedDescription))")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let stickerResponse = try JSONDecoder().decode(Welcome.self, from: data)
+                completion(stickerResponse.data) // No optional chaining needed here
+            } catch {
+                print("Failed to decode JSON: \(error)")
+                completion(nil)
+            }
+        }.resume()
     }
         
     /// Send message action
