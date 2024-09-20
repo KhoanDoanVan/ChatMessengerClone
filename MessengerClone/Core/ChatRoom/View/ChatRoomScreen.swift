@@ -20,6 +20,7 @@ struct ChatRoomScreen: View {
     
     var body: some View {
         VStack {
+            // MARK: - Message List View
             MessageListView(viewModel)
             .toolbar(.hidden, for: .tabBar)
             .navigationBarBackButtonHidden()
@@ -44,6 +45,7 @@ struct ChatRoomScreen: View {
                 }
             }
             
+            // MARK: - Picker Photo View
             PickerPhotoView(
                 listAttachment: $viewModel.listMediaAttachment,
                 listAttachmentPicker: $viewModel.listAttachmentPicker
@@ -62,6 +64,17 @@ struct ChatRoomScreen: View {
                     }
                 }
             }
+            
+            // MARK: - Sticker Picker View
+            StickerPickerView(
+                listStickers: $viewModel.stickers
+            ) { action in
+                viewModel.handleTextInputAction(action)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: viewModel.isShowSticker ? 250 : 0)
+            .opacity(viewModel.isShowSticker ? 1 : 0)
+            .animation(.easeInOut, value: viewModel.isShowSticker)
         }
         .sheet(isPresented: $viewModel.displayPreviewVoice) {
             PreviewVoiceRecordView(

@@ -73,7 +73,7 @@ struct TextInputArea: View {
     /// Emoji button
     private func buttonEmoji() -> some View {
         Button {
-            onAction(.presentStickers)
+            
         } label: {
             Image(systemName: "hand.thumbsup.fill")
                 .font(.title2)
@@ -163,7 +163,9 @@ struct TextInputArea: View {
                 HStack {
                     Spacer()
                     Button {
-                        
+                        withAnimation {
+                            onAction(.presentStickers)
+                        }
                     } label: {
                         Image(systemName: "face.smiling")
                             .font(.title2)
@@ -236,6 +238,7 @@ extension TextInputArea {
         case actionPreviewRecord
         case sendRecord
         case presentStickers
+        case pickerSticker(_ sticker: DataClass)
     }
 }
 

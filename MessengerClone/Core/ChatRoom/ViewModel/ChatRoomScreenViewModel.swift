@@ -14,6 +14,7 @@ enum MessageReactionPicker {
     case picker(_ message: MessageItem)
 }
 
+@MainActor
 class ChatRoomScreenViewModel: ObservableObject {
     
     // MARK: Propertises
@@ -69,6 +70,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     // MARK: Sticker
     @Published var stickers: [DataClass] = []
+    @Published var isShowSticker: Bool = false
     
     var avAudioPlayer: AVAudioPlayer?
     
@@ -177,14 +179,9 @@ class ChatRoomScreenViewModel: ObservableObject {
         case .sendRecord:
             sendAudioMessage(text: text)
         case .presentStickers:
-            fetchStickers() { stickers in
-                if let stickers = stickers {
-                    self.stickers = stickers
-                    print("Fetch stickers success")
-                } else {
-                    print("Failed to load stickers")
-                }
-            }
+            showStickerPicker()
+        case .pickerSticker(let sticker):
+            print(sticker)
         }
     }
     
@@ -239,12 +236,33 @@ class ChatRoomScreenViewModel: ObservableObject {
         self.showPickerAttachment = false
     }
     
+    /// Send sticker message action
+    private func sendStickerMessage(_ urlSticker: String) {
+        
+    }
+    
     /// Show photoPicker
     private func showPhotoPicker() {
         self.showPickerAttachment.toggle()
         self.listAttachmentPicker = []
         if listMediaAttachment.isEmpty {
             permission()
+        }
+    }
+    
+    /// Show sticker Picker
+    private func showStickerPicker() {
+        self.isShowSticker.toggle()
+        /// Fetch Stickers
+        if stickers.isEmpty {
+            fetchStickers() { stickers in
+                if let stickers = stickers {
+                    self.stickers = stickers
+                    print("Fetch stickers success")
+                } else {
+                    print("Failed to load stickers")
+                }
+            }
         }
     }
     

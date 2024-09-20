@@ -9,13 +9,14 @@
 import Foundation
 
 // MARK: - Welcome
-struct Welcome: Codable {
+struct Welcome: Codable, Hashable {
     let data: [DataClass]
     let meta: Meta
 }
 
 // MARK: - DataClass
-struct DataClass: Codable {
+struct DataClass: Codable, Hashable {
+    
     let id: String
     let isAnimated: Bool
     let url: String
@@ -30,7 +31,7 @@ struct DataClass: Codable {
 }
 
 // MARK: - Images
-struct Images: Codable {
+struct Images: Codable, Hashable {
     let fixedHeight: Fixed
     let fixedHeightStill: FixedStill
     let fixedHeightDownsampled, fixedHeightMedium: Fixed
@@ -44,7 +45,7 @@ struct Images: Codable {
     let fixedWidthSmall: Fixed
     let fixedWidthSmallStill: FixedStill
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey, Hashable {
         case fixedHeight = "fixed_height"
         case fixedHeightStill = "fixed_height_still"
         case fixedHeightDownsampled = "fixed_height_downsampled"
@@ -65,7 +66,7 @@ struct Images: Codable {
 }
 
 // MARK: - Fixed
-struct Fixed: Codable {
+struct Fixed: Codable, Hashable {
     let url: String
     let width, height, size: Int
     let webp: String
@@ -97,13 +98,13 @@ struct Fixed: Codable {
 }
 
 // MARK: - FixedStill
-struct FixedStill: Codable {
+struct FixedStill: Codable, Hashable {
     let url: String
     let width, height, size: Int
 }
 
 // MARK: - Meta
-struct Meta: Codable {
+struct Meta: Codable, Hashable {
     let status: Int
     let msg: String
 }

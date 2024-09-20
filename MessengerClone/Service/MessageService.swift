@@ -76,6 +76,11 @@ struct MessageService {
         onComplete()
     }
     
+//    /// Send Sticker Message
+//    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, onComplete: () -> Void) {
+//
+//    }
+    
     /// Send Video Call Message
     static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, onComplete: () -> Void) {
         
