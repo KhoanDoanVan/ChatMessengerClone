@@ -181,7 +181,7 @@ class ChatRoomScreenViewModel: ObservableObject {
         case .presentStickers:
             showStickerPicker()
         case .pickerSticker(let sticker):
-            print(sticker)
+            sendStickerMessage(sticker.images.fixedHeight.url)
         }
     }
     
@@ -238,7 +238,11 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     /// Send sticker message action
     private func sendStickerMessage(_ urlSticker: String) {
+        guard let userCurrent = userCurrent else { return }
         
+        MessageService.sendStickerMessage(to: channel, from: userCurrent, urlSticker) {
+            print("send Sticker success")
+        }
     }
     
     /// Show photoPicker

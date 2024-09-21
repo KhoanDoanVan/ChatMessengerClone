@@ -76,10 +76,32 @@ struct MessageService {
         onComplete()
     }
     
-//    /// Send Sticker Message
-//    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, onComplete: () -> Void) {
-//
-//    }
+    /// Send Sticker Message
+    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, onComplete: () -> Void) {
+        
+        let timestamp = Date().timeIntervalSince1970
+        guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageTimestamp: timestamp,
+            .lastMessageType: MessageType.sticker.title
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: "",
+            .type: MessageType.sticker.title,
+            .timeStamp: timestamp,
+            .ownerUid: currentUser.uid,
+            .urlSticker: stickerUrl
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        onComplete()
+    }
     
     /// Send Video Call Message
     static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, onComplete: () -> Void) {

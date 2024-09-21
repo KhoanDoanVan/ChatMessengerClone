@@ -61,6 +61,8 @@ struct ChannelItem: Identifiable, Hashable {
             return "Audio message"
         case .videoCall:
             return "Video Call message"
+        case .sticker:
+            return "Sticker message"
         }
     }
     

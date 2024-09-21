@@ -74,6 +74,13 @@ struct BubbleView: View {
                 message: message,
                 isShowAvatarSender: isShowAvatarSender
             )
+        case .sticker:
+            BubbleStickerView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender
+            ) { state, message in
+                handleAction(state, message)
+            }
         }
     }
     
