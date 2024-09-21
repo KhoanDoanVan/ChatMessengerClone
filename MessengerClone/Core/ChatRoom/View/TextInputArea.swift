@@ -73,7 +73,7 @@ struct TextInputArea: View {
     /// Emoji button
     private func buttonEmoji() -> some View {
         Button {
-            
+            onAction(.sendEmojiString("hand.thumbsup.fill"))
         } label: {
             Image(systemName: "hand.thumbsup.fill")
                 .font(.title2)
@@ -238,7 +238,8 @@ extension TextInputArea {
         case actionPreviewRecord
         case sendRecord
         case presentStickers
-        case pickerSticker(_ sticker: DataClass)
+        case pickerSticker(_ sticker: StickerItem)
+        case sendEmojiString(_ emojiString: String)
     }
 }
 

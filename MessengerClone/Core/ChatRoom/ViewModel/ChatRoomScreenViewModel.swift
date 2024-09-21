@@ -69,7 +69,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     @Published var isShowVideoCall: Bool = false
     
     // MARK: Sticker
-    @Published var stickers: [DataClass] = []
+    @Published var stickers: [StickerItem] = []
     @Published var isShowSticker: Bool = false
     
     var avAudioPlayer: AVAudioPlayer?
@@ -182,11 +182,13 @@ class ChatRoomScreenViewModel: ObservableObject {
             showStickerPicker()
         case .pickerSticker(let sticker):
             sendStickerMessage(sticker.images.fixedHeight.url)
+        case .sendEmojiString(let emojiString):
+            sendEmojiStringMessage(emojiString)
         }
     }
     
     /// Fetch Stickers
-    func fetchStickers(completion: @escaping ([DataClass]?) -> Void) {
+    func fetchStickers(completion: @escaping ([StickerItem]?) -> Void) {
         guard let url = URL(string: "https://api.mojilala.com/v1/stickers/trending?api_key=dc6zaTOxFJmzC") else {
             print("URL Not Exactly")
             completion(nil)
@@ -215,6 +217,14 @@ class ChatRoomScreenViewModel: ObservableObject {
         guard let userCurrent = userCurrent else { return }
         MessageService.sendTextMessage(to: channel, from: userCurrent, text) { [weak self] in
             self?.text = ""
+        }
+    }
+    
+    /// Send emoji string action
+    private func sendEmojiStringMessage(_ emojiString: String) {
+        guard let userCurrent = userCurrent else { return }
+        MessageService.sendEmojiStringMessage(to: channel, from: userCurrent, emojiString) {
+            print("Send emoji string message success")
         }
     }
     

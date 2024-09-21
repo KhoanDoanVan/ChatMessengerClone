@@ -10,7 +10,7 @@ import Kingfisher
 
 struct StickerPickerView: View {
     
-    @Binding var listStickers: [DataClass]
+    @Binding var listStickers: [StickerItem]
     let handleActionPickerSticker: (_ action: TextInputArea.UserAction) -> Void
     
     let columns: [GridItem] = [
@@ -34,7 +34,7 @@ struct StickerPickerView: View {
     }
     
     /// Cell Sticker
-    private func cellSticker(_ sticker: DataClass) -> some View {
+    private func cellSticker(_ sticker: StickerItem) -> some View {
         Button {
             handleActionPickerSticker(.pickerSticker(sticker))
         } label: {

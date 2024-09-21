@@ -28,6 +28,7 @@ struct MessageItem {
     var emojis: [ReactionItem]?
     var videoCallDuration: TimeInterval?
     var urlSticker: String?
+    var emojiString: String?
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -125,6 +126,7 @@ extension MessageItem {
         self.audioDuration = dict[.audioDuration] as? TimeInterval ?? nil
         self.videoCallDuration = dict[.videoCallDuration] as? TimeInterval ?? nil
         self.urlSticker = dict[.urlSticker] as? String ?? ""
+        self.emojiString = dict[.emojiString] as? String ?? ""
         
         /// Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -174,4 +176,5 @@ extension String {
     static let reaction = "reaction"
     static let videoCallDuration = "videoCallDuration"
     static let urlSticker = "urlSticker"
+    static let emojiString = "emojiString"
 }

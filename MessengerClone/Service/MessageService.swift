@@ -76,6 +76,32 @@ struct MessageService {
         onComplete()
     }
     
+    /// Send Emoji String Message
+    static func sendEmojiStringMessage(to channel: ChannelItem, from currentUser: UserItem, _ emojiString: String, onComplete: () -> Void) {
+        let timestamp = Date().timeIntervalSince1970
+        guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
+        
+        let channeDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageTimestamp: timestamp,
+            .lastMessageType: MessageType.emoji.title
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: "",
+            .type: MessageType.emoji.title,
+            .timeStamp: timestamp,
+            .ownerUid: currentUser.uid,
+            .emojiString: emojiString
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channeDict)
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        onComplete()
+    }
+    
     /// Send Sticker Message
     static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, onComplete: () -> Void) {
         

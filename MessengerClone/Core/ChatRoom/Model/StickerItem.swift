@@ -10,12 +10,12 @@ import Foundation
 
 // MARK: - Welcome
 struct Welcome: Codable, Hashable {
-    let data: [DataClass]
+    let data: [StickerItem]
     let meta: Meta
 }
 
 // MARK: - DataClass
-struct DataClass: Codable, Hashable {
+struct StickerItem: Codable, Hashable {
     
     let id: String
     let isAnimated: Bool

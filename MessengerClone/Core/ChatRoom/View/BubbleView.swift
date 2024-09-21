@@ -81,6 +81,13 @@ struct BubbleView: View {
             ) { state, message in
                 handleAction(state, message)
             }
+        case .emoji:
+            BubbleEmojiView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender
+            ) { state, message in
+                handleAction(state, message)
+            }
         }
     }
     

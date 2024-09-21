@@ -54,15 +54,17 @@ struct ChannelItem: Identifiable, Hashable {
         case .text:
             return lastMessage
         case .photo:
-            return "Photo message"
+            return "Photo"
         case .video:
-            return "Video message"
+            return "Video"
         case .audio:
-            return "Audio message"
+            return "Audio"
         case .videoCall:
-            return "Video Call message"
+            return "Video Call"
         case .sticker:
-            return "Sticker message"
+            return "Sticker"
+        case .emoji:
+            return "Like emoji"
         }
     }
     
