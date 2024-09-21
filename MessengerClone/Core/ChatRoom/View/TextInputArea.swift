@@ -203,7 +203,9 @@ struct TextInputArea: View {
     /// Take Photo button
     private func buttonCamera() -> some View {
         Button {
-            
+            withAnimation {
+                onAction(.openCamera)
+            }
         } label: {
             Image(systemName: "camera.fill")
                 .font(.title2)
@@ -240,6 +242,7 @@ extension TextInputArea {
         case presentStickers
         case pickerSticker(_ sticker: StickerItem)
         case sendEmojiString(_ emojiString: String)
+        case openCamera
     }
 }
 

@@ -41,6 +41,8 @@
 		4664A9182C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */; };
 		4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */; };
 		4669C2982C9E6CFC00C3342D /* BubbleLikeStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */; };
+		4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */; };
+		4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B62C9EE0C500C3342D /* CameraScreen.swift */; };
 		466EA9682C9ACBFE0021F753 /* ChatTabScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EA9672C9ACBFE0021F753 /* ChatTabScreen.swift */; };
 		466EA96A2C9ACC220021F753 /* ListStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EA9692C9ACC220021F753 /* ListStoryView.swift */; };
 		466EA96C2C9ACC540021F753 /* StoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466EA96B2C9ACC540021F753 /* StoryItemView.swift */; };
@@ -149,6 +151,8 @@
 		4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GenerateThumbnailVideo+Helper.swift"; sourceTree = "<group>"; };
 		4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportVideoFile+Helper.swift"; sourceTree = "<group>"; };
 		4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleLikeStickerView.swift; sourceTree = "<group>"; };
+		4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreenViewModel.swift; sourceTree = "<group>"; };
+		4669C2B62C9EE0C500C3342D /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
 		466EA9672C9ACBFE0021F753 /* ChatTabScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTabScreen.swift; sourceTree = "<group>"; };
 		466EA9692C9ACC220021F753 /* ListStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListStoryView.swift; sourceTree = "<group>"; };
 		466EA96B2C9ACC540021F753 /* StoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryItemView.swift; sourceTree = "<group>"; };
@@ -401,6 +405,7 @@
 				4677AE2C2C8FE6C2000795C7 /* MenuPickerView.swift */,
 				464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */,
 				460E085E2C9D76AC00D542EF /* StickerPickerView.swift */,
+				4669C2B62C9EE0C500C3342D /* CameraScreen.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -495,6 +500,7 @@
 				46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */,
 				464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */,
 				4695D0F32C9BD79900350444 /* StreamCallViewModel.swift */,
+				4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -790,6 +796,7 @@
 				465EBE6A2C6B5E1E00A97E77 /* AuthViewModel.swift in Sources */,
 				4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */,
 				466EA9742C9ACD1B0021F753 /* MessengerCloneApp.swift in Sources */,
+				4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */,
 				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
@@ -840,6 +847,7 @@
 				465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */,
 				46EE7B772C9AB7010077ABAB /* CallControlsView.swift in Sources */,
 				4677AE292C8B4DC0000795C7 /* CustomVideoPlayer.swift in Sources */,
+				4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */,
 				465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */,
 				46389BE52C75D89B0020D804 /* FirebaseHelper.swift in Sources */,
 				46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */,
@@ -1011,7 +1019,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerClone/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(MARKETING_VERSION)";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app need permisions for access photo owner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1044,7 +1052,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerClone/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "$(MARKETING_VERSION)";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app need permisions for access photo owner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

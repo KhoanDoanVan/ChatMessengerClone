@@ -64,6 +64,11 @@ struct ChatRoomScreen: View {
                     }
                 }
             }
+            .fullScreenCover(isPresented: $viewModel.isShowCamera) {
+                if let userCurrent = viewModel.userCurrent {
+                    CameraScreen()
+                }
+            }
             
             // MARK: - Sticker Picker View
             StickerPickerView(

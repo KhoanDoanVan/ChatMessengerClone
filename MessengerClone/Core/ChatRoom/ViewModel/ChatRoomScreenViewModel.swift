@@ -58,6 +58,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     @Published var timer: AnyCancellable?
     @Published var audioDuration: TimeInterval = 0
     @Published var playingPreview: Bool = false
+    var avAudioPlayer: AVAudioPlayer?
     
     // MARK: Reaction
     @Published var isShowReactions: Bool = false
@@ -72,7 +73,8 @@ class ChatRoomScreenViewModel: ObservableObject {
     @Published var stickers: [StickerItem] = []
     @Published var isShowSticker: Bool = false
     
-    var avAudioPlayer: AVAudioPlayer?
+    // MARK: Camera
+    @Published var isShowCamera: Bool = false
     
     // MARK: Init
     init(channel: ChannelItem) {
@@ -184,6 +186,8 @@ class ChatRoomScreenViewModel: ObservableObject {
             sendStickerMessage(sticker.images.fixedHeight.url)
         case .sendEmojiString(let emojiString):
             sendEmojiStringMessage(emojiString)
+        case .openCamera:
+            isShowCamera.toggle()
         }
     }
     
