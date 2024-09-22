@@ -188,6 +188,8 @@ class ChatRoomScreenViewModel: ObservableObject {
             sendEmojiStringMessage(emojiString)
         case .openCamera:
             isShowCamera.toggle()
+        case .sendImageFromCamera(let uiImage):
+            sendPhotoFromCamera(uiImage)
         }
     }
     
@@ -241,6 +243,12 @@ class ChatRoomScreenViewModel: ObservableObject {
                 print("sendVideoCallMessage success")
             }
         }
+    }
+    
+    /// Send Image From Camera
+    private func sendPhotoFromCamera(_ uiImage: UIImage) {
+        let mediaAttachment = MediaAttachment(id: UUID().uuidString, type: .photo(imageThumbnail: uiImage))
+        self.sendPhotoMessage(text: "", mediaAttachment)
     }
     
     /// Send images message action

@@ -243,6 +243,7 @@ extension TextInputArea {
         case pickerSticker(_ sticker: StickerItem)
         case sendEmojiString(_ emojiString: String)
         case openCamera
+        case sendImageFromCamera(_ uiImage: UIImage)
     }
 }
 

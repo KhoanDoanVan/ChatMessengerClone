@@ -16,7 +16,6 @@ class CameraScreenViewModel: NSObject, ObservableObject, AVCapturePhotoCaptureDe
     @Published var output: AVCapturePhotoOutput = AVCapturePhotoOutput()
     @Published var preview: AVCaptureVideoPreviewLayer!
     @Published var pictureData: Data = Data()
-    @Published var uiImage: UIImage?
     
     /// Check permission
     func checkPermission() {
@@ -32,6 +31,24 @@ class CameraScreenViewModel: NSObject, ObservableObject, AVCapturePhotoCaptureDe
         }
     }
     
+    /// Convert Data to UIImage
+    func transformDataToUIImage(completion: @escaping(UIImage?) -> Void) {
+        if pictureData.isEmpty {
+            print("Picture data is empty. Cannot convert to UIImage.")
+            completion(nil)
+            return
+        }
+
+        guard let uiImage = UIImage(data: pictureData) else {
+            print("Failed to convert data to UIImage")
+            completion(nil)
+            return
+        }
+
+        completion(uiImage)
+    }
+    
+    ///
     func requestCameraAccess() {
         AVCaptureDevice.requestAccess(for: .video) { [weak self] status in
             if status {

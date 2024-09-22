@@ -11,6 +11,8 @@ import AVFoundation
 struct CameraScreen: View {
     @StateObject var camera = CameraScreenViewModel()
     
+    let handleAction: (_ action: TextInputArea.UserAction, _ state: Bool) -> Void
+    
     var body: some View {
         ZStack {
             ZStack {
@@ -27,9 +29,10 @@ struct CameraScreen: View {
                                     .bold()
                                     .font(.title3)
                                     .foregroundStyle(.white)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 10)
                             }
                             .padding(.horizontal, 20)
-                            .padding(.top, 20)
                             
                             Spacer()
                         }
@@ -42,7 +45,11 @@ struct CameraScreen: View {
                         HStack {
                             Spacer()
                             Button {
-                                camera.reTakePicture()
+                                camera.transformDataToUIImage() { uiImage in
+                                    print("transformDataToUIImage: \(uiImage)")
+//                                    guard let uiImage else { return }
+//                                    handleAction(.sendImageFromCamera(uiImage), false)
+                                }
                             } label: {
                                 Text("Send")
                                     .bold()
@@ -88,6 +95,8 @@ struct CameraScreen: View {
                     .bold()
                     .font(.title3)
                     .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 10)
             }
             Spacer()
             HStack(spacing: 20) {
@@ -98,6 +107,8 @@ struct CameraScreen: View {
                         .bold()
                         .font(.title3)
                         .foregroundStyle(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
                 }
                 Button {
                     
@@ -106,6 +117,8 @@ struct CameraScreen: View {
                         .bold()
                         .font(.title3)
                         .foregroundStyle(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
                 }
             }
             Spacer()
@@ -137,6 +150,9 @@ struct CameraPreview: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {}
 }
 
+
 #Preview {
-    CameraScreen()
+    CameraScreen() { action, state in
+        
+    }
 }

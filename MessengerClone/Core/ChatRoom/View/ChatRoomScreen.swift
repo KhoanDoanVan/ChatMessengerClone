@@ -65,8 +65,9 @@ struct ChatRoomScreen: View {
                 }
             }
             .fullScreenCover(isPresented: $viewModel.isShowCamera) {
-                if let userCurrent = viewModel.userCurrent {
-                    CameraScreen()
+                CameraScreen() { action, state in
+                    viewModel.handleTextInputAction(action)
+                    viewModel.isShowCamera = state
                 }
             }
             
