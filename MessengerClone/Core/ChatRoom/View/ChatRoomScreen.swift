@@ -102,7 +102,9 @@ struct ChatRoomScreen: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowMapLocation) {
-            CurrentLocationSheet()
+            CurrentLocationSheet() { action in
+                viewModel.handleTextInputAction(action)
+            }
         }
     }
     

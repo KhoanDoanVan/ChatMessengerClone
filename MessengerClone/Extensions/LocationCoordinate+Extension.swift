@@ -13,6 +13,10 @@ extension MKCoordinateRegion {
     static var userRegion: MKCoordinateRegion {
         return .init(center: .userLocation, latitudinalMeters: 500, longitudinalMeters: 500)
     }
+    
+    static var userRegionFarmore: MKCoordinateRegion {
+        return .init(center: .userLocation, latitudinalMeters: 1500, longitudinalMeters: 1500)
+    }
 }
 
 extension CLLocationCoordinate2D {

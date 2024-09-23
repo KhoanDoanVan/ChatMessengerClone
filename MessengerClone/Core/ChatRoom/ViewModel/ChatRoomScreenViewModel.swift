@@ -195,6 +195,8 @@ class ChatRoomScreenViewModel: ObservableObject {
             sendPhotoFromCamera(uiImage)
         case .openShareLocation:
             openShareLocation()
+        case .shareLocationCurrent(let latitude, let longtitude):
+            sendLocationCurrentMessage(latitude, longtitude)
         }
     }
     
@@ -247,6 +249,17 @@ class ChatRoomScreenViewModel: ObservableObject {
             MessageService.sendVideoCallMessage(to: channel, from: userCurrent, timeVideoCall) {
                 print("sendVideoCallMessage success")
             }
+        }
+    }
+        
+    /// Send location
+    func sendLocationCurrentMessage(_ latitude: CLLocationDegrees, _ longtitude: CLLocationDegrees) {
+        guard let userCurrent = userCurrent else { return }
+        
+        let location: LocationItem = LocationItem(latitude: latitude, longtitude: longtitude)
+        
+        MessageService.sendLocationCurrentMessage(to: channel, from: userCurrent, location) {
+            print("Send location current success \(location)")
         }
     }
     

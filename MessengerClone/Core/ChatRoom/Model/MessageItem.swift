@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import SwiftUI
+import MapKit
 
 // MARK: Message Item
 struct MessageItem {
@@ -29,6 +30,7 @@ struct MessageItem {
     var videoCallDuration: TimeInterval?
     var urlSticker: String?
     var emojiString: String?
+    var location: LocationItem?
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -108,6 +110,12 @@ struct ReactionItem: Hashable {
     var senderReaction: UserItem?
 }
 
+// MARK: Location Item
+struct LocationItem: Hashable {
+    let latitude: CLLocationDegrees
+    let longtitude: CLLocationDegrees
+}
+
 extension MessageItem {
     init(id: String, dict: [String:Any]) {
         self.id = id
@@ -140,6 +148,15 @@ extension MessageItem {
             self.emojis = emojiArray.map{ ReactionItem(dict: $0)}
         } else {
             self.emojis = nil
+        }
+        
+        /// Extract location
+        if let locationDict = dict[.location] as? [String:Any],
+           let latitude = locationDict[.latitude] as? CLLocationDegrees,
+           let longtitude = locationDict[.longtitude] as? CLLocationDegrees {
+            self.location = LocationItem(latitude: latitude, longtitude: longtitude)
+        } else {
+            self.location = nil
         }
     }
 }
@@ -177,4 +194,7 @@ extension String {
     static let videoCallDuration = "videoCallDuration"
     static let urlSticker = "urlSticker"
     static let emojiString = "emojiString"
+    static let location = "location"
+    static let latitude = "latitude"
+    static let longtitude = "longtitude"
 }

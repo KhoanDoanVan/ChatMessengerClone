@@ -8,7 +8,7 @@
 import Foundation
 
 enum MessageType: Hashable {
-    case admin(_ type: AdminMessageType),text, photo, video, audio, videoCall, sticker, emoji
+    case admin(_ type: AdminMessageType),text, photo, video, audio, videoCall, sticker, emoji, location
     
     var title: String {
         switch self {
@@ -28,6 +28,8 @@ enum MessageType: Hashable {
             return "videoCall"
         case .emoji:
             return "likeSticker"
+        case .location:
+            return "location"
         }
     }
     
@@ -47,6 +49,8 @@ enum MessageType: Hashable {
             self = .sticker
         case "likeSticker":
             self = .emoji
+        case "location":
+            self = .location
         default:
             if let adminMessageType = AdminMessageType(rawValue: stringValue) {
                 self = .admin(adminMessageType)

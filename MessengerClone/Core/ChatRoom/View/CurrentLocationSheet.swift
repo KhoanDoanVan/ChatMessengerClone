@@ -15,6 +15,8 @@ struct CurrentLocationSheet: View {
     @State private var cameraPosition: MapCameraPosition = .region(.userRegion)
     @State private var tapSearch: Bool = false
     
+    let handleAction: (_ action: TextInputArea.UserAction) -> Void
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -123,7 +125,8 @@ struct CurrentLocationSheet: View {
     /// Share button
     private func startShareButton() -> some View {
         Button {
-            
+            handleAction(.shareLocationCurrent(viewModel.location.latitude, viewModel.location.longitude))
+            dismiss()
         } label: {
             Text("Start sharing live location")
                 .bold()
@@ -140,6 +143,8 @@ struct CurrentLocationSheet: View {
 
 #Preview {
     NavigationStack {
-        CurrentLocationSheet()
+        CurrentLocationSheet() { action in
+            
+        }
     }
 }

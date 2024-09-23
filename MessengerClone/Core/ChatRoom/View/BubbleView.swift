@@ -88,6 +88,13 @@ struct BubbleView: View {
             ) { state, message in
                 handleAction(state, message)
             }
+        case .location:
+            BubbleLocationView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender)
+            { state, message in
+                handleAction(state, message)
+            }
         }
     }
     

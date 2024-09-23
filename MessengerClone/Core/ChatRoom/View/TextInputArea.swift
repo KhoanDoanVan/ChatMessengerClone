@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import MapKit
 
 struct TextInputArea: View {
     @Binding var text: String
@@ -252,6 +253,7 @@ extension TextInputArea {
         case openCamera
         case sendImageFromCamera(_ uiImage: UIImage)
         case openShareLocation
+        case shareLocationCurrent(_ latitude: CLLocationDegrees, _ longtitude: CLLocationDegrees)
     }
 }
 

@@ -129,6 +129,36 @@ struct MessageService {
         onComplete()
     }
     
+    /// Send Location Message
+    static func sendLocationCurrentMessage(to channel: ChannelItem, from userCurrent: UserItem, _ location: LocationItem, onComplete: () -> Void) {
+        
+        let timestamp = Date().timeIntervalSince1970
+        guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageTimestamp: timestamp,
+            .lastMessageType: MessageType.location.title
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: "",
+            .type: MessageType.location.title,
+            .timeStamp: timestamp,
+            .ownerUid: userCurrent.uid,
+            .location: [
+                "latitude": Double(location.latitude),
+                "longtitude": Double(location.longtitude)
+            ]
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        onComplete()
+    }
+    
     /// Send Video Call Message
     static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, onComplete: () -> Void) {
         
