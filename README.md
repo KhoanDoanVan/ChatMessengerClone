@@ -4,8 +4,11 @@
 The Application built based on Messenger application and more.
 
 ### Functionality
+- Authentication
 - Chat text realtime
 - Chat images, voice audio, file realtime
+- Chat image from camera
+- Send Location
 - Reaction message
 - Remove message or hide message
 - Call voice and Call video
@@ -14,14 +17,13 @@ The Application built based on Messenger application and more.
 - Share file media
 - Push notifications and Receive notifications
 - Tracking online and offline state
-- Authentication
 
 ### Technical
 - Swift: base language to develope IOS application
 - Firebase: Firestore, Authentication, Storage, Realtime
 - SwiftUI/UIKit: Framework UI
 - Stream SDK: used for video call and voice call
-- Another Framework: Combine, PhotosUI, AVKit, Kingfisher
+- Another Frameworks, Packages: Combine, PhotosUI, AVKit, Kingfisher
 
 ### Require Minimum System
 - IOS 17.0 +
@@ -63,9 +65,6 @@ if you want to distribute for project, please follow here:
 
 ### Demo UI
 ![ref image](https://github.com/KhoanDoanVan/ChatMessengerClone/blob/main/demo.png?raw=true)
-
-### License
-This project is licensed under the MIT license
 
 ### Enjoying this project?
 Please consider giving it a star
