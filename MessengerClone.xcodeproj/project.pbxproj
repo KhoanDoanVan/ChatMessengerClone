@@ -19,6 +19,9 @@
 		464648DB2C7C495900617A6F /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */; };
 		464C26402C96F566008CD4F2 /* ReactionShowSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */; };
 		464C26422C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */; };
+		464DDABB2CA0ED71009D355E /* CurrentLocationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABA2CA0ED71009D355E /* CurrentLocationSheet.swift */; };
+		464DDABD2CA0EDA2009D355E /* LocationCoordinate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */; };
+		464DDABF2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABE2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift */; };
 		465168432C6E40B7006C8837 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168422C6E40B7006C8837 /* UserService.swift */; };
 		465168452C6F4227006C8837 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168442C6F4227006C8837 /* String+Extension.swift */; };
 		465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */; };
@@ -134,6 +137,9 @@
 		464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionShowSheetView.swift; sourceTree = "<group>"; };
 		464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionShowSheetViewModel.swift; sourceTree = "<group>"; };
+		464DDABA2CA0ED71009D355E /* CurrentLocationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationSheet.swift; sourceTree = "<group>"; };
+		464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationCoordinate+Extension.swift"; sourceTree = "<group>"; };
+		464DDABE2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationSheetViewModel.swift; sourceTree = "<group>"; };
 		465168422C6E40B7006C8837 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		465168442C6F4227006C8837 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBubbleTextView.swift; sourceTree = "<group>"; };
@@ -406,6 +412,7 @@
 				464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */,
 				460E085E2C9D76AC00D542EF /* StickerPickerView.swift */,
 				4669C2B62C9EE0C500C3342D /* CameraScreen.swift */,
+				464DDABA2CA0ED71009D355E /* CurrentLocationSheet.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -467,6 +474,7 @@
 				465168442C6F4227006C8837 /* String+Extension.swift */,
 				464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */,
 				4677AE2E2C9125F3000795C7 /* Date+Extension.swift */,
+				464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -501,6 +509,7 @@
 				464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */,
 				4695D0F32C9BD79900350444 /* StreamCallViewModel.swift */,
 				4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */,
+				464DDABE2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -819,12 +828,15 @@
 				465EBE912C6C32BE00A97E77 /* CircularProfileImage.swift in Sources */,
 				460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */,
 				46EE7B752C9942880077ABAB /* FloatingParticipantView.swift in Sources */,
+				464DDABD2CA0EDA2009D355E /* LocationCoordinate+Extension.swift in Sources */,
 				46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */,
 				466EA96E2C9ACC7B0021F753 /* ListChannelView.swift in Sources */,
+				464DDABF2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift in Sources */,
 				46749F912C68A60800A8A4BD /* MessageItem.swift in Sources */,
 				465EBE892C6B773900A97E77 /* RootViewModel.swift in Sources */,
 				46749F642C64D6B400A8A4BD /* ContactsView.swift in Sources */,
 				4695D0F62C9C408E00350444 /* BubbleVideoCallView.swift in Sources */,
+				464DDABB2CA0ED71009D355E /* CurrentLocationSheet.swift in Sources */,
 				4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */,
 				46749F702C6612F100A8A4BD /* BubbleView.swift in Sources */,
 				46749F682C64DE7B00A8A4BD /* ChatRoomScreen.swift in Sources */,

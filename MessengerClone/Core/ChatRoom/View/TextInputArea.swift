@@ -214,8 +214,15 @@ struct TextInputArea: View {
     
     /// More button
     private func buttonMore() -> some View {
-        Button {
-            
+        Menu {
+            Button {
+                onAction(.openShareLocation)
+            } label: {
+                HStack {
+                    Image(systemName: "location.fill")
+                    Text("Location")
+                }
+            }
         } label: {
             Image(systemName: "plus")
                 .padding(4)
@@ -244,6 +251,7 @@ extension TextInputArea {
         case sendEmojiString(_ emojiString: String)
         case openCamera
         case sendImageFromCamera(_ uiImage: UIImage)
+        case openShareLocation
     }
 }
 

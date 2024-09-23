@@ -76,6 +76,9 @@ class ChatRoomScreenViewModel: ObservableObject {
     // MARK: Camera
     @Published var isShowCamera: Bool = false
     
+    // MARK: Map
+    @Published var isShowMapLocation: Bool = false
+    
     // MARK: Init
     init(channel: ChannelItem) {
         self.channel = channel
@@ -190,6 +193,8 @@ class ChatRoomScreenViewModel: ObservableObject {
             isShowCamera.toggle()
         case .sendImageFromCamera(let uiImage):
             sendPhotoFromCamera(uiImage)
+        case .openShareLocation:
+            openShareLocation()
         }
     }
     
@@ -697,5 +702,10 @@ class ChatRoomScreenViewModel: ObservableObject {
         let priorIndex = max(0, nextIndex)
         let priorMessage = messages[priorIndex]
         return !message.timeStamp.isSameDay(as: priorMessage.timeStamp)
+    }
+    
+    /// Open location
+    private func openShareLocation() {
+        self.isShowMapLocation.toggle()
     }
 }

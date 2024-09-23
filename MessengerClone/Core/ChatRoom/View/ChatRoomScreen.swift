@@ -101,6 +101,9 @@ struct ChatRoomScreen: View {
                     .presentationCornerRadius(20)
             }
         }
+        .sheet(isPresented: $viewModel.isShowMapLocation) {
+            CurrentLocationSheet()
+        }
     }
     
 }
