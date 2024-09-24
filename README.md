@@ -8,7 +8,7 @@ The Application built based on Messenger application and more.
 - Chat text realtime
 - Chat images, voice audio, file realtime
 - Chat image from camera
-- Send Location
+- Send location
 - Reaction message
 - Remove message or hide message
 - Call voice and Call video
@@ -23,7 +23,7 @@ The Application built based on Messenger application and more.
 - Firebase: Firestore, Authentication, Storage, Realtime
 - SwiftUI/UIKit: Framework UI
 - Stream SDK: used for video call and voice call
-- Another Frameworks, Packages: Combine, PhotosUI, AVKit, Kingfisher
+- Another: Combine, PhotosUI, AVKit, Kingfisher, MapKit
 
 ### Require Minimum System
 - IOS 17.0 +
