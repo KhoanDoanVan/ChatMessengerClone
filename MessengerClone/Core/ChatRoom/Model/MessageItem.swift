@@ -114,6 +114,7 @@ struct ReactionItem: Hashable {
 struct LocationItem: Hashable {
     let latitude: CLLocationDegrees
     let longtitude: CLLocationDegrees
+    let nameAddress: String
 }
 
 extension MessageItem {
@@ -153,8 +154,10 @@ extension MessageItem {
         /// Extract location
         if let locationDict = dict[.location] as? [String:Any],
            let latitude = locationDict[.latitude] as? CLLocationDegrees,
-           let longtitude = locationDict[.longtitude] as? CLLocationDegrees {
-            self.location = LocationItem(latitude: latitude, longtitude: longtitude)
+           let longtitude = locationDict[.longtitude] as? CLLocationDegrees,
+           let nameAddress = locationDict[.nameAddress] as? String
+        {
+            self.location = LocationItem(latitude: latitude, longtitude: longtitude, nameAddress: nameAddress)
         } else {
             self.location = nil
         }
@@ -197,4 +200,5 @@ extension String {
     static let location = "location"
     static let latitude = "latitude"
     static let longtitude = "longtitude"
+    static let nameAddress = "nameAddress"
 }

@@ -35,6 +35,9 @@ struct CurrentLocationSheet: View {
             .toolbar {
                 doneButton()
             }
+            .onAppear {
+                viewModel.checkIfLocationServicesIsEnable()
+            }
         }
     }
     
@@ -90,9 +93,6 @@ struct CurrentLocationSheet: View {
         .clipShape(
             .rect(cornerRadius: 20)
         )
-        .onAppear {
-            viewModel.checkIfLocationServicesIsEnable()
-        }
     }
     
     /// Searchable
@@ -125,7 +125,7 @@ struct CurrentLocationSheet: View {
     /// Share button
     private func startShareButton() -> some View {
         Button {
-            handleAction(.shareLocationCurrent(viewModel.location.latitude, viewModel.location.longitude))
+            handleAction(.shareLocationCurrent(viewModel.location.latitude, viewModel.location.longitude, viewModel.nameLocation))
             dismiss()
         } label: {
             Text("Start sharing live location")

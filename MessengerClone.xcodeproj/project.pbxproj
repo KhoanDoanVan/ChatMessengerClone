@@ -1035,7 +1035,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerClone/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSCameraUsageDescription = 1.0;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(MARKETING_VERSION)";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app need permisions for access photo owner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1068,7 +1069,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MessengerClone/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_NSCameraUsageDescription = 1.0;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "$(MARKETING_VERSION)";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app need permisions for access photo owner";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

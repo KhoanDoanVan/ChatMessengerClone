@@ -146,12 +146,13 @@ struct BubbleLocationView: View {
                     }
                 }
                 .frame(width: 250, height: 150)
+                .disabled(true)
                 
                 VStack(alignment: .leading) {
                     Text("Pinned location")
                         .bold()
                         .foregroundStyle(.white)
-                    Text("150E1 Quan 8, Ho Chi Minh, Viet Nam")
+                    Text(message.location?.nameAddress ?? "Unknown")
                         .font(.footnote)
                         .foregroundStyle(.white.opacity(0.5))
                 }

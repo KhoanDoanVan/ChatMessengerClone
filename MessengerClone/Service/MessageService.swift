@@ -149,7 +149,8 @@ struct MessageService {
             .ownerUid: userCurrent.uid,
             .location: [
                 "latitude": Double(location.latitude),
-                "longtitude": Double(location.longtitude)
+                "longtitude": Double(location.longtitude),
+                "nameAddress": location.nameAddress
             ]
         ]
         

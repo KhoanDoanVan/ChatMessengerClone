@@ -89,7 +89,7 @@ struct CameraScreen: View {
     private func navTop() -> some View {
         HStack {
             Button {
-                
+                handleAction(.closeCamera, false)
             } label: {
                 Image(systemName: "xmark")
                     .bold()

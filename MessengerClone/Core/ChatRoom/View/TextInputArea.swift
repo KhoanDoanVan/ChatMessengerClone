@@ -251,9 +251,10 @@ extension TextInputArea {
         case pickerSticker(_ sticker: StickerItem)
         case sendEmojiString(_ emojiString: String)
         case openCamera
+        case closeCamera
         case sendImageFromCamera(_ uiImage: UIImage)
         case openShareLocation
-        case shareLocationCurrent(_ latitude: CLLocationDegrees, _ longtitude: CLLocationDegrees)
+        case shareLocationCurrent(_ latitude: CLLocationDegrees, _ longtitude: CLLocationDegrees, _ nameAddress: String)
     }
 }
 
