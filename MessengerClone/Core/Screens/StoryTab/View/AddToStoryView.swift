@@ -9,30 +9,68 @@ import SwiftUI
 
 struct AddToStoryView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel = AddToStoryViewModel()
 
-    var items = [
+    var selections = [
         GridItem(.flexible(), spacing: 1),
         GridItem(.flexible(), spacing: 1),
     ]
     
+    var columnItems = [
+        GridItem(.flexible(), spacing: 2),
+        GridItem(.flexible(),  spacing: 2),
+        GridItem(.flexible()),
+    ]
+    
+    let widthImage = ((UIWindowScene.current?.screenWidth ?? 0) - 4) / 3
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                LazyVGrid(columns: items, spacing: 10) {
-                    ForEach(StoryType.allCases) { type in
-                        ButtonTypeStoryView(type)
+            VStack(spacing: 20) {
+                topSelect()
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVGrid(columns: columnItems, spacing: 2) {
+                        ForEach(viewModel.listMediaAttachment, id: \.self) { attachment in
+                            cellAttachment(attachment)
+                        }
                     }
                 }
                 .padding(.top)
-                
-                Spacer()
             }
+            .toolbarTitleDisplayMode(.inline)
             .toolbar {
                 titleNavigation()
                 trailingButton()
                 leadingButton()
             }
-            .toolbarTitleDisplayMode(.inline)
+            .fullScreenCover(isPresented: $viewModel.isShowStoryBoard) {
+                if let uiImage = viewModel.uiImagePicker {
+                    StoryBoardNewView(uiImage: uiImage)
+                }
+            }
+        }
+    }
+    
+    /// Cell Attachment
+    private func cellAttachment(_ attachment: MediaAttachment) -> some View {
+        Button {
+            viewModel.uiImagePicker = attachment.thumbnail
+            viewModel.isShowStoryBoard.toggle()
+        } label: {
+            Image(uiImage: attachment.thumbnail)
+                .resizable()
+                .frame(width: widthImage)
+                .frame(height: widthImage)
+                .scaledToFill()
+        }
+    }
+    
+    /// Top Select Box
+    private func topSelect() -> some View {
+        HStack {
+            ForEach(StoryType.allCases) { type in
+                ButtonTypeStoryView(type)
+            }
         }
     }
 }

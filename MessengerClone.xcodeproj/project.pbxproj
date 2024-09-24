@@ -76,6 +76,8 @@
 		46749F8B2C67715200A8A4BD /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F8A2C67715200A8A4BD /* UserItem.swift */; };
 		46749F8F2C68A46B00A8A4BD /* BubbleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F8E2C68A46B00A8A4BD /* BubbleImageView.swift */; };
 		46749F912C68A60800A8A4BD /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F902C68A60800A8A4BD /* MessageItem.swift */; };
+		467751E62CA261FE00D874F1 /* AddToStoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */; };
+		467751E82CA26A6800D874F1 /* StoryBoardNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */; };
 		4677AE232C87157C000795C7 /* BubbleAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE222C87157C000795C7 /* BubbleAudioView.swift */; };
 		4677AE252C899F68000795C7 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE242C899F68000795C7 /* BlurView.swift */; };
 		4677AE272C89AD11000795C7 /* BlurViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE262C89AD11000795C7 /* BlurViewModel.swift */; };
@@ -190,6 +192,8 @@
 		46749F8A2C67715200A8A4BD /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		46749F8E2C68A46B00A8A4BD /* BubbleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleImageView.swift; sourceTree = "<group>"; };
 		46749F902C68A60800A8A4BD /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
+		467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToStoryViewModel.swift; sourceTree = "<group>"; };
+		467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBoardNewView.swift; sourceTree = "<group>"; };
 		4677AE222C87157C000795C7 /* BubbleAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleAudioView.swift; sourceTree = "<group>"; };
 		4677AE242C899F68000795C7 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		4677AE262C89AD11000795C7 /* BlurViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurViewModel.swift; sourceTree = "<group>"; };
@@ -451,9 +455,18 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		467751E42CA261DE00D874F1 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		469A69CB2C5F89A80017E763 /* StoryTab */ = {
 			isa = PBXGroup;
 			children = (
+				467751E42CA261DE00D874F1 /* New Group */,
 				469A69CC2C5F89AD0017E763 /* View */,
 			);
 			path = StoryTab;
@@ -463,8 +476,9 @@
 			isa = PBXGroup;
 			children = (
 				469A69CD2C5F89CD0017E763 /* StoryScreen.swift */,
-				46AA92622C60DAA8003F9CEB /* StoryCellView.swift */,
 				46AA92642C60DE91003F9CEB /* AddToStoryView.swift */,
+				467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */,
+				46AA92622C60DAA8003F9CEB /* StoryCellView.swift */,
 				46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */,
 			);
 			path = View;
@@ -804,6 +818,8 @@
 				46B3EA132C71F1F20057619A /* MessageService.swift in Sources */,
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
 				4677AE252C899F68000795C7 /* BlurView.swift in Sources */,
+				467751E62CA261FE00D874F1 /* AddToStoryViewModel.swift in Sources */,
+				467751E82CA26A6800D874F1 /* StoryBoardNewView.swift in Sources */,
 				465EBE962C6C495500A97E77 /* ChannelItem.swift in Sources */,
 				465EBE6A2C6B5E1E00A97E77 /* AuthViewModel.swift in Sources */,
 				4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */,
