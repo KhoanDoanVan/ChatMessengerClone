@@ -463,9 +463,17 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
+		467751E92CA2779800D874F1 /* New Group1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group1";
+			sourceTree = "<group>";
+		};
 		469A69CB2C5F89A80017E763 /* StoryTab */ = {
 			isa = PBXGroup;
 			children = (
+				467751E92CA2779800D874F1 /* New Group1 */,
 				467751E42CA261DE00D874F1 /* New Group */,
 				469A69CC2C5F89AD0017E763 /* View */,
 			);
