@@ -6,21 +6,104 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct StoryBoardNewView: View {
+        
+    @State private var isActionDraw: Bool = false
+    @State private var isGesture: Bool = false
+    @State private var selectedColor: Color = .white
+    @State private var thinkness: Double = 3.0
     
-    let uiImage: UIImage?
+    @State private var currentLine: Line = Line()
+    @State private var lines: [Line] = [Line]()
+    @State private var eraserLines: [Line] = [Line]()
     
     var body: some View {
         VStack {
             ZStack {
-                topBar()
                 
-                if let uiImage = uiImage {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
+                Canvas { context, size in
+                    for line in lines {
+                        var path = Path()
+                        path.addLines(line.points)
+                        context.stroke(path, with: .color(line.color), lineWidth: line.lineWidth)
+                    }
+                }
+                .gesture(
+                    isActionDraw 
+                    ? DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                        .onChanged({ value in
+                            let newPoint = value.location
+                            currentLine.points.append(newPoint)
+                            self.lines.append(currentLine)
+                            
+                            isGesture = true
+                        })
+                        .onEnded({ value in
+                            self.currentLine = Line(points: [], color: selectedColor, lineWidth: thinkness)
+                            
+                            isGesture = false
+                        })
+                    : nil
+                )
+                
+                if isActionDraw {
+                    if !isGesture {
+                        VStack {
+                            HStack {
+                                if !lines.isEmpty {
+                                    Text("Undo")
+                                        .bold()
+                                        .foregroundStyle(.white)
+                                    .onTapGesture {
+                                        if !lines.isEmpty {
+                                            lines.removeLast()
+                                        }
+                                    }
+                                }
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        isActionDraw.toggle()
+                                    }
+                                } label: {
+                                    Text("Done")
+                                        .bold()
+                                        .foregroundStyle(.white)
+                                }
+                            }
+                            .padding(.horizontal)
+                            Spacer()
+                        }
+                    }
+                } else {
+                    topBar()
+                }
+                
+                if isActionDraw {
+                    if !isGesture {
+                        HStack {
+                            UISliderView(
+                                value: $thinkness,
+                                minValue: 1.0,
+                                maxValue: 20.0,
+                                thumbColor: .white,
+                                minTrackColor: .white.withAlphaComponent(0.6),
+                                maxTrackColor: .white.withAlphaComponent(0.6)
+                            )
+                            .onChange(of: thinkness) { oldValue, newValue in
+                                currentLine.lineWidth = newValue
+                            }
+                            .frame(width: 250)
+                            .tint(.white.opacity(0.8))
+                            .rotationEffect(.degrees(-90))
+                            .offset(x: -90)
+                            .shadow(color: .black.opacity(0.85), radius: 10)
+                            
+                            Spacer()
+                        }
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -30,7 +113,17 @@ struct StoryBoardNewView: View {
                 .rect(cornerRadius: 20)
             )
             Spacer()
-            bottomBar()
+            
+            if isActionDraw {
+                if !isGesture {
+                    barColor()
+                        .padding(.bottom, 10)
+                }
+            } else {
+                bottomBar()
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+            }
         }
     }
     
@@ -47,9 +140,11 @@ struct StoryBoardNewView: View {
                         .font(.title2)
                 }
                 Spacer()
-                HStack {
+                HStack(spacing: 15) {
                     Button {
-                        
+                        withAnimation {
+                            isActionDraw.toggle()
+                        }
                     } label: {
                         Image(systemName: "scribble.variable")
                             .foregroundStyle(.white)
@@ -124,11 +219,65 @@ struct StoryBoardNewView: View {
                     .clipShape(Capsule())
             }
         }
-        .padding(.horizontal)
-        .padding(.bottom, 10)
+    }
+    
+    /// Bar Color
+    private func barColor() -> some View {
+        HStack {
+            Button {
+                selectedColor = Color(.systemGray6)
+            } label: {
+                Image(systemName: "eraser.fill")
+                    .foregroundStyle(selectedColor == Color(.systemGray6) ? .black : .white)
+                    .font(.title3)
+                    .padding(8)
+                    .background(selectedColor == Color(.systemGray6) ? .white : .black)
+                    .clipShape(Circle())
+            }
+            .padding(.horizontal, 5)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(ColorPickerConstants.listColorPicker, id: \.self) { color in
+                        Button {
+                            selectedColor = color
+                        } label: {
+                            if selectedColor == color {
+                                Circle()
+                                    .stroke(.white, lineWidth: selectedColor == color ? 10 : 0)
+                                    .stroke(.black, lineWidth: selectedColor == color ? 3 : 0)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundStyle(.white.opacity(0.8))
+                                    .overlay {
+                                        Circle()
+                                            .frame(width: 21, height: 21)
+                                            .foregroundStyle(color)
+                                    }
+                            } else {
+                                Circle()
+                                    .frame(width: 25, height: 25)
+                                    .foregroundStyle(.white.opacity(0.8))
+                                    .overlay {
+                                        Circle()
+                                            .frame(width: 21, height: 21)
+                                            .foregroundStyle(color)
+                                    }
+                            }
+                        }
+                        .padding(.horizontal, 5)
+                    }
+                    .onChange(of: selectedColor) { oldValue, newValue in
+                        currentLine.color = newValue
+                    }
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 8)
+            }
+        }
+        .frame(height: 50)
     }
 }
 
 #Preview {
-    StoryBoardNewView(uiImage: .messengerIcon)
+    StoryBoardNewView()
 }

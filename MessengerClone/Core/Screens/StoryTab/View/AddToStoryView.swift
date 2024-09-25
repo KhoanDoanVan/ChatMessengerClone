@@ -45,7 +45,7 @@ struct AddToStoryView: View {
             }
             .fullScreenCover(isPresented: $viewModel.isShowStoryBoard) {
                 if let uiImage = viewModel.uiImagePicker {
-                    StoryBoardNewView(uiImage: uiImage)
+                    StoryBoardNewView()
                 }
             }
         }
