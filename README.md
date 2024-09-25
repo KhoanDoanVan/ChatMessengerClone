@@ -12,7 +12,7 @@ The Application built based on Messenger application and more.
 - Reaction message
 - Remove message or hide message
 - Call voice and Call video
-- Upload stories
+- Upload stories(painting, text, resize, add sticker, adjust light, ...)
 - Upload notes
 - Share file media
 - Push notifications and Receive notifications
