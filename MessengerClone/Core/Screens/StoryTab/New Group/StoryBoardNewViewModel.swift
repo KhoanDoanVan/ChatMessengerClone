@@ -21,6 +21,7 @@ struct SBText {
     var color: Color = .white
 }
 
+@MainActor
 class StoryBoardNewViewModel: ObservableObject {
     
     // MARK: - Draw Action
@@ -34,6 +35,9 @@ class StoryBoardNewViewModel: ObservableObject {
     
     // MARK: - Text
     @Published var isActionText: Bool = false
+    @Published var isGestureText: Bool = false
     @Published var text: SBText = SBText()
     @Published var textSelectedColor: Color = .white
+    @Published var dropLocationText: CGPoint = .zero
+    @Published var draggedItem: String?
 }

@@ -10,7 +10,7 @@ import UIKit
 
 struct StoryBoardNewView: View {
     
-    @StateObject private var viewModel = StoryBoardNewViewModel()
+    @ObservedObject private var viewModel = StoryBoardNewViewModel()
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
@@ -21,7 +21,47 @@ struct StoryBoardNewView: View {
                 drawTopBar()
                 drawSlider()
                 
+                GeometryReader { geotry in
+                    
+                    Color.clear
+                        .onAppear {
+                            if viewModel.dropLocationText == .zero {
+                                viewModel.dropLocationText = CGPoint(x: geotry.size.width / 2, y: geotry.size.height / 2)
+                            }
+                        }
+                    
+                    if viewModel.text.content != "" && !viewModel.isActionText {
+                        Text(viewModel.text.content)
+                            .font(.system(size: 24))
+                            .padding(8)
+                            .foregroundStyle(viewModel.text.color)
+                            .background(viewModel.text.background ? Color.gray.opacity(0.2) : Color.clear)
+                            .cornerRadius(8)
+                            .position(viewModel.dropLocationText)
+                            .draggable(UUID().uuidString) {
+                                Text("Text")
+                                    .font(.system(size: 24))
+                                    .padding(8)
+                                    .foregroundStyle(viewModel.text.color)
+                                    .background(viewModel.text.background ? Color.gray.opacity(0.2) : Color.clear)
+                                    .cornerRadius(8)
+                                    .position(viewModel.dropLocationText)
+                            }
+                            .onTapGesture {
+                                viewModel.isGestureText = true
+                            }
+                    }
+                }
+                
                 textField()
+            }
+            .dropDestination(for: String.self) { items, location in
+                viewModel.dropLocationText = CGPoint(x: location.x, y: location.y)
+                viewModel.draggedItem = items.first
+                
+                viewModel.isGestureText = false
+                
+                return true
             }
             .frame(maxWidth: .infinity, maxHeight: 670)
             .background(Color(.systemGray6))
@@ -37,8 +77,10 @@ struct StoryBoardNewView: View {
                         .padding(.bottom, 10)
                 }
             } else if viewModel.isActionText {
-                textBarColor()
-                    .padding(.bottom, 10)
+                if !viewModel.isGestureText {
+                    textBarColor()
+                        .padding(.bottom, 10)
+                }
             }
             else {
                 bottomBar()
@@ -56,41 +98,6 @@ struct StoryBoardNewView: View {
                 var path = Path()
                 path.addLines(line.points)
                 context.stroke(path, with: .color(line.color), lineWidth: line.lineWidth)
-            }
-            
-            // Create the text with the desired font and color
-            let formattedText = Text(viewModel.text.content)
-                .font(.system(size: 24))
-                .foregroundStyle(viewModel.text.color)
-            
-            // Measure the size of the text
-            let textSize = context.resolve(formattedText).measure(in: CGSize(width: size.width, height: size.height))
-            
-            // Calculate the center position for the text
-            let textPosition = CGPoint(
-                x: (size.width - textSize.width) / 2,
-                y: (size.height - textSize.height) / 2
-            )
-            
-            // Draw the text on top of the background
-            if !viewModel.isActionText {
-                if viewModel.text.background {
-                    // Draw a rectangle behind the text (this is the background)
-                    let backgroundRect = CGRect(
-                        origin: CGPoint(x: textPosition.x - 10, y: textPosition.y - 10),  // Add some padding
-                        size: CGSize(width: textSize.width + 20, height: textSize.height + 20) // Include padding
-                    )
-                    
-                    /// Corner radius
-                    let roundedRectPath = Path(roundedRect: backgroundRect, cornerRadius: 8)
-                    
-                    context.fill(
-                        roundedRectPath,
-                        with: .color(Color.gray.opacity(0.2)) // Set the background color and opacity
-                    )
-                }
-                
-                context.draw(formattedText, at: textPosition, anchor: .topLeading)
             }
         }
         .gesture(
@@ -145,21 +152,23 @@ struct StoryBoardNewView: View {
                 }
             }
         } else if viewModel.isActionText {
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        withAnimation {
-                            viewModel.isActionText.toggle()
+            if !viewModel.isGestureText {
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button {
+                            withAnimation {
+                                viewModel.isActionText.toggle()
+                            }
+                        } label: {
+                            Text("Done")
+                                .bold()
+                                .foregroundStyle(.white)
                         }
-                    } label: {
-                        Text("Done")
-                            .bold()
-                            .foregroundStyle(.white)
                     }
+                    .padding(.horizontal)
+                    Spacer()
                 }
-                .padding(.horizontal)
-                Spacer()
             }
         }
         else {
