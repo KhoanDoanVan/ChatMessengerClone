@@ -14,11 +14,23 @@ struct SBLine {
     var lineWidth: Double = 3.0
 }
 
-struct SBText {
+struct SBText: Hashable, Identifiable {
+    let id: String = UUID().uuidString
     var content: String = ""
     var alignment: TextAlignment = .center
     var background: Bool = false
     var color: Color = .white
+    var dropLocationText: CGPoint = .zero
+    
+    // Custom Hashable implementation
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id) // Use 'id' as the unique identifier for hashing
+    }
+
+    // Implement Equatable manually for comparing SBText instances
+    static func ==(lhs: SBText, rhs: SBText) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 @MainActor
@@ -36,8 +48,10 @@ class StoryBoardNewViewModel: ObservableObject {
     // MARK: - Text
     @Published var isActionText: Bool = false
     @Published var isGestureText: Bool = false
-    @Published var text: SBText = SBText()
+    @Published var textCurrent: SBText = SBText()
     @Published var textSelectedColor: Color = .white
-    @Published var dropLocationText: CGPoint = .zero
+    @Published var centerGeometry: CGPoint = .zero
     @Published var draggedItem: String?
+    @Published var isDragging: Bool = false
+    @Published var texts: [SBText] = [SBText]()
 }

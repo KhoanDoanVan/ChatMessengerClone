@@ -25,39 +25,66 @@ struct StoryBoardNewView: View {
                     
                     Color.clear
                         .onAppear {
-                            if viewModel.dropLocationText == .zero {
-                                viewModel.dropLocationText = CGPoint(x: geotry.size.width / 2, y: geotry.size.height / 2)
+                            if viewModel.centerGeometry == .zero {
+                                viewModel.centerGeometry = CGPoint(x: geotry.size.width / 2, y: geotry.size.height / 2)
                             }
                         }
                     
-                    if viewModel.text.content != "" && !viewModel.isActionText {
-                        Text(viewModel.text.content)
-                            .font(.system(size: 24))
-                            .padding(8)
-                            .foregroundStyle(viewModel.text.color)
-                            .background(viewModel.text.background ? Color.gray.opacity(0.2) : Color.clear)
-                            .cornerRadius(8)
-                            .position(viewModel.dropLocationText)
-                            .draggable(UUID().uuidString) {
-                                Text("Text")
-                                    .font(.system(size: 24))
-                                    .padding(8)
-                                    .foregroundStyle(viewModel.text.color)
-                                    .background(viewModel.text.background ? Color.gray.opacity(0.2) : Color.clear)
-                                    .cornerRadius(8)
-                                    .position(viewModel.dropLocationText)
+                    if !viewModel.texts.isEmpty {
+                        ForEach(viewModel.texts) { textItem in
+                            Text(textItem.content)
+                                .font(.system(size: 24))
+                                .padding(8)
+                                .foregroundStyle(textItem.color)
+                                .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
+                                .cornerRadius(8)
+                                .position(textItem.dropLocationText)
+                                .draggable(textItem.id) {
+                                    Text(textItem.content)
+                                        .font(.system(size: 24))
+                                        .padding(8)
+                                        .foregroundStyle(textItem.color)
+                                        .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
+                                        .cornerRadius(8)
+                                        .position(textItem.dropLocationText)
+                                        .onAppear {
+                                            viewModel.isDragging = true
+                                        }
+                                }
+                                .onChange(of: textItem.dropLocationText) { oldLocation, newLocation in
+                                    handleTextPositionChange(for: textItem, newLocation: newLocation)
+                                    viewModel.isDragging = false
+                                }
+                                .onAppear {
+                                    print(viewModel.texts)
+                                }
+                        }
+                    }
+                                        
+                    if viewModel.isDragging {
+                        Rectangle()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(.clear)
+                            .overlay {
+                                Image(systemName: "trash.fill")
+                                    .font(.title)
+                                    .foregroundStyle(.white)
+                                    .padding(10)
+                                    .background(.black)
+                                    .clipShape(Circle())
                             }
-                            .onTapGesture {
-                                viewModel.isGestureText = true
-                            }
+                            .position(CGPoint(x: geotry.size.width / 2, y: geotry.size.height - 40))
                     }
                 }
                 
                 textField()
             }
             .dropDestination(for: String.self) { items, location in
-                viewModel.dropLocationText = CGPoint(x: location.x, y: location.y)
-                viewModel.draggedItem = items.first
+                if let draggedId = items.first {
+                    if let index = viewModel.texts.firstIndex(where: { $0.id == draggedId }) {
+                        viewModel.texts[index].dropLocationText = CGPoint(x: location.x, y: location.y)
+                    }
+                }
                 
                 viewModel.isGestureText = false
                 
@@ -77,10 +104,10 @@ struct StoryBoardNewView: View {
                         .padding(.bottom, 10)
                 }
             } else if viewModel.isActionText {
-                if !viewModel.isGestureText {
-                    textBarColor()
-                        .padding(.bottom, 10)
-                }
+                textBarColor()
+                    .padding(.bottom, 10)
+            } else if viewModel.isDragging {
+                
             }
             else {
                 bottomBar()
@@ -88,6 +115,16 @@ struct StoryBoardNewView: View {
                     .padding(.bottom, 10)
             }
         }
+    }
+    
+    /// Handle Change in Text Position
+    private func handleTextPositionChange(for textItem: SBText, newLocation: CGPoint) {
+        if (newLocation.x <= 236.5 && newLocation.x >= 156.5) && (newLocation.y <= 650 && newLocation.y >= 570) {
+            if let index = viewModel.texts.firstIndex(where: { $0.id == textItem.id }) {
+                viewModel.texts.remove(at: index)
+            }
+        }
+        viewModel.isDragging = false
     }
     
     /// Main Canvas
@@ -159,6 +196,9 @@ struct StoryBoardNewView: View {
                         Button {
                             withAnimation {
                                 viewModel.isActionText.toggle()
+                                viewModel.textCurrent.dropLocationText = viewModel.centerGeometry
+                                viewModel.texts.append(viewModel.textCurrent)
+                                viewModel.textCurrent = SBText()
                             }
                         } label: {
                             Text("Done")
@@ -170,6 +210,8 @@ struct StoryBoardNewView: View {
                     Spacer()
                 }
             }
+        } else if viewModel.isDragging {
+            
         }
         else {
             topBar()
@@ -266,31 +308,31 @@ struct StoryBoardNewView: View {
     private func textField() -> some View {
         if viewModel.isActionText {
             ZStack {
-                if !viewModel.text.content.isEmpty {
+                if !viewModel.textCurrent.content.isEmpty {
                     HStack {
-                        if viewModel.text.alignment == .trailing {
+                        if viewModel.textCurrent.alignment == .trailing {
                             Spacer()
                         }
                         
-                        Text(viewModel.text.content)
+                        Text(viewModel.textCurrent.content)
                             .font(.system(size: 24))
                             .padding(8)
-                            .foregroundStyle(viewModel.text.color)
-                            .background(viewModel.text.background ? Color.gray.opacity(0.2) : Color.clear)
+                            .foregroundStyle(viewModel.textCurrent.color)
+                            .background(viewModel.textCurrent.background ? Color.gray.opacity(0.2) : Color.clear)
                             .cornerRadius(8)
                         
-                        if viewModel.text.alignment == .leading {
+                        if viewModel.textCurrent.alignment == .leading {
                             Spacer()
                         }
                     }
                 }
                 
-                TextField("", text: $viewModel.text.content)
-                    .multilineTextAlignment(viewModel.text.alignment)
+                TextField("", text: $viewModel.textCurrent.content)
+                    .multilineTextAlignment(viewModel.textCurrent.alignment)
                     .focused($isTextFieldFocused)
-                    .foregroundStyle(viewModel.text.color)
+                    .foregroundStyle(viewModel.textCurrent.color)
                     .font(.system(size: 24))
-                    .opacity(viewModel.text.content.isEmpty ? 1 : 0)
+                    .opacity(viewModel.textCurrent.content.isEmpty ? 1 : 0)
             }
             .padding(4)
         }
@@ -302,20 +344,20 @@ struct StoryBoardNewView: View {
         if viewModel.isActionText {
             HStack(spacing: 10) {
                 Button {
-                    if viewModel.text.alignment == .center {
-                        viewModel.text.alignment = .leading
-                    } else if viewModel.text.alignment == .leading {
-                        viewModel.text.alignment = .trailing
+                    if viewModel.textCurrent.alignment == .center {
+                        viewModel.textCurrent.alignment = .leading
+                    } else if viewModel.textCurrent.alignment == .leading {
+                        viewModel.textCurrent.alignment = .trailing
                     } else {
-                        viewModel.text.alignment = .center
+                        viewModel.textCurrent.alignment = .center
                     }
                 } label: {
-                    if viewModel.text.alignment == .center {
+                    if viewModel.textCurrent.alignment == .center {
                         Image(systemName: "text.aligncenter")
                             .bold()
                             .foregroundStyle(.white)
                             .font(.title2)
-                    } else if viewModel.text.alignment == .leading {
+                    } else if viewModel.textCurrent.alignment == .leading {
                         Image(systemName: "text.alignleft")
                             .bold()
                             .foregroundStyle(.white)
@@ -358,16 +400,16 @@ struct StoryBoardNewView: View {
                             .padding(.horizontal, 5)
                         }
                         .onChange(of: viewModel.textSelectedColor) { oldValue, newValue in
-                            viewModel.text.color = newValue
+                            viewModel.textCurrent.color = newValue
                         }
                     }
                     .padding(.vertical, 8)
                     .padding(.horizontal, 8)
                 }
                 Button {
-                    viewModel.text.background.toggle()
+                    viewModel.textCurrent.background.toggle()
                 } label: {
-                    Image(systemName: viewModel.text.background ? "t.square.fill" : "t.square")
+                    Image(systemName: viewModel.textCurrent.background ? "t.square.fill" : "t.square")
                         .bold()
                         .foregroundStyle(.white)
                         .font(.title)
