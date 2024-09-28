@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import Kingfisher
 
 struct StoryBoardNewView: View {
     
@@ -30,6 +31,7 @@ struct StoryBoardNewView: View {
                             }
                         }
                     
+                    // MARK: Texts Display
                     if !viewModel.texts.isEmpty {
                         ForEach(viewModel.texts) { textItem in
                             Text(textItem.content)
@@ -48,20 +50,43 @@ struct StoryBoardNewView: View {
                                         .cornerRadius(8)
                                         .position(textItem.dropLocationText)
                                         .onAppear {
-                                            viewModel.isDragging = true
+                                            viewModel.isDraggingText = true
                                         }
                                 }
                                 .onChange(of: textItem.dropLocationText) { oldLocation, newLocation in
                                     handleTextPositionChange(for: textItem, newLocation: newLocation)
-                                    viewModel.isDragging = false
+                                    viewModel.isDraggingText = false
                                 }
-                                .onAppear {
-                                    print(viewModel.texts)
+                        }
+                    }
+                    
+                    // MARK: Stickers Display
+                    if !viewModel.stickers.isEmpty {
+                        ForEach(viewModel.stickers) { stickerItem in
+                            KFImage(URL(string: stickerItem.url))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: stickerItem.width)
+                                .frame(height: stickerItem.width)
+                                .position(stickerItem.dropLocationSticker)
+                                .draggable(stickerItem.id) {
+                                    KFImage(URL(string: stickerItem.url))
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: stickerItem.width)
+                                        .frame(height: stickerItem.width)
+                                        .position(stickerItem.dropLocationSticker)
+                                        .onAppear {
+                                            viewModel.isDraggingSticker = true
+                                        }
+                                }
+                                .onChange(of: stickerItem.dropLocationSticker) { oldLocation, newLocation in
+                                    viewModel.isDraggingSticker = false
                                 }
                         }
                     }
                                         
-                    if viewModel.isDragging {
+                    if viewModel.isDraggingText {
                         Rectangle()
                             .frame(width: 40, height: 40)
                             .foregroundStyle(.clear)
@@ -80,14 +105,24 @@ struct StoryBoardNewView: View {
                 textField()
             }
             .dropDestination(for: String.self) { items, location in
-                if let draggedId = items.first {
-                    if let index = viewModel.texts.firstIndex(where: { $0.id == draggedId }) {
-                        viewModel.texts[index].dropLocationText = CGPoint(x: location.x, y: location.y)
+                if viewModel.isDraggingText {
+                    if let draggedId = items.first {
+                        if let index = viewModel.texts.firstIndex(where: { $0.id == draggedId }) {
+                            viewModel.texts[index].dropLocationText = CGPoint(x: location.x, y: location.y)
+                        }
                     }
+                    
+                    viewModel.isGestureText = false
                 }
                 
-                viewModel.isGestureText = false
-                
+                if viewModel.isDraggingSticker {
+                    if let draggedId = items.first {
+                        if let index = viewModel.stickers.firstIndex(where: { $0.id == draggedId }) {
+                            viewModel.stickers[index].dropLocationSticker = CGPoint(x: location.x, y: location.y)
+                        }
+                    }
+                }
+                                
                 return true
             }
             .frame(maxWidth: .infinity, maxHeight: 670)
@@ -106,7 +141,7 @@ struct StoryBoardNewView: View {
             } else if viewModel.isActionText {
                 textBarColor()
                     .padding(.bottom, 10)
-            } else if viewModel.isDragging {
+            } else if viewModel.isDraggingText {
                 
             }
             else {
@@ -117,7 +152,7 @@ struct StoryBoardNewView: View {
         }
         .sheet(isPresented: $viewModel.isShowSheetSticker) {
             SheetStickerView(listStickers: $viewModel.listStickers) { sticker in
-                print(sticker)
+                viewModel.addSticker(sticker)
             }
         }
     }
@@ -129,7 +164,7 @@ struct StoryBoardNewView: View {
                 viewModel.texts.remove(at: index)
             }
         }
-        viewModel.isDragging = false
+        viewModel.isDraggingText = false
     }
     
     /// Main Canvas
@@ -215,7 +250,7 @@ struct StoryBoardNewView: View {
                     Spacer()
                 }
             }
-        } else if viewModel.isDragging {
+        } else if viewModel.isDraggingText {
             
         }
         else {

@@ -10,6 +10,8 @@ import Kingfisher
 
 struct SheetStickerView: View {
     
+    @Environment(\.dismiss) private var dismiss
+    
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
@@ -33,6 +35,7 @@ struct SheetStickerView: View {
                             }
                         }
                     }
+                    .padding(.top, 30)
                 } else {
                     ProgressView()
                 }
@@ -44,6 +47,7 @@ struct SheetStickerView: View {
     private func cellSticker(_ sticker: StickerItem) -> some View {
         Button {
             handleActionPickerSticker(sticker)
+            dismiss()
         } label: {
             KFImage(URL(string: sticker.images.fixedHeight.url))
                 .resizable()
