@@ -11,5 +11,5 @@ import Foundation
 enum APIConstants {
     static let apikey = "U3RpY2tlci0yODcyMQ=="
     
-    static let urlSticker = "https://mojilala.com/stickers-emojis/stickers"
+    static let urlSticker = "https://api.mojilala.com/v1/stickers/trending?api_key=dc6zaTOxFJmzC"
 }

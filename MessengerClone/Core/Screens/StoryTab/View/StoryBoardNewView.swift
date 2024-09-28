@@ -115,6 +115,11 @@ struct StoryBoardNewView: View {
                     .padding(.bottom, 10)
             }
         }
+        .sheet(isPresented: $viewModel.isShowSheetSticker) {
+            SheetStickerView(listStickers: $viewModel.listStickers) { sticker in
+                print(sticker)
+            }
+        }
     }
     
     /// Handle Change in Text Position
@@ -459,7 +464,9 @@ struct StoryBoardNewView: View {
                             .font(.title2)
                     }
                     Button {
-                        
+                        withAnimation {
+                            viewModel.showStickerPicker()
+                        }
                     } label: {
                         Image(systemName: "face.smiling")
                             .foregroundStyle(.white)

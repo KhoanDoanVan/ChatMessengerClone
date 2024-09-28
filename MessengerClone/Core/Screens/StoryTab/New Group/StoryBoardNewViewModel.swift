@@ -54,4 +54,51 @@ class StoryBoardNewViewModel: ObservableObject {
     @Published var draggedItem: String?
     @Published var isDragging: Bool = false
     @Published var texts: [SBText] = [SBText]()
+    
+    // MARK: - Sticker
+    @Published var isShowSheetSticker: Bool = false
+    @Published var listStickers: [StickerItem]?
+    
+    
+    /// Show Sticker Picker
+    func showStickerPicker() {
+        self.isShowSheetSticker.toggle()
+        
+        if let listStickers = listStickers {
+            fetchStickers() { stickers in
+                if let stickers = stickers {
+                    print("List Stickers: \(stickers)")
+                    self.listStickers = stickers
+                } else {
+                    print("fetchStickerError Failed")
+                }
+            }
+        }
+    }
+    
+    /// Fetch Stickers
+    private func fetchStickers(completion: @escaping ([StickerItem]?) -> Void) {
+        guard let url = URL(string: "https://api.mojilala.com/v1/stickers/trending?api_key=dc6zaTOxFJmzC") else {
+            print("URL not exactly.")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch data \(String(describing: error?.localizedDescription))")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let stickerResponse = try JSONDecoder().decode(Welcome.self, from: data)
+                print(stickerResponse)
+                completion(stickerResponse.data)
+            } catch {
+                print("Failed to decode JSON Sticker: \(error)")
+                completion(nil)
+            }
+        }
+    }
 }

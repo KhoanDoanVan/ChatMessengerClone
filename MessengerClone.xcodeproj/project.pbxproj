@@ -102,6 +102,7 @@
 		46D19B852CA392C5007DB804 /* StoryBoardNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D19B842CA392C5007DB804 /* StoryBoardNewViewModel.swift */; };
 		46D19B872CA3935A007DB804 /* ColorPickerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D19B862CA3935A007DB804 /* ColorPickerConstants.swift */; };
 		46D19B892CA39DE5007DB804 /* UISliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D19B882CA39DE5007DB804 /* UISliderView.swift */; };
+		46D19BDC2CA782B4007DB804 /* SheetStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D19BDB2CA782B4007DB804 /* SheetStickerView.swift */; };
 		46E0B5502C50D14C0059C928 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E0B54F2C50D14C0059C928 /* Assets.xcassets */; };
 		46E0B5532C50D14C0059C928 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46E0B5522C50D14C0059C928 /* Preview Assets.xcassets */; };
 		46EE7B682C9939A20077ABAB /* StreamVideo in Frameworks */ = {isa = PBXBuildFile; productRef = 46EE7B672C9939A20077ABAB /* StreamVideo */; };
@@ -224,6 +225,7 @@
 		46D19B842CA392C5007DB804 /* StoryBoardNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBoardNewViewModel.swift; sourceTree = "<group>"; };
 		46D19B862CA3935A007DB804 /* ColorPickerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerConstants.swift; sourceTree = "<group>"; };
 		46D19B882CA39DE5007DB804 /* UISliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISliderView.swift; sourceTree = "<group>"; };
+		46D19BDB2CA782B4007DB804 /* SheetStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStickerView.swift; sourceTree = "<group>"; };
 		46E0B54F2C50D14C0059C928 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		46E0B5522C50D14C0059C928 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		46EE7B702C993F260077ABAB /* VideoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoScreen.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 				467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */,
 				46AA92622C60DAA8003F9CEB /* StoryCellView.swift */,
 				46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */,
+				46D19BDB2CA782B4007DB804 /* SheetStickerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -838,6 +841,7 @@
 				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
+				46D19BDC2CA782B4007DB804 /* SheetStickerView.swift in Sources */,
 				466EA9702C9ACCA60021F753 /* ChannelItemView.swift in Sources */,
 				466EA96A2C9ACC220021F753 /* ListStoryView.swift in Sources */,
 				46749F5F2C64ABAC00A8A4BD /* SwitchAccountView.swift in Sources */,
