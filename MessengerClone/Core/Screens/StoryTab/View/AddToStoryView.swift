@@ -44,8 +44,8 @@ struct AddToStoryView: View {
                 leadingButton()
             }
             .fullScreenCover(isPresented: $viewModel.isShowStoryBoard) {
-                if let uiImage = viewModel.uiImagePicker {
-                    StoryBoardNewView()
+                StoryBoardNewView() {
+                    viewModel.isShowStoryBoard = false
                 }
             }
         }
@@ -54,8 +54,7 @@ struct AddToStoryView: View {
     /// Cell Attachment
     private func cellAttachment(_ attachment: MediaAttachment) -> some View {
         Button {
-            viewModel.uiImagePicker = attachment.thumbnail
-            viewModel.isShowStoryBoard.toggle()
+            
         } label: {
             Image(uiImage: attachment.thumbnail)
                 .resizable()
@@ -70,6 +69,9 @@ struct AddToStoryView: View {
         HStack {
             ForEach(StoryType.allCases) { type in
                 ButtonTypeStoryView(type)
+                    .onTapGesture {
+                        viewModel.isShowStoryBoard.toggle()
+                    }
             }
         }
     }

@@ -8,129 +8,24 @@
 import SwiftUI
 import UIKit
 import Kingfisher
+import Photos
 
 struct StoryBoardNewView: View {
     
     @ObservedObject private var viewModel = StoryBoardNewViewModel()
     @FocusState private var isTextFieldFocused: Bool
     
+    let handleAction: () -> Void
+    
     var body: some View {
         VStack {
             ZStack {
-                canvasView()
+                mainView()
                 
                 drawTopBar()
-                drawSlider()
-                
-                GeometryReader { geotry in
-                    
-                    Color.clear
-                        .onAppear {
-                            if viewModel.centerGeometry == .zero {
-                                viewModel.centerGeometry = CGPoint(x: geotry.size.width / 2, y: geotry.size.height / 2)
-                            }
-                        }
-                    
-                    // MARK: Texts Display
-                    if !viewModel.texts.isEmpty {
-                        ForEach(viewModel.texts) { textItem in
-                            Text(textItem.content)
-                                .font(.system(size: 24))
-                                .padding(8)
-                                .foregroundStyle(textItem.color)
-                                .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
-                                .cornerRadius(8)
-                                .position(textItem.dropLocationText)
-                                .draggable(textItem.id) {
-                                    Text(textItem.content)
-                                        .font(.system(size: 24))
-                                        .padding(8)
-                                        .foregroundStyle(textItem.color)
-                                        .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
-                                        .cornerRadius(8)
-                                        .position(textItem.dropLocationText)
-                                        .onAppear {
-                                            viewModel.isDraggingText = true
-                                        }
-                                }
-                                .onChange(of: textItem.dropLocationText) { oldLocation, newLocation in
-                                    handleTextPositionChange(for: textItem, newLocation: newLocation)
-                                    viewModel.isDraggingText = false
-                                }
-                        }
-                    }
-                    
-                    // MARK: Stickers Display
-                    if !viewModel.stickers.isEmpty {
-                        ForEach(viewModel.stickers) { stickerItem in
-                            KFImage(URL(string: stickerItem.url))
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: stickerItem.width)
-                                .frame(height: stickerItem.width)
-                                .position(stickerItem.dropLocationSticker)
-                                .draggable(stickerItem.id) {
-                                    KFImage(URL(string: stickerItem.url))
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: stickerItem.width)
-                                        .frame(height: stickerItem.width)
-                                        .position(stickerItem.dropLocationSticker)
-                                        .onAppear {
-                                            viewModel.isDraggingSticker = true
-                                        }
-                                }
-                                .onChange(of: stickerItem.dropLocationSticker) { oldLocation, newLocation in
-                                    viewModel.isDraggingSticker = false
-                                }
-                        }
-                    }
-                                        
-                    if viewModel.isDraggingText {
-                        Rectangle()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.clear)
-                            .overlay {
-                                Image(systemName: "trash.fill")
-                                    .font(.title)
-                                    .foregroundStyle(.white)
-                                    .padding(10)
-                                    .background(.black)
-                                    .clipShape(Circle())
-                            }
-                            .position(CGPoint(x: geotry.size.width / 2, y: geotry.size.height - 40))
-                    }
-                }
-                
-                textField()
+                    .safeAreaPadding(.top)
             }
-            .dropDestination(for: String.self) { items, location in
-                if viewModel.isDraggingText {
-                    if let draggedId = items.first {
-                        if let index = viewModel.texts.firstIndex(where: { $0.id == draggedId }) {
-                            viewModel.texts[index].dropLocationText = CGPoint(x: location.x, y: location.y)
-                        }
-                    }
-                    
-                    viewModel.isGestureText = false
-                }
-                
-                if viewModel.isDraggingSticker {
-                    if let draggedId = items.first {
-                        if let index = viewModel.stickers.firstIndex(where: { $0.id == draggedId }) {
-                            viewModel.stickers[index].dropLocationSticker = CGPoint(x: location.x, y: location.y)
-                        }
-                    }
-                }
-                                
-                return true
-            }
-            .frame(maxWidth: .infinity, maxHeight: 670)
-            .background(Color(.systemGray6))
-            .safeAreaPadding(.top)
-            .clipShape(
-                .rect(cornerRadius: 20)
-            )
+            
             Spacer()
             
             if viewModel.isActionDraw {
@@ -153,6 +48,135 @@ struct StoryBoardNewView: View {
         .sheet(isPresented: $viewModel.isShowSheetSticker) {
             SheetStickerView(listStickers: $viewModel.listStickers) { sticker in
                 viewModel.addSticker(sticker)
+            }
+        }
+    }
+    
+    // Helper function to save the image to Photos
+    private func saveImageToPhotos(_ image: UIImage?) {
+        guard let image = image else { return }
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+    }
+
+    
+    /// Main View
+    private func mainView() -> some View {
+        ZStack {
+            canvasView()
+            drawSlider()
+            
+            geometryView()
+            
+            textField()
+        }
+        .dropDestination(for: String.self) { items, location in
+            if viewModel.isDraggingText {
+                if let draggedId = items.first {
+                    if let index = viewModel.texts.firstIndex(where: { $0.id == draggedId }) {
+                        viewModel.texts[index].dropLocationText = CGPoint(x: location.x, y: location.y)
+                    }
+                }
+                
+                viewModel.isGestureText = false
+            }
+            
+            if viewModel.isDraggingSticker {
+                if let draggedId = items.first {
+                    if let index = viewModel.stickers.firstIndex(where: { $0.id == draggedId }) {
+                        viewModel.stickers[index].dropLocationSticker = CGPoint(x: location.x, y: location.y)
+                    }
+                }
+            }
+                            
+            return true
+        }
+        .frame(maxWidth: .infinity, maxHeight: 670)
+        .background(Color(.systemGray6))
+        .safeAreaPadding(.top)
+        .clipShape(
+            .rect(cornerRadius: 20)
+        )
+    }
+    
+    /// Geometry View
+    private func geometryView() -> some View {
+        GeometryReader { geotry in
+            
+            Color.clear
+                .onAppear {
+                    if viewModel.centerGeometry == .zero {
+                        viewModel.centerGeometry = CGPoint(x: geotry.size.width / 2, y: geotry.size.height / 2)
+                    }
+                }
+            
+            // MARK: Texts Display
+            if !viewModel.texts.isEmpty {
+                ForEach(viewModel.texts) { textItem in
+                    Text(textItem.content)
+                        .font(.system(size: 24))
+                        .padding(8)
+                        .foregroundStyle(textItem.color)
+                        .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
+                        .cornerRadius(8)
+                        .position(textItem.dropLocationText)
+                        .draggable(textItem.id) {
+                            Text(textItem.content)
+                                .font(.system(size: 24))
+                                .padding(8)
+                                .foregroundStyle(textItem.color)
+                                .background(textItem.background ? Color.gray.opacity(0.2) : Color.clear)
+                                .cornerRadius(8)
+                                .position(textItem.dropLocationText)
+                                .onAppear {
+                                    viewModel.isDraggingText = true
+                                }
+                        }
+                        .onChange(of: textItem.dropLocationText) { oldLocation, newLocation in
+                            handleTextPositionChange(for: textItem, newLocation: newLocation)
+                            viewModel.isDraggingText = false
+                        }
+                }
+            }
+            
+            // MARK: Stickers Display
+            if !viewModel.stickers.isEmpty {
+                ForEach(viewModel.stickers) { stickerItem in
+                    KFImage(URL(string: stickerItem.url))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: stickerItem.width)
+                        .frame(height: stickerItem.width)
+                        .position(stickerItem.dropLocationSticker)
+                        .draggable(stickerItem.id) {
+                            KFImage(URL(string: stickerItem.url))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: stickerItem.width)
+                                .frame(height: stickerItem.width)
+                                .position(stickerItem.dropLocationSticker)
+                                .onAppear {
+                                    viewModel.isDraggingSticker = true
+                                }
+                        }
+                        .onChange(of: stickerItem.dropLocationSticker) { oldLocation, newLocation in
+                            viewModel.isDraggingSticker = false
+                        }
+                }
+            }
+                                
+            if viewModel.isDraggingText {
+                Rectangle()
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.clear)
+                    .overlay {
+                        Image(systemName: "trash.fill")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                            .padding(10)
+                            .background(.black)
+                            .clipShape(Circle())
+                    }
+                    .position(CGPoint(x: geotry.size.width / 2, y: geotry.size.height - 40))
             }
         }
     }
@@ -465,7 +489,7 @@ struct StoryBoardNewView: View {
         VStack {
             HStack {
                 Button {
-                    
+                    handleAction()
                 } label: {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.white)
@@ -509,9 +533,10 @@ struct StoryBoardNewView: View {
                             .font(.title2)
                     }
                     Button {
-                        
+                        let image = SnapshotHelper.takeSnapshot(of: mainView(), size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+                        saveImageToPhotos(image)
                     } label: {
-                        Image(systemName: "scissors")
+                        Image(systemName: "arrow.down.to.line")
                             .foregroundStyle(.white)
                             .bold()
                             .font(.title2)
@@ -564,5 +589,7 @@ struct StoryBoardNewView: View {
 }
 
 #Preview {
-    StoryBoardNewView()
+    StoryBoardNewView() {
+        
+    }
 }

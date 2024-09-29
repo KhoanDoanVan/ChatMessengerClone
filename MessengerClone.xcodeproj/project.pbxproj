@@ -11,6 +11,8 @@
 		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
 		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085E2C9D76AC00D542EF /* StickerPickerView.swift */; };
+		4611F7E62CA95C24004D736D /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7E52CA95C24004D736D /* View+Extension.swift */; };
+		4611F7E82CA9757E004D736D /* SnapHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7E72CA9757D004D736D /* SnapHelper.swift */; };
 		4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4624583D2C9D87BE00F77815 /* BubbleStickerView.swift */; };
 		46335F692C78678300ED9DFC /* PickerPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46335F682C78678300ED9DFC /* PickerPhotoView.swift */; };
 		46389BDC2C75C9A40020D804 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */; };
@@ -135,6 +137,8 @@
 		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
 		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		460E085E2C9D76AC00D542EF /* StickerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerView.swift; sourceTree = "<group>"; };
+		4611F7E52CA95C24004D736D /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		4611F7E72CA9757D004D736D /* SnapHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapHelper.swift; sourceTree = "<group>"; };
 		4624583D2C9D87BE00F77815 /* BubbleStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleStickerView.swift; sourceTree = "<group>"; };
 		46335F682C78678300ED9DFC /* PickerPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerPhotoView.swift; sourceTree = "<group>"; };
 		46335F6A2C7876CC00ED9DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -280,6 +284,7 @@
 				46389BE42C75D89B0020D804 /* FirebaseHelper.swift */,
 				4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */,
 				4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */,
+				4611F7E72CA9757D004D736D /* SnapHelper.swift */,
 			);
 			path = Hepler;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 				464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */,
 				4677AE2E2C9125F3000795C7 /* Date+Extension.swift */,
 				464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */,
+				4611F7E52CA95C24004D736D /* View+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -821,6 +827,7 @@
 				465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */,
 				46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */,
 				46D19B892CA39DE5007DB804 /* UISliderView.swift in Sources */,
+				4611F7E82CA9757E004D736D /* SnapHelper.swift in Sources */,
 				4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */,
 				465EBE6F2C6B5F8F00A97E77 /* AuthService.swift in Sources */,
 				46749F6A2C65FA7300A8A4BD /* TextInputArea.swift in Sources */,
@@ -831,6 +838,7 @@
 				46B3EA132C71F1F20057619A /* MessageService.swift in Sources */,
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
 				4677AE252C899F68000795C7 /* BlurView.swift in Sources */,
+				4611F7E62CA95C24004D736D /* View+Extension.swift in Sources */,
 				467751E62CA261FE00D874F1 /* AddToStoryViewModel.swift in Sources */,
 				467751E82CA26A6800D874F1 /* StoryBoardNewView.swift in Sources */,
 				465EBE962C6C495500A97E77 /* ChannelItem.swift in Sources */,
