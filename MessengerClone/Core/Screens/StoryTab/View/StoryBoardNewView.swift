@@ -21,9 +21,10 @@ struct StoryBoardNewView: View {
         VStack {
             ZStack {
                 mainView()
+                    .padding(.top, 10)
                 
                 drawTopBar()
-                    .safeAreaPadding(.top)
+                    .padding(.top)
             }
             
             Spacer()
@@ -141,14 +142,14 @@ struct StoryBoardNewView: View {
             // MARK: Stickers Display
             if !viewModel.stickers.isEmpty {
                 ForEach(viewModel.stickers) { stickerItem in
-                    KFImage(URL(string: stickerItem.url))
+                    Image(uiImage: stickerItem.image)
                         .resizable()
                         .scaledToFill()
                         .frame(width: stickerItem.width)
                         .frame(height: stickerItem.width)
                         .position(stickerItem.dropLocationSticker)
                         .draggable(stickerItem.id) {
-                            KFImage(URL(string: stickerItem.url))
+                            Image(uiImage: stickerItem.image)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: stickerItem.width)
@@ -179,6 +180,7 @@ struct StoryBoardNewView: View {
                     .position(CGPoint(x: geotry.size.width / 2, y: geotry.size.height - 40))
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: 670)
     }
     
     /// Handle Change in Text Position

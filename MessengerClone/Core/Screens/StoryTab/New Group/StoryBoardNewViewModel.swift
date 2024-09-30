@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct SBLine {
     var points: [CGPoint] = [CGPoint]()
@@ -35,7 +36,7 @@ struct SBText: Hashable, Identifiable {
 
 struct SBSticker: Identifiable {
     let id: String = UUID().uuidString
-    var url: String = ""
+    var image: UIImage = UIImage()
     var width: Double = 0
     var dropLocationSticker: CGPoint = .zero
 }
@@ -115,8 +116,37 @@ class StoryBoardNewViewModel: ObservableObject {
     /// Add sticker to list sticker
     func addSticker(_ sticker: StickerItem) {
         let url = sticker.images.fixedHeight.url
-        let sticker = SBSticker(url: url, width: 100, dropLocationSticker: centerGeometry)
         
-        self.stickers.append(sticker)
+        guard let url = URL(string: url) else {
+            print("Invalid URL sticker")
+            return
+        }
+                
+        fetchImage(url) { [weak self] uiImage in
+            guard let self else { return }
+            
+            let sticker = SBSticker(image: uiImage ?? UIImage(), width: 100, dropLocationSticker: centerGeometry)
+            
+            stickers.append(sticker)
+        }
+    }
+    
+    /// Fetch image
+    func fetchImage(_ url: URL, completion: @escaping (UIImage?) -> Void) {
+                
+        URLSession.shared.dataTask(with: url) { data, response, error in
+                        
+            guard let data, error == nil
+            else {
+                print("Error fetching image: \(String(describing: error?.localizedDescription))")
+                completion(nil)
+                return
+            }
+            
+            
+            let image = UIImage(data: data)
+            
+            completion(image)
+        }.resume()
     }
 }
