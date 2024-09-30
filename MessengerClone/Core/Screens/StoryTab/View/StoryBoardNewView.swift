@@ -84,7 +84,9 @@ struct StoryBoardNewView: View {
             if viewModel.isDraggingSticker {
                 if let draggedId = items.first {
                     if let index = viewModel.stickers.firstIndex(where: { $0.id == draggedId }) {
-                        viewModel.stickers[index].dropLocationSticker = CGPoint(x: location.x, y: location.y)
+                        DispatchQueue.main.async {
+                            viewModel.stickers[index].dropLocationSticker = CGPoint(x: location.x, y: location.y)
+                        }
                     }
                 }
             }
@@ -536,7 +538,9 @@ struct StoryBoardNewView: View {
                     }
                     Button {
                         let image = SnapshotHelper.takeSnapshot(of: mainView(), size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+                        
                         saveImageToPhotos(image)
+                        
                     } label: {
                         Image(systemName: "arrow.down.to.line")
                             .foregroundStyle(.white)
@@ -575,7 +579,9 @@ struct StoryBoardNewView: View {
             Spacer()
             
             Button {
-                
+                let image = SnapshotHelper.takeSnapshot(of: mainView(), size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+                viewModel.createStory(image)
+                handleAction()
             } label: {
                 Text("Add to story")
                     .fontWeight(.bold)

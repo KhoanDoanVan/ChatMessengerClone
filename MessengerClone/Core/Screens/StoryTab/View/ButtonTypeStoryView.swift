@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ButtonTypeStoryView: View {
     
-    let storyType: StoryType
+    let storyType: StoryChooseType
     
-    init(_ storyType: StoryType) {
+    init(_ storyType: StoryChooseType) {
         self.storyType = storyType
     }
     

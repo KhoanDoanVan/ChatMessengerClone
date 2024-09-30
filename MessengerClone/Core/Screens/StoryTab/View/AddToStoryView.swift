@@ -67,7 +67,7 @@ struct AddToStoryView: View {
     /// Top Select Box
     private func topSelect() -> some View {
         HStack {
-            ForEach(StoryType.allCases) { type in
+            ForEach(StoryChooseType.allCases) { type in
                 ButtonTypeStoryView(type)
                     .onTapGesture {
                         viewModel.isShowStoryBoard.toggle()
@@ -115,7 +115,7 @@ extension AddToStoryView {
     }
 }
 
-enum StoryType: String, CaseIterable, Identifiable {
+enum StoryChooseType: String, CaseIterable, Identifiable {
     case camera
     case text
     

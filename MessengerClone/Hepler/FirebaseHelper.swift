@@ -82,6 +82,7 @@ extension FirebaseHelper {
         case photoMessage
         case videoMessage
         case audioMessage
+        case photoStory
         
         var filePath: StorageReference {
             let filename = UUID().uuidString
@@ -95,6 +96,8 @@ extension FirebaseHelper {
                 return FirebaseConstants.StorageRef.child("message_video").child(filename)
             case .audioMessage:
                 return FirebaseConstants.StorageRef.child("message_audio").child(filename)
+            case .photoStory:
+                return FirebaseConstants.StorageRef.child("story_photo").child(filename)
             }
         }
     }

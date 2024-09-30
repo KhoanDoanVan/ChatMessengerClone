@@ -72,6 +72,8 @@ class StoryBoardNewViewModel: ObservableObject {
     @Published var stickers: [SBSticker] = [SBSticker]()
     @Published var isDraggingSticker: Bool = false
     
+    // MARK: - Upload
+    @Published var uiImage: UIImage?
     
     /// Show Sticker Picker
     func showStickerPicker() {
@@ -122,12 +124,11 @@ class StoryBoardNewViewModel: ObservableObject {
             return
         }
                 
-        fetchImage(url) { [weak self] uiImage in
-            guard let self else { return }
-            
-            let sticker = SBSticker(image: uiImage ?? UIImage(), width: 100, dropLocationSticker: centerGeometry)
-            
-            stickers.append(sticker)
+        fetchImage(url) { uiImage in            
+            DispatchQueue.main.async {
+                let sticker = SBSticker(image: uiImage ?? UIImage(), width: 100, dropLocationSticker: self.centerGeometry)
+                self.stickers.append(sticker)
+            }
         }
     }
     
@@ -148,5 +149,35 @@ class StoryBoardNewViewModel: ObservableObject {
             
             completion(image)
         }.resume()
+    }
+    
+    /// upload image story
+    private func uploadImageStoryToStorage(_ uiImage: UIImage? ,completion: @escaping (URL?) -> Void) {
+        
+        guard let uiImage else { return }
+        
+        FirebaseHelper.uploadImagePhoto(uiImage, for: .photoStory) { result in
+            switch result {
+                
+            case .success(let imageUrl):
+                completion(imageUrl)
+            case .failure(let failure):
+                completion(nil)
+                print("Failure uploadImageToStorage with error: \(failure.localizedDescription)")
+            }
+        } progressHandler: { progress in
+            print("Progress uploadImageToStorage: \(progress)")
+        }
+    }
+    
+    /// create new story
+    func createStory(_ uiImage: UIImage?) {
+        uploadImageStoryToStorage(uiImage) { url in
+            guard let url else { return }
+            
+            StoryService.createNewStory(url) {
+                print("Upload Story Success")
+            }
+        }
     }
 }
