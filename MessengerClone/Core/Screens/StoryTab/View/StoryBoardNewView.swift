@@ -15,7 +15,7 @@ struct StoryBoardNewView: View {
     @ObservedObject private var viewModel = StoryBoardNewViewModel()
     @FocusState private var isTextFieldFocused: Bool
     
-    let handleAction: () -> Void
+    let handleAction: (_ action: AddToStoryAction) -> Void
     
     var body: some View {
         VStack {
@@ -493,7 +493,7 @@ struct StoryBoardNewView: View {
         VStack {
             HStack {
                 Button {
-                    handleAction()
+                    handleAction(.back)
                 } label: {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.white)
@@ -581,7 +581,7 @@ struct StoryBoardNewView: View {
             Button {
                 let image = SnapshotHelper.takeSnapshot(of: mainView(), size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
                 viewModel.createStory(image)
-                handleAction()
+                handleAction(.addToStory)
             } label: {
                 Text("Add to story")
                     .fontWeight(.bold)
@@ -597,7 +597,7 @@ struct StoryBoardNewView: View {
 }
 
 #Preview {
-    StoryBoardNewView() {
+    StoryBoardNewView() { action in
         
     }
 }

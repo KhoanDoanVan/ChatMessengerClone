@@ -68,6 +68,15 @@ struct UserService {
             }
         }
     }
+    
+    /// Get user by uid
+    static func fetchUserByUid(_ uid: String, completion: @escaping (UserItem?) -> Void) {
+        FirebaseConstants.UserRef.child(uid).observeSingleEvent(of: .value) { snapshot in
+            guard let user = try? snapshot.data(as: UserItem.self) else { return }
+            
+            completion(user)
+        }
+    }
 }
 
 struct UserNode {

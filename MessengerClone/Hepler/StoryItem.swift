@@ -8,17 +8,24 @@
 import Foundation
 import SwiftUI
 
-struct StoryItem {
+struct GroupStoryItem: Identifiable, Hashable {
+    let id: String
+    let owner: UserItem
+    let stories: [StoryItem]
+}
+
+struct StoryItem: Hashable {
     let id: String
     let storyImageURL: String
     let ownerUid: String
     let timeStamp: Date
     let type: StoryType
-    var owner: UserItem?
+    
+    static let dummyStory: StoryItem = StoryItem(id: UUID().uuidString, storyImageURL: "", ownerUid: "", timeStamp: Date(), type: .image)
 }
 
 extension StoryItem {
-    init(dict: [String:Any]) {
+    init?(dict: [String:Any]) {
         self.id = dict[.id] as? String ?? ""
         self.storyImageURL = dict[.storyImageURL] as? String ?? ""
         self.ownerUid = dict[.ownerUid] as? String ?? ""

@@ -15,6 +15,7 @@
 		4611F7E82CA9757E004D736D /* SnapHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7E72CA9757D004D736D /* SnapHelper.swift */; };
 		4611F7EB2CAA3AB0004D736D /* StoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7EA2CAA3AB0004D736D /* StoryItem.swift */; };
 		4611F7ED2CAA3FBE004D736D /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7EC2CAA3FBE004D736D /* StoryService.swift */; };
+		4611F7EF2CABE497004D736D /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4611F7EE2CABE497004D736D /* StoryViewModel.swift */; };
 		4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4624583D2C9D87BE00F77815 /* BubbleStickerView.swift */; };
 		46335F692C78678300ED9DFC /* PickerPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46335F682C78678300ED9DFC /* PickerPhotoView.swift */; };
 		46389BDC2C75C9A40020D804 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */; };
@@ -143,6 +144,7 @@
 		4611F7E72CA9757D004D736D /* SnapHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapHelper.swift; sourceTree = "<group>"; };
 		4611F7EA2CAA3AB0004D736D /* StoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StoryItem.swift; path = MessengerClone/Hepler/StoryItem.swift; sourceTree = SOURCE_ROOT; };
 		4611F7EC2CAA3FBE004D736D /* StoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryService.swift; sourceTree = "<group>"; };
+		4611F7EE2CABE497004D736D /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
 		4624583D2C9D87BE00F77815 /* BubbleStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleStickerView.swift; sourceTree = "<group>"; };
 		46335F682C78678300ED9DFC /* PickerPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerPhotoView.swift; sourceTree = "<group>"; };
 		46335F6A2C7876CC00ED9DFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -274,12 +276,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4611F7E92CAA3A9F004D736D /* New Group1 */ = {
+		4611F7E92CAA3A9F004D736D /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				4611F7EA2CAA3AB0004D736D /* StoryItem.swift */,
 			);
-			path = "New Group1";
+			path = Model;
 			sourceTree = "<group>";
 		};
 		46389BDA2C75C9900020D804 /* ViewModel */ = {
@@ -488,6 +490,7 @@
 			children = (
 				467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */,
 				46D19B842CA392C5007DB804 /* StoryBoardNewViewModel.swift */,
+				4611F7EE2CABE497004D736D /* StoryViewModel.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -495,7 +498,7 @@
 		469A69CB2C5F89A80017E763 /* StoryTab */ = {
 			isa = PBXGroup;
 			children = (
-				4611F7E92CAA3A9F004D736D /* New Group1 */,
+				4611F7E92CAA3A9F004D736D /* Model */,
 				467751E42CA261DE00D874F1 /* New Group */,
 				469A69CC2C5F89AD0017E763 /* View */,
 			);
@@ -889,6 +892,7 @@
 				464DDABD2CA0EDA2009D355E /* LocationCoordinate+Extension.swift in Sources */,
 				46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */,
 				466EA96E2C9ACC7B0021F753 /* ListChannelView.swift in Sources */,
+				4611F7EF2CABE497004D736D /* StoryViewModel.swift in Sources */,
 				464DDABF2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift in Sources */,
 				46749F912C68A60800A8A4BD /* MessageItem.swift in Sources */,
 				465EBE892C6B773900A97E77 /* RootViewModel.swift in Sources */,

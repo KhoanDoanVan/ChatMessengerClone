@@ -22,6 +22,8 @@ struct AddToStoryView: View {
         GridItem(.flexible()),
     ]
     
+    let handleAction: () -> Void
+    
     let widthImage = ((UIWindowScene.current?.screenWidth ?? 0) - 4) / 3
     
     var body: some View {
@@ -44,8 +46,14 @@ struct AddToStoryView: View {
                 leadingButton()
             }
             .fullScreenCover(isPresented: $viewModel.isShowStoryBoard) {
-                StoryBoardNewView() {
-                    viewModel.isShowStoryBoard = false
+                StoryBoardNewView() { action in
+                    switch action {
+                    case .addToStory:
+                        handleAction()
+                        viewModel.isShowStoryBoard = false
+                    case .back:
+                        viewModel.isShowStoryBoard = false
+                    }
                 }
             }
         }
@@ -115,6 +123,11 @@ extension AddToStoryView {
     }
 }
 
+enum AddToStoryAction {
+    case addToStory
+    case back
+}
+
 enum StoryChooseType: String, CaseIterable, Identifiable {
     case camera
     case text
@@ -144,6 +157,8 @@ enum StoryChooseType: String, CaseIterable, Identifiable {
 
 #Preview {
     NavigationStack {
-        AddToStoryView()
+        AddToStoryView() {
+            
+        }
     }
 }

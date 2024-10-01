@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StoryCellView: View {
     
+    let groupStory: GroupStoryItem
+    let isShowStory: Bool
     let actionHandler: () -> Void
     
     private var widthOfStory: CGFloat {
@@ -26,31 +29,62 @@ struct StoryCellView: View {
     
     @ViewBuilder
     private func storyBoard() -> some View {
-        Rectangle()
+        KFImage(URL(string: groupStory.stories[0].storyImageURL))
+            .resizable()
+            .scaledToFill()
             .frame(width: widthOfStory, height: 250)
             .cornerRadius(20)
             .overlay(alignment: .topLeading) {
-                Circle()
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(.white)
-                    .padding([.top, .horizontal], 10)
-                    .overlay {
-                        Image(systemName: "plus")
-                            .foregroundStyle(.black)
-                            .padding(.top, 10)
-                    }
+                if isShowStory {
+                    KFImage(URL(string: groupStory.owner.profileImage ?? ""))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                        .padding([.top, .horizontal], 10)
+                } else {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                        .foregroundStyle(.white)
+                        .padding([.top, .horizontal], 10)
+                        .overlay {
+                            Image(systemName: "plus")
+                                .foregroundStyle(.black)
+                                .padding(.top, 10)
+                        }
+                }
             }
             .overlay(alignment: .bottomLeading) {
-                Text("Add to story")
+                Text(isShowStory ? (groupStory.owner.username) : "Add to story")
                     .foregroundStyle(.white)
                     .padding([.bottom, .horizontal], 10)
             }
             .foregroundStyle(.messagesWhite)
+//        Rectangle()
+//            .frame(width: widthOfStory, height: 250)
+//            .cornerRadius(20)
+//            .overlay(alignment: .topLeading) {
+//                Circle()
+//                    .frame(width: 40, height: 40)
+//                    .foregroundStyle(.white)
+//                    .padding([.top, .horizontal], 10)
+//                    .overlay {
+//                        Image(systemName: "plus")
+//                            .foregroundStyle(.black)
+//                            .padding(.top, 10)
+//                    }
+//            }
+//            .overlay(alignment: .bottomLeading) {
+//                Text("Add to story")
+//                    .foregroundStyle(.white)
+//                    .padding([.bottom, .horizontal], 10)
+//            }
+//            .foregroundStyle(.messagesWhite)
     }
 }
 
-#Preview {
-    StoryCellView() {
-        
-    }
-}
+//#Preview {
+//    StoryCellView(story: ., isShowStory: false, owner: .placeholder) {
+//        
+//    }
+//}

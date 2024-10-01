@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 struct UserItem: Identifiable, Hashable, Decodable {
     let uid: String
     var username: String

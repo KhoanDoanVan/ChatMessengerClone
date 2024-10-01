@@ -11,6 +11,7 @@ struct StoryScreen: View {
     
     @State private var openCreateNewStory = false
     @Binding var showSidebarScreen: Bool
+    @StateObject private var viewModel = StoryViewModel()
     
     var items = [
         GridItem(.flexible(), spacing: 1),
@@ -25,12 +26,19 @@ struct StoryScreen: View {
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: items, spacing: 10) {
-                    ForEach(0..<12) { _ in
-                        StoryCellView() {
-                            openCreateStory()
+                if !viewModel.listGroupStory.isEmpty {
+                    LazyVGrid(columns: items, spacing: 10) {
+                        ForEach(viewModel.listGroupStory, id: \.self) { groupStory in
+                            StoryCellView(
+                                groupStory: groupStory,
+                                isShowStory: viewModel.checkOwner(groupStory.id)
+                            ) {
+                                openCreateStory()
+                            }
                         }
                     }
+                } else {
+                    ProgressView()
                 }
             }
             .padding(.top)
@@ -40,7 +48,9 @@ struct StoryScreen: View {
                 leadingButton()
             }
             .sheet(isPresented: $openCreateNewStory, content: {
-                AddToStoryView()
+                AddToStoryView() {
+                    openCreateNewStory.toggle()
+                }
             })
         }
     }
