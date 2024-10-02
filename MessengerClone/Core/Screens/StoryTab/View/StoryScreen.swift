@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct StoryScreen: View {
-    
-    @State private var openCreateNewStory = false
     @Binding var showSidebarScreen: Bool
     @StateObject private var viewModel = StoryViewModel()
+    
+    private var widthOfStory: CGFloat {
+        return ((UIWindowScene.current?.screenWidth ?? 0) / 2) - 10
+    }
     
     var items = [
         GridItem(.flexible(), spacing: 1),
@@ -28,14 +30,19 @@ struct StoryScreen: View {
             ScrollView(.vertical, showsIndicators: false) {
                 if !viewModel.listGroupStory.isEmpty {
                     LazyVGrid(columns: items, spacing: 10) {
-                        ForEach(viewModel.listGroupStory, id: \.self) { groupStory in
-                            StoryCellView(
-                                groupStory: groupStory,
-                                isShowStory: viewModel.checkOwner(groupStory.id)
-                            ) {
-                                openCreateStory()
-                            }
+                        if let groupCurrent = viewModel.groupStoryCurrent {
+                            StoryCellView(groupStory: groupCurrent, isShowStory: false)
+                                .onTapGesture {
+                                    viewModel.isOpenStoryPlayer.toggle()
+                                }
+                        } else {
+                            createStoryCell()
+                                .onTapGesture {
+                                    viewModel.openCreateNewStory.toggle()
+                                }
                         }
+                        
+                        listCellStory()
                     }
                 } else {
                     ProgressView()
@@ -47,19 +54,60 @@ struct StoryScreen: View {
             .toolbar {
                 leadingButton()
             }
-            .sheet(isPresented: $openCreateNewStory, content: {
+            .sheet(isPresented: $viewModel.openCreateNewStory, content: {
                 AddToStoryView() {
-                    openCreateNewStory.toggle()
+                    viewModel.openCreateNewStory.toggle()
                 }
             })
+            .fullScreenCover(isPresented: $viewModel.isOpenStoryPlayer) {
+                StoryPlayerView()
+            }
         }
     }
     
-    private func openCreateStory() {
-        openCreateNewStory.toggle()
+    /// List Cell Story
+    private func listCellStory() -> some View {
+        ForEach(viewModel.listGroupStory, id: \.self) { groupStory in
+            Button {
+                if viewModel.checkOwner(groupStory.id) {
+                    viewModel.isOpenStoryPlayer.toggle()
+                } else {
+                    viewModel.openCreateNewStory.toggle()
+                }
+            } label: {
+                StoryCellView(
+                    groupStory: groupStory,
+                    isShowStory: true
+                )
+            }
+        }
     }
     
-    // Distransparent tab bar when over scroll
+    /// Create Cell View
+    private func createStoryCell() -> some View {
+        Rectangle()
+            .frame(width: widthOfStory, height: 250)
+            .cornerRadius(20)
+            .overlay(alignment: .topLeading) {
+                Circle()
+                    .frame(width: 40, height: 40)
+                    .foregroundStyle(.white)
+                    .padding([.top, .horizontal], 10)
+                    .overlay {
+                        Image(systemName: "plus")
+                            .foregroundStyle(.black)
+                            .padding(.top, 10)
+                    }
+            }
+            .overlay(alignment: .bottomLeading) {
+                Text("Add to story")
+                    .foregroundStyle(.white)
+                    .padding([.bottom, .horizontal], 10)
+            }
+            .foregroundStyle(.messagesWhite)
+    }
+    
+    /// Distransparent tab bar when over scroll
     private func makeTabBarOpaque() {
         /// Cancel Transparent bottom Tab bar
         let appearance = UITabBarAppearance()
