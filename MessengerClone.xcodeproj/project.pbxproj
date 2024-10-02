@@ -100,6 +100,7 @@
 		46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92642C60DE91003F9CEB /* AddToStoryView.swift */; };
 		46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */; };
 		46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92722C6232D4003F9CEB /* SidebarScreen.swift */; };
+		46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */; };
 		46B3EA112C71E56D0057619A /* ChatRoomScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3EA102C71E56D0057619A /* ChatRoomScreenViewModel.swift */; };
 		46B3EA132C71F1F20057619A /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3EA122C71F1F20057619A /* MessageService.swift */; };
 		46B804E92C58DE9B0091020E /* CreateChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B804E82C58DE9B0091020E /* CreateChatView.swift */; };
@@ -229,6 +230,7 @@
 		46AA92642C60DE91003F9CEB /* AddToStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToStoryView.swift; sourceTree = "<group>"; };
 		46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypeStoryView.swift; sourceTree = "<group>"; };
 		46AA92722C6232D4003F9CEB /* SidebarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarScreen.swift; sourceTree = "<group>"; };
+		46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPlayerViewModel.swift; sourceTree = "<group>"; };
 		46B3EA102C71E56D0057619A /* ChatRoomScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomScreenViewModel.swift; sourceTree = "<group>"; };
 		46B3EA122C71F1F20057619A /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		46B804E82C58DE9B0091020E /* CreateChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatView.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				4611F7EE2CABE497004D736D /* StoryViewModel.swift */,
 				467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */,
 				46D19B842CA392C5007DB804 /* StoryBoardNewViewModel.swift */,
+				46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -842,6 +845,7 @@
 				4677AE2B2C8FE34D000795C7 /* ReactionPickerView.swift in Sources */,
 				46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */,
 				46749F622C64D23B00A8A4BD /* PeopleScreen.swift in Sources */,
+				46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */,
 				466EA9722C9ACCDF0021F753 /* MainTabView.swift in Sources */,
 				4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */,
 				465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */,

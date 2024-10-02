@@ -34,6 +34,7 @@ struct StoryScreen: View {
                             StoryCellView(groupStory: groupCurrent, isShowStory: false)
                                 .onTapGesture {
                                     viewModel.isOpenStoryPlayer.toggle()
+                                    viewModel.groupStoryTapGesture = groupCurrent
                                 }
                         } else {
                             createStoryCell()
@@ -60,7 +61,12 @@ struct StoryScreen: View {
                 }
             })
             .fullScreenCover(isPresented: $viewModel.isOpenStoryPlayer) {
-                StoryPlayerView()
+                if let groupStory = viewModel.groupStoryTapGesture {
+                    StoryPlayerView(storyGroup: groupStory) {
+                        viewModel.isOpenStoryPlayer.toggle()
+                        viewModel.groupStoryTapGesture = nil
+                    }
+                }
             }
         }
     }
@@ -68,17 +74,17 @@ struct StoryScreen: View {
     /// List Cell Story
     private func listCellStory() -> some View {
         ForEach(viewModel.listGroupStory, id: \.self) { groupStory in
-            Button {
+            StoryCellView(
+                groupStory: groupStory,
+                isShowStory: true
+            )
+            .onTapGesture {
                 if viewModel.checkOwner(groupStory.id) {
                     viewModel.isOpenStoryPlayer.toggle()
+                    viewModel.groupStoryTapGesture = groupStory
                 } else {
                     viewModel.openCreateNewStory.toggle()
                 }
-            } label: {
-                StoryCellView(
-                    groupStory: groupStory,
-                    isShowStory: true
-                )
             }
         }
     }

@@ -17,6 +17,8 @@ class StoryViewModel: ObservableObject {
     @Published var groupStoryCurrent: GroupStoryItem?
     @Published var userCurrentUid: String?
     
+    @Published var groupStoryTapGesture: GroupStoryItem?
+    
     init() {
         StoryService.fetchStories { list in
             self.listGroupStory = list

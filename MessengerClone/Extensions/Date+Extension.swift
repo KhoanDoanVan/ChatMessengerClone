@@ -44,4 +44,27 @@ extension Date {
         return Calendar.current.isDate(self, equalTo: Date(), toGranularity: .year)
     }
     // MARK: END
+    
+    // Return how far from current story
+    func timeAgo() -> String {
+        let now = Date()
+        let elapsedTime = now.timeIntervalSince(self)
+        
+        let secondsInMinute: TimeInterval = 60
+        let secondsInHour: TimeInterval = 3600
+        let secondsInDay: TimeInterval = 86400
+        
+        if elapsedTime < secondsInMinute {
+            return "\(Int(elapsedTime))s ago"  // Less than a minute ago
+        } else if elapsedTime < secondsInHour {
+            let minutes = Int(elapsedTime / secondsInMinute)
+            return "\(minutes)m"  // Less than an hour ago
+        } else if elapsedTime < secondsInDay {
+            let hours = Int(elapsedTime / secondsInHour)
+            return "\(hours)h"   // Less than a day ago
+        } else {
+            let days = Int(elapsedTime / secondsInDay)
+            return "\(days)d"    // More than a day ago
+        }
+    }
 }

@@ -6,92 +6,99 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StoryPlayerView: View {
     
-    @State private var text: String = ""
-    @State private var isTyping: Bool = false
+    @StateObject private var viewModel: StoryPlayerViewModel
+    let handleAction: () -> Void
+    
+    init(storyGroup: GroupStoryItem, handleAction: @escaping () -> Void) {
+        self.handleAction = handleAction
+        self._viewModel = StateObject(wrappedValue: StoryPlayerViewModel(currentGroupStory: storyGroup))
+    }
     
     var body: some View {
         ZStack {
-            bottomStory()
-            topStory()
-            
             VStack {
+                KFImage(URL(string: viewModel.storyCurrent.storyImageURL))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity)
+                    .frame(maxHeight: 700)
+                    .clipShape(
+                        .rect(cornerRadius: 10)
+                    )
+                    .padding(.bottom, 50)
                 Spacer()
-                if isTyping || !text.isEmpty {
-                    HStack(spacing: 10) {
-                        TextField("", text: $text, prompt: Text("Send message")
-                            .bold())
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(Color(.systemGray3))
-                            .clipShape(Capsule())
-                            .onTapGesture {
-                                withAnimation {
-                                    isTyping = true
-                                }
-                            }
-                        
-                        Button {
-                            isTyping = false
-                            text = ""
-                        } label: {
-                            Image(systemName: "paperplane.fill")
-                                .font(.title2)
-                        }
-                    }
-                    .padding(.horizontal, 10)
-                    .padding(.bottom, 10)
-                } else {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            TextField("", text: $text, prompt: Text("Send message")
-                                .bold())
-                                .foregroundStyle(.white)
-                                .frame(width: 220)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 8)
-                                .background(Color(.systemGray3))
-                                .clipShape(Capsule())
-                                .padding(.leading, 10)
-                                .onTapGesture {
-                                    withAnimation {
-                                        isTyping = true
-                                    }
-                                }
-                            
-                            ForEach(Reaction.allCases, id: \.self) { reaction in
-                                Button {
-                                    
-                                } label: {
-                                    Text(reaction.emoji)
-                                        .font(.system(size: 32))
-                                }
-                            }
-                        }
-                    }
-                    .padding(.bottom, 10)
-                }
             }
-            .animation(.bouncy, value: isTyping)
+            topStory()
+            bottomStory()
         }
     }
     
     /// Bottom Story
     private func bottomStory() -> some View {
         VStack {
-            Rectangle()
-                .frame(maxWidth: .infinity)
-                .foregroundStyle(.gray)
-                .clipShape(
-                    .rect(cornerRadius: 10)
-                )
-                .padding(.bottom, 50)
             Spacer()
+            if viewModel.isTyping || !viewModel.text.isEmpty {
+                HStack(spacing: 10) {
+                    TextField("", text: $viewModel.text, prompt: Text("Send message")
+                        .bold())
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .background(Color(.systemGray3))
+                        .clipShape(Capsule())
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.isTyping = true
+                            }
+                        }
+                    
+                    Button {
+                        viewModel.isTyping = false
+                        viewModel.text = ""
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                            .font(.title2)
+                    }
+                }
+                .padding(.horizontal, 10)
+                .padding(.bottom, 10)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        TextField("", text: $viewModel.text, prompt: Text("Send message")
+                            .bold())
+                            .foregroundStyle(.white)
+                            .frame(width: 220)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 8)
+                            .background(Color(.systemGray3))
+                            .clipShape(Capsule())
+                            .padding(.leading, 10)
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.isTyping = true
+                                }
+                            }
+                        
+                        ForEach(Reaction.allCases, id: \.self) { reaction in
+                            Button {
+                                
+                            } label: {
+                                Text(reaction.emoji)
+                                    .font(.system(size: 32))
+                            }
+                        }
+                    }
+                }
+                .padding(.bottom, 10)
+            }
         }
+        .animation(.bouncy, value: viewModel.isTyping)
     }
     
     /// Top Story
@@ -99,15 +106,13 @@ struct StoryPlayerView: View {
         VStack(spacing: 15) {
             topBarTimer()
             HStack {
-                Circle()
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(.white)
+                CircularProfileImage(viewModel.currentGroupStory.owner.profileImage, size: .xSmall)
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("Doan Van Khoan")
+                        Text(viewModel.currentGroupStory.owner.username)
                             .fontWeight(.bold)
-                        Text("16h")
+                        Text(viewModel.currentGroupStory.stories[0].timeStamp.timeAgo())
                             .foregroundStyle(.gray)
                     }
                 }
@@ -122,7 +127,7 @@ struct StoryPlayerView: View {
                             .font(.title)
                     }
                     Button {
-                        
+                        handleAction()
                     } label: {
                         Image(systemName: "xmark")
                             .bold()
@@ -140,22 +145,27 @@ struct StoryPlayerView: View {
     
     /// Top Timer
     private func topBarTimer() -> some View {
-        Rectangle()
-            .frame(maxWidth: .infinity)
-            .frame(height: 2)
-            .foregroundStyle(.gray)
-            .clipShape(Capsule())
-            .padding(.horizontal, 5)
-            .overlay(alignment: .leading) {
+        HStack(spacing: 3) {
+            ForEach(0..<viewModel.currentGroupStory.stories.count) { _ in
                 Rectangle()
-                    .frame(width: 200, height: 2)
-                    .foregroundStyle(.white)
+                    .frame(width: viewModel.widthOfTimeStory)
+                    .frame(height: 2)
+                    .foregroundStyle(.gray)
                     .clipShape(Capsule())
-                    .padding(.horizontal, 5)
+                    .overlay(alignment: .leading) {
+                        Rectangle()
+                            .frame(width: viewModel.widthOfTimeStory, height: 2)
+                            .foregroundStyle(.white)
+                            .clipShape(Capsule())
+                    }
             }
+        }
+        .padding(.horizontal, 5)
     }
 }
 
 #Preview {
-    StoryPlayerView()
+    StoryPlayerView(storyGroup: .dummyGroupStory) {
+        
+    }
 }

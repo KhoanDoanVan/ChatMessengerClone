@@ -12,6 +12,8 @@ struct GroupStoryItem: Identifiable, Hashable {
     let id: String
     let owner: UserItem
     let stories: [StoryItem]
+    
+    static let dummyGroupStory: GroupStoryItem = GroupStoryItem(id: UUID().uuidString, owner: UserItem(uid: UUID().uuidString, username: "", email: ""), stories: [])
 }
 
 struct StoryItem: Hashable {
