@@ -61,7 +61,7 @@ enum MessageType: Hashable {
     }
 }
 
-enum Reaction: Int {
+enum Reaction: Int, CaseIterable {
     case like
     case heart
     case laugh
