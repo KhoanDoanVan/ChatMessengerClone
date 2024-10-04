@@ -11,6 +11,7 @@ import PhotosUI
 class AddToStoryViewModel: ObservableObject {
     
     @Published var isShowStoryBoard: Bool = false
+    @Published var isShowCameraCapture: Bool = false
     
     @Published var listMediaAttachment = [MediaAttachment]()
     @Published var uiImagePicker: UIImage?

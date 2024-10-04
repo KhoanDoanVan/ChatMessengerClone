@@ -267,6 +267,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     /// Send Image From Camera
     private func sendPhotoFromCamera(_ uiImage: UIImage) {
+        print("UIIMage from camera: \(uiImage)")
         let mediaAttachment = MediaAttachment(id: UUID().uuidString, type: .photo(imageThumbnail: uiImage))
         self.sendPhotoMessage(text: "", mediaAttachment)
     }

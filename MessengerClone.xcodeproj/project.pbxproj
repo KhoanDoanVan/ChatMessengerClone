@@ -101,6 +101,8 @@
 		46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */; };
 		46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92722C6232D4003F9CEB /* SidebarScreen.swift */; };
 		46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */; };
+		46AE5DD92CAF7EE800105010 /* CameraCaptureStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AE5DD82CAF7EE800105010 /* CameraCaptureStoryView.swift */; };
+		46AE5DDB2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AE5DDA2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift */; };
 		46B3EA112C71E56D0057619A /* ChatRoomScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3EA102C71E56D0057619A /* ChatRoomScreenViewModel.swift */; };
 		46B3EA132C71F1F20057619A /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3EA122C71F1F20057619A /* MessageService.swift */; };
 		46B804E92C58DE9B0091020E /* CreateChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B804E82C58DE9B0091020E /* CreateChatView.swift */; };
@@ -231,6 +233,8 @@
 		46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypeStoryView.swift; sourceTree = "<group>"; };
 		46AA92722C6232D4003F9CEB /* SidebarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarScreen.swift; sourceTree = "<group>"; };
 		46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryPlayerViewModel.swift; sourceTree = "<group>"; };
+		46AE5DD82CAF7EE800105010 /* CameraCaptureStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureStoryView.swift; sourceTree = "<group>"; };
+		46AE5DDA2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureStoryViewModel.swift; sourceTree = "<group>"; };
 		46B3EA102C71E56D0057619A /* ChatRoomScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomScreenViewModel.swift; sourceTree = "<group>"; };
 		46B3EA122C71F1F20057619A /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		46B804E82C58DE9B0091020E /* CreateChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatView.swift; sourceTree = "<group>"; };
@@ -496,6 +500,7 @@
 				467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */,
 				46D19B842CA392C5007DB804 /* StoryBoardNewViewModel.swift */,
 				46AE5DA42CAD5F9800105010 /* StoryPlayerViewModel.swift */,
+				46AE5DDA2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift */,
 			);
 			path = "New Group";
 			sourceTree = "<group>";
@@ -520,6 +525,7 @@
 				46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */,
 				46D19BDB2CA782B4007DB804 /* SheetStickerView.swift */,
 				4611F7F02CACEEF0004D736D /* StoryPlayerView.swift */,
+				46AE5DD82CAF7EE800105010 /* CameraCaptureStoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -848,6 +854,7 @@
 				46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */,
 				466EA9722C9ACCDF0021F753 /* MainTabView.swift in Sources */,
 				4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */,
+				46AE5DDB2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift in Sources */,
 				465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */,
 				46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */,
 				46D19B892CA39DE5007DB804 /* UISliderView.swift in Sources */,
@@ -932,6 +939,7 @@
 				4677AE292C8B4DC0000795C7 /* CustomVideoPlayer.swift in Sources */,
 				4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */,
 				465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */,
+				46AE5DD92CAF7EE800105010 /* CameraCaptureStoryView.swift in Sources */,
 				46389BE52C75D89B0020D804 /* FirebaseHelper.swift in Sources */,
 				46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */,
 				464DDAC12CA10163009D355E /* BubbleLocationView.swift in Sources */,

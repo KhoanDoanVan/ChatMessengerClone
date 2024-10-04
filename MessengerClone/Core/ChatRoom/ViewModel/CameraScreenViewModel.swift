@@ -16,6 +16,7 @@ class CameraScreenViewModel: NSObject, ObservableObject, AVCapturePhotoCaptureDe
     @Published var output: AVCapturePhotoOutput = AVCapturePhotoOutput()
     @Published var preview: AVCaptureVideoPreviewLayer!
     @Published var pictureData: Data = Data()
+    @Published var uiImage: UIImage?
     
     /// Check permission
     func checkPermission() {
@@ -44,7 +45,9 @@ class CameraScreenViewModel: NSObject, ObservableObject, AVCapturePhotoCaptureDe
             completion(nil)
             return
         }
-
+        
+        self.uiImage = uiImage
+        
         completion(uiImage)
     }
     
@@ -60,64 +63,74 @@ class CameraScreenViewModel: NSObject, ObservableObject, AVCapturePhotoCaptureDe
     /// Set up the camera session
     private func setUpSession() {
         do {
-            session.beginConfiguration()
+            /// Setting configs...
+            self.session.beginConfiguration()
             
-            if let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) ??
-                            AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
-                let input = try AVCaptureDeviceInput(device: device)
-                if session.canAddInput(input) { session.addInput(input) }
-                if session.canAddOutput(output) { session.addOutput(output) }
-            } else {
+            /// Change for your own...
+            guard let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) ??
+                                AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
                 print("Error: No camera available")
+                return
             }
             
-            session.commitConfiguration()
+            let input = try AVCaptureDeviceInput(device: device)
+            
+            /// Checking and adding to session...
+            if self.session.canAddInput(input) {
+                self.session.addInput(input)
+            }
+            
+            /// Same for output...
+            if self.session.canAddOutput(self.output) {
+                self.session.addOutput(self.output)
+            }
+            
+            self.session.commitConfiguration()
         } catch {
-            print("Error setting up camera: \(error.localizedDescription)")
+            print(error.localizedDescription)
         }
     }
-    
     /// Take picture
     func takePicture() {
-        performBackgroundTask {
+        DispatchQueue.global(qos: .background).async {
+            
+            /// Need inherit AVCapturePhotoCaptureDelegate for set delegate
             self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
             self.session.stopRunning()
-            self.updateUIAfterCapture()
+            
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.isTaken = true
+                }
+            }
         }
     }
     
     /// Retake picture
     func reTakePicture() {
-        performBackgroundTask {
+        DispatchQueue.global(qos: .background).async {
             self.session.startRunning()
-            self.updateUIAfterRetake()
+            
+            DispatchQueue.main.async {
+                withAnimation{
+                    self.isTaken = false
+                }
+            }
         }
     }
     
     /// Save image data
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if error != nil {
+            print("Error PhotoOutput: \(error?.localizedDescription)")
+            return
+        }
+        print("PhotoOutput running")
         if let imageData = photo.fileDataRepresentation() {
             self.pictureData = imageData
+            print("pictureData: \(pictureData)")
         } else {
             print("Error processing photo: \(String(describing: error?.localizedDescription))")
-        }
-    }
-    
-    // MARK: - Helper Methods
-    
-    private func performBackgroundTask(_ task: @escaping () -> Void) {
-        DispatchQueue.global(qos: .background).async { task() }
-    }
-    
-    private func updateUIAfterCapture() {
-        DispatchQueue.main.async {
-            withAnimation { self.isTaken = true }
-        }
-    }
-    
-    private func updateUIAfterRetake() {
-        DispatchQueue.main.async {
-            withAnimation { self.isTaken = false }
         }
     }
 }

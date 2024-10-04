@@ -46,7 +46,7 @@ struct AddToStoryView: View {
                 leadingButton()
             }
             .fullScreenCover(isPresented: $viewModel.isShowStoryBoard) {
-                StoryBoardNewView() { action in
+                StoryBoardNewView(uiImage: viewModel.uiImagePicker) { action in
                     switch action {
                     case .addToStory:
                         handleAction()
@@ -56,13 +56,19 @@ struct AddToStoryView: View {
                     }
                 }
             }
+            .fullScreenCover(isPresented: $viewModel.isShowCameraCapture) {
+                CameraCaptureStoryView() {
+                    viewModel.isShowCameraCapture = false
+                }
+            }
         }
     }
     
     /// Cell Attachment
     private func cellAttachment(_ attachment: MediaAttachment) -> some View {
         Button {
-            
+            viewModel.uiImagePicker = attachment.thumbnail
+            viewModel.isShowStoryBoard = true
         } label: {
             Image(uiImage: attachment.thumbnail)
                 .resizable()
@@ -78,7 +84,14 @@ struct AddToStoryView: View {
             ForEach(StoryChooseType.allCases) { type in
                 ButtonTypeStoryView(type)
                     .onTapGesture {
-                        viewModel.isShowStoryBoard.toggle()
+                        if type == .camera {
+                            DispatchQueue.global(qos: .background).async {
+                                viewModel.isShowCameraCapture = true
+                            }
+                        }
+                        if type == .text {
+                            viewModel.isShowStoryBoard.toggle()
+                        }
                     }
             }
         }

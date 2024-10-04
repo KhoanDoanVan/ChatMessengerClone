@@ -15,16 +15,23 @@ struct StoryBoardNewView: View {
     @ObservedObject private var viewModel = StoryBoardNewViewModel()
     @FocusState private var isTextFieldFocused: Bool
     
+    let uiImage: UIImage?
+    
+    private let widthScreen = ((UIWindowScene.current?.screenWidth ?? 0) - 20)
+    
     let handleAction: (_ action: AddToStoryAction) -> Void
     
     var body: some View {
         VStack {
             ZStack {
-                mainView()
-                    .padding(.top, 10)
+                VStack {
+                    mainView()
+                        .padding(.top, 10)
+                    Spacer()
+                }
                 
                 drawTopBar()
-                    .padding(.top)
+                    .padding(.top, 20)
             }
             
             Spacer()
@@ -33,10 +40,12 @@ struct StoryBoardNewView: View {
                 if !viewModel.isGesture {
                     barColor()
                         .padding(.bottom, 10)
+                    Spacer()
                 }
             } else if viewModel.isActionText {
                 textBarColor()
                     .padding(.bottom, 10)
+                Spacer()
             } else if viewModel.isDraggingText {
                 
             }
@@ -44,6 +53,7 @@ struct StoryBoardNewView: View {
                 bottomBar()
                     .padding(.horizontal)
                     .padding(.bottom, 10)
+                Spacer()
             }
         }
         .sheet(isPresented: $viewModel.isShowSheetSticker) {
@@ -63,6 +73,15 @@ struct StoryBoardNewView: View {
     /// Main View
     private func mainView() -> some View {
         ZStack {
+            if let uiImage = uiImage {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: widthScreen)
+                    .frame(height: 670)
+            }
+            
+            
             canvasView()
             drawSlider()
             
@@ -93,7 +112,7 @@ struct StoryBoardNewView: View {
                             
             return true
         }
-        .frame(maxWidth: .infinity, maxHeight: 670)
+        .frame(width: widthScreen, height: 670)
         .background(Color(.systemGray6))
         .safeAreaPadding(.top)
         .clipShape(
@@ -182,7 +201,8 @@ struct StoryBoardNewView: View {
                     .position(CGPoint(x: geotry.size.width / 2, y: geotry.size.height - 40))
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 670)
+        .frame(width: widthScreen, height: 670)
+        .background(.clear)
     }
     
     /// Handle Change in Text Position
@@ -205,6 +225,7 @@ struct StoryBoardNewView: View {
                 context.stroke(path, with: .color(line.color), lineWidth: line.lineWidth)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: 670)
         .gesture(
             viewModel.isActionDraw
             ? DragGesture(minimumDistance: 0, coordinateSpace: .local)
@@ -368,7 +389,7 @@ struct StoryBoardNewView: View {
                 .padding(.horizontal, 8)
             }
         }
-        .frame(height: 50)
+        .frame(maxHeight: .infinity)
     }
     
     /// TextField
@@ -568,7 +589,7 @@ struct StoryBoardNewView: View {
             Button {
                 
             } label: {
-                VStack(spacing: 10) {
+                VStack(spacing: 5) {
                     Image(systemName: "gearshape.fill")
                         .font(.title2)
                     Text("Settings")
@@ -593,11 +614,12 @@ struct StoryBoardNewView: View {
                     .clipShape(Capsule())
             }
         }
+        .frame(maxHeight: .infinity)
     }
 }
 
 #Preview {
-    StoryBoardNewView() { action in
+    StoryBoardNewView(uiImage: UIImage()) { action in
         
     }
 }
