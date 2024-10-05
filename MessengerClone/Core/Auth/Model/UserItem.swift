@@ -15,6 +15,8 @@ struct UserItem: Identifiable, Hashable, Decodable {
     var bio: String? = nil
     var profileImage: String? = nil
     var token: String? = nil
+    var isOnline: Bool? = false
+    var lastActive: Date?
     
     var id: String {
         return uid
