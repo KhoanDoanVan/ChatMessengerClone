@@ -67,4 +67,27 @@ extension Date {
             return "\(days)d"    // More than a day ago
         }
     }
+    
+    // Convert TimeInterval to day of the week
+    func formattedTimeIntervalPreviewChannel() -> String {
+        let now = Date()
+        
+        let calendar = Calendar.current
+        let date = self
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        
+        if calendar.isDateInToday(date) {
+            formatter.dateFormat = "h:mm a"
+        } else if calendar.isDate(date, equalTo: now, toGranularity: .weekOfYear) {
+            formatter.dateFormat = "EEE"
+        } else if calendar.isDate(date, equalTo: now, toGranularity: .year) {
+            formatter.dateFormat = "MMM d"
+        } else {
+            formatter.dateFormat = "MMM d, YYYY"
+        }
+        
+        return formatter.string(from: date)
+    }
 }

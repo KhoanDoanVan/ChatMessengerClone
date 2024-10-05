@@ -30,11 +30,8 @@ struct StoryCellView: View {
             .frame(width: widthOfStory, height: 250)
             .cornerRadius(20)
             .overlay(alignment: .topLeading) {
-                KFImage(URL(string: groupStory.owner.profileImage ?? ""))
-                    .resizable()
+                CircularProfileImage(groupStory.owner.profileImage, size: .xSmall)
                     .scaledToFill()
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
                     .padding([.top, .horizontal], 10)
             }
             .overlay(alignment: .bottomLeading) {

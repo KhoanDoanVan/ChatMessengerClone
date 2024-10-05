@@ -35,8 +35,12 @@ struct ChannelItemView: View {
                 Text(channelTitlePreview)
                     .foregroundStyle(.messagesBlack)
                     .fontWeight(.bold)
-                Text(channelPreviewMessage)
-                    .foregroundStyle(.messagesBlack.opacity(0.5))
+                HStack(spacing: 0){
+                    Text(channelPreviewMessage)
+                    Text(" • \(channel.lastMessageTimestamp.formattedTimeIntervalPreviewChannel())")
+                }
+                .foregroundStyle(.messagesBlack.opacity(0.5))
+                .font(.subheadline)
             }
         }
     }
