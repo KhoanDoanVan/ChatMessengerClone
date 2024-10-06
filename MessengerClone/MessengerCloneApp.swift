@@ -52,20 +52,18 @@ extension AppDelegate {
     
     /// Config Online User State
         private func trackingUserOnlineState(for userCurrentUid: String) {
-            print("Tracking online state for user: \(userCurrentUid)")
-            
-            let userRef = FirebaseConstants.UserRef.child(userCurrentUid)
+            let onlineUserRef = FirebaseConstants.OnlineUserRef.child(userCurrentUid)
                         
             /// Listen for connection state
             let connectRef = Database.database().reference(withPath: ".info/connected") // Use `.info/connected` to track connection state
             connectRef.observe(.value) { snapshot,_  in
                 if let connected = snapshot.value as? Bool, connected {
                     /// If connected
-                    userRef.child("isOnline").setValue(true)
+                    onlineUserRef.child("isOnline").setValue(true)
                     
                     /// Set isOnline to false automatically when the connection is lost (app closes or goes offline)
-                    userRef.child("isOnline").onDisconnectSetValue(false)
-                    userRef.child("lastActive").onDisconnectSetValue(ServerValue.timestamp())
+                    onlineUserRef.child("isOnline").onDisconnectSetValue(false)
+                    onlineUserRef.child("lastActive").onDisconnectSetValue(ServerValue.timestamp())
                     print("Successfully connected to .info/connected")
                 } else {
                     print("Failed to connect to .info/connected")
@@ -78,23 +76,23 @@ extension AppDelegate {
     /// Goes into background
     internal func applicationDidEnterBackground(_ application: UIApplication) {
         guard let userCurrentUid = Auth.auth().currentUser?.uid else { return }
-        FirebaseConstants.UserRef.child(userCurrentUid).child("isOnline").setValue(false)
-        FirebaseConstants.UserRef.child(userCurrentUid).child("lastActive").setValue(ServerValue.timestamp())
+        FirebaseConstants.OnlineUserRef.child(userCurrentUid).child("isOnline").setValue(false)
+        FirebaseConstants.OnlineUserRef.child(userCurrentUid).child("lastActive").setValue(ServerValue.timestamp())
         print("Back ground active")
     }
     
     /// When app becomes active again
     internal func applicationWillEnterForeground(_ application: UIApplication) {
         guard let userCurrentUid = Auth.auth().currentUser?.uid else { return }
-        FirebaseConstants.UserRef.child(userCurrentUid).child("isOnline").setValue(true)
+        FirebaseConstants.OnlineUserRef.child(userCurrentUid).child("isOnline").setValue(true)
         print("Active again")
     }
     
     /// When app is terminated
     internal func applicationWillTerminate(_ application: UIApplication) {
         guard let userCurrentUid = Auth.auth().currentUser?.uid else { return }
-        FirebaseConstants.UserRef.child(userCurrentUid).child("isOnline").setValue(false)
-        FirebaseConstants.UserRef.child(userCurrentUid).child("lastActive").setValue(ServerValue.timestamp())
+        FirebaseConstants.OnlineUserRef.child(userCurrentUid).child("isOnline").setValue(false)
+        FirebaseConstants.OnlineUserRef.child(userCurrentUid).child("lastActive").setValue(ServerValue.timestamp())
         print("Terminated")
     }
 }

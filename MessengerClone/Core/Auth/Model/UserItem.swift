@@ -15,8 +15,6 @@ struct UserItem: Identifiable, Hashable, Decodable {
     var bio: String? = nil
     var profileImage: String? = nil
     var token: String? = nil
-    var isOnline: Bool? = false
-    var lastActive: Date?
     
     var id: String {
         return uid
@@ -45,6 +43,7 @@ extension UserItem {
         self.email = userDict[.email] as? String ?? ""
         self.profileImage = userDict[.profileImage] as? String? ?? nil
         self.token = token
+        
     }
 }
 

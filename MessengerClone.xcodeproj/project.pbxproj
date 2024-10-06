@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */; };
+		4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */; };
 		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
 		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085E2C9D76AC00D542EF /* StickerPickerView.swift */; };
@@ -141,6 +142,7 @@
 
 /* Begin PBXFileReference section */
 		46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionPickerMenuViewModel.swift; sourceTree = "<group>"; };
+		4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingOnlineService.swift; sourceTree = "<group>"; };
 		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
 		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		460E085E2C9D76AC00D542EF /* StickerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerView.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				465168422C6E40B7006C8837 /* UserService.swift */,
 				46B3EA122C71F1F20057619A /* MessageService.swift */,
 				4611F7EC2CAA3FBE004D736D /* StoryService.swift */,
+				4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */,
 				466EA9722C9ACCDF0021F753 /* MainTabView.swift in Sources */,
 				4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */,
+				4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */,
 				46AE5DDB2CAF7F4600105010 /* CameraCaptureStoryViewModel.swift in Sources */,
 				465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */,
 				46749F7B2C662F9C00A8A4BD /* GroupChatPickerView.swift in Sources */,
