@@ -169,9 +169,19 @@ extension ChatRoomScreen {
                         Text(channelTitle)
                             .fontWeight(.bold)
                             .foregroundStyle(.messagesBlack)
-                        Text("Active now")
-                            .font(.footnote)
-                            .foregroundStyle(Color(.systemGray))
+                        
+                        if viewModel.onlinePartnerObject?.state == true {
+                            Text("Active now")
+                                .font(.footnote)
+                                .foregroundStyle(Color(.systemGray))
+                        } else {
+                            if let time = viewModel.onlinePartnerObject?.lastActive.formattedOnlineState() {
+                                Text(time)
+                                    .font(.footnote)
+                                    .foregroundStyle(Color(.systemGray))
+
+                            }
+                        }
                     }
                 }
             }

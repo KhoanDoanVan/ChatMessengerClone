@@ -7,9 +7,29 @@
 
 import SwiftUI
 
+class ChannelItemViewModel: ObservableObject {
+    @Published var onlineObject: (state: Bool, lastActive: Date?)?
+    
+    init(channel: ChannelItem) {
+        if !channel.isGroupChat {
+            let uidPartner = channel.usersChannel[0].id
+            TrackingOnlineService.singleStateOnlineUserByIds(uidPartner) { state, lastActive in
+                self.onlineObject = (state, lastActive)
+            }
+        }
+    }
+}
+
 struct ChannelItemView: View {
     
     let channel: ChannelItem
+    @StateObject private var viewModel: ChannelItemViewModel
+    
+    init(channel: ChannelItem) {
+        self.channel = channel
+        
+        self._viewModel = StateObject(wrappedValue: ChannelItemViewModel(channel: channel))
+    }
     
     private var channelPreviewMessage: String {
         let maxChar = 30
@@ -29,7 +49,7 @@ struct ChannelItemView: View {
     
     var body: some View {
         HStack {
-            imageChannel(true)
+            imageChannel()
             
             VStack(alignment: .leading) {
                 Text(channelTitlePreview)
@@ -46,7 +66,7 @@ struct ChannelItemView: View {
     }
     
     @ViewBuilder
-    private func imageChannel(_ isOnline: Bool) -> some View {
+    private func imageChannel() -> some View {
         ZStack {
             if channel.isGroupChat {
                 CircularProfileImage(channel, size: .xMedium)
@@ -54,8 +74,17 @@ struct ChannelItemView: View {
                 CircularProfileImage(channel.coverImageUrl ,size: .xMedium)
             }
             
-            if isOnline && !channel.isGroupChat {
+            if (viewModel.onlineObject?.state ?? false) && !channel.isGroupChat {
                 onlineIcon()
+            } else if (!(viewModel.onlineObject?.state ?? false)) && !channel.isGroupChat &&  (viewModel.onlineObject?.lastActive?.formattedOnlineChannel() == "second") {
+                onlineIcon()
+            }
+            else if (!(viewModel.onlineObject?.state ?? false)) && !channel.isGroupChat &&  (viewModel.onlineObject?.lastActive?.formattedOnlineChannel() == "") {
+                
+            } else if (!(viewModel.onlineObject?.state ?? false)) && !channel.isGroupChat {
+                if let lastActive = viewModel.onlineObject?.lastActive {
+                    timeAgo(lastActive)
+                }
             }
         }
         .frame(width: 75, height: 75)
@@ -76,6 +105,34 @@ struct ChannelItemView: View {
                         .foregroundStyle(.green)
                 }
                 .padding(3)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func timeAgo(_ lastActive: Date) -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                ZStack {
+                    Text(lastActive.formattedOnlineChannel())
+                        .font(.footnote)
+                        .foregroundStyle(.green)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 7)
+                        .background(.black)
+                        .clipShape(Capsule())
+                    Text(lastActive.formattedOnlineChannel())
+                        .font(.footnote)
+                        .foregroundStyle(.green)
+                        .padding(.vertical, 2)
+                        .padding(.horizontal, 4)
+                        .background(Color(.systemGray5))
+                        .clipShape(Capsule())
+                }
+                .padding(3)
+                .padding(.trailing, -8)
             }
         }
     }

@@ -68,7 +68,7 @@ extension Date {
         }
     }
     
-    // Convert TimeInterval to day of the week
+    // Convert Date to day of the week
     func formattedTimeIntervalPreviewChannel() -> String {
         let now = Date()
         
@@ -89,5 +89,49 @@ extension Date {
         }
         
         return formatter.string(from: date)
+    }
+    
+    // Convert to time of lastActive
+    func formattedOnlineState() -> String {
+        let now = Date()
+        let elapsedTime = now.timeIntervalSince(self)
+        
+        let secondsInMinute: TimeInterval = 60
+        let secondsInHour: TimeInterval = 3600
+        let secondsInDay: TimeInterval = 86400
+
+        if elapsedTime < secondsInMinute {
+            return "Active now"
+        } else if elapsedTime < secondsInHour {
+            let minutes = Int(elapsedTime / secondsInMinute)
+            return "Active \(minutes)m ago"
+        } else if elapsedTime < secondsInDay {
+            let hours = Int(elapsedTime / secondsInHour)
+            return "Active \(hours)h ago"
+        } else {
+            return ""
+        }
+    }
+    
+    // Convert to time of channel
+    func formattedOnlineChannel() -> String {
+        let now = Date()
+        let elapsedTime = now.timeIntervalSince(self)
+        
+        let secondsInMinute: TimeInterval = 60
+        let secondsInHour: TimeInterval = 3600
+        let secondsInDay: TimeInterval = 86400
+        
+        if elapsedTime < secondsInMinute {
+            return "second"
+        } else if elapsedTime < secondsInHour {
+            let minutes = Int(elapsedTime / secondsInMinute)
+            return "\(Int(minutes))m"
+        } else if elapsedTime < secondsInDay {
+            let hours = Int(elapsedTime / secondsInHour)
+            return "\(Int(hours))h"
+        } else {
+            return ""
+        }
     }
 }

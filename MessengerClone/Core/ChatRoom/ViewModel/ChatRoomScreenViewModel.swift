@@ -79,6 +79,9 @@ class ChatRoomScreenViewModel: ObservableObject {
     // MARK: Map
     @Published var isShowMapLocation: Bool = false
     
+    // MARK: State online
+    @Published var onlinePartnerObject: (state: Bool,lastActive: Date)?
+    
     // MARK: Init
     init(channel: ChannelItem) {
         self.channel = channel
@@ -94,12 +97,33 @@ class ChatRoomScreenViewModel: ObservableObject {
                 switch state {
                 case .loggedIn(let userCurrent):
                     self.userCurrent = userCurrent
+                    
+                    if channel.isGroupChat {
+                        
+                    } else {
+                        observedTrackingOnline(channel.usersChannel[0].uid)
+                    }
+                    
                     self.fetchHistoryMessages()
                 default:
                     break
                 }
             }
             .store(in: &subscription)
+    }
+    
+    /// Observe tracking online state user
+    private func observedTrackingOnline(_ userUid: String?) {
+        if let userUid = userUid {
+            print(userUid, userCurrent?.uid)
+            TrackingOnlineService.observeStateOnlineUserByIds(userUid) { state, lastActive in
+                if let lastActive {
+                    print("State, LastAction: \(state), \(lastActive)")
+                    self.onlinePartnerObject = (state, lastActive)
+                    print("Online Partner: \(self.onlinePartnerObject), now: \(Date())")
+                }
+            }
+        }
     }
     
     /// Get All Messages
