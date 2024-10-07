@@ -11,12 +11,12 @@ struct ListStoryView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 0) {
+                NoteCellView(isOnline: .constant(false), isUserCurrent: .constant(true), noteText: .constant("Your note"))
                 ForEach(0..<12) { _ in
-                    StoryItemView(isStory: true, isOnline: true)
+                    NoteCellView(isOnline: .constant(true), isUserCurrent: .constant(false), noteText: .constant("Hello ca nha"))
                 }
             }
         }
-        .padding(.top)
         .listRowInsets(EdgeInsets())
     }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */; };
 		4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */; };
+		4604CB742CB36C2800388B73 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB732CB36C2800388B73 /* NoteCellView.swift */; };
 		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
 		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085E2C9D76AC00D542EF /* StickerPickerView.swift */; };
@@ -143,6 +144,7 @@
 /* Begin PBXFileReference section */
 		46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionPickerMenuViewModel.swift; sourceTree = "<group>"; };
 		4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingOnlineService.swift; sourceTree = "<group>"; };
+		4604CB732CB36C2800388B73 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
 		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		460E085E2C9D76AC00D542EF /* StickerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerView.swift; sourceTree = "<group>"; };
@@ -669,6 +671,7 @@
 				466EA96B2C9ACC540021F753 /* StoryItemView.swift */,
 				466EA96D2C9ACC7B0021F753 /* ListChannelView.swift */,
 				466EA96F2C9ACCA60021F753 /* ChannelItemView.swift */,
+				4604CB732CB36C2800388B73 /* NoteCellView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
 				4677AE252C899F68000795C7 /* BlurView.swift in Sources */,
 				4611F7E62CA95C24004D736D /* View+Extension.swift in Sources */,
+				4604CB742CB36C2800388B73 /* NoteCellView.swift in Sources */,
 				467751E62CA261FE00D874F1 /* AddToStoryViewModel.swift in Sources */,
 				467751E82CA26A6800D874F1 /* StoryBoardNewView.swift in Sources */,
 				465EBE962C6C495500A97E77 /* ChannelItem.swift in Sources */,
