@@ -10,6 +10,7 @@
 		46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */; };
 		4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */; };
 		4604CB742CB36C2800388B73 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB732CB36C2800388B73 /* NoteCellView.swift */; };
+		4604CB762CB4064100388B73 /* NewNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB752CB4064100388B73 /* NewNoteView.swift */; };
 		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
 		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085E2C9D76AC00D542EF /* StickerPickerView.swift */; };
@@ -145,6 +146,7 @@
 		46047D5D2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionPickerMenuViewModel.swift; sourceTree = "<group>"; };
 		4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingOnlineService.swift; sourceTree = "<group>"; };
 		4604CB732CB36C2800388B73 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		4604CB752CB4064100388B73 /* NewNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteView.swift; sourceTree = "<group>"; };
 		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
 		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		460E085E2C9D76AC00D542EF /* StickerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerView.swift; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 				466EA96D2C9ACC7B0021F753 /* ListChannelView.swift */,
 				466EA96F2C9ACCA60021F753 /* ChannelItemView.swift */,
 				4604CB732CB36C2800388B73 /* NoteCellView.swift */,
+				4604CB752CB4064100388B73 /* NewNoteView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -945,6 +948,7 @@
 				465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */,
 				46EE7B772C9AB7010077ABAB /* CallControlsView.swift in Sources */,
 				4677AE292C8B4DC0000795C7 /* CustomVideoPlayer.swift in Sources */,
+				4604CB762CB4064100388B73 /* NewNoteView.swift in Sources */,
 				4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */,
 				465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */,
 				46AE5DD92CAF7EE800105010 /* CameraCaptureStoryView.swift in Sources */,

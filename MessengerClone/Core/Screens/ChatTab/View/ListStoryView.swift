@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListStoryView: View {
+struct ListNoteView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 0) {
@@ -22,5 +22,5 @@ struct ListStoryView: View {
 }
 
 #Preview {
-    ListStoryView()
+    ListNoteView()
 }

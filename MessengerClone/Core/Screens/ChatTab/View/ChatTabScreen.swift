@@ -27,7 +27,7 @@ struct ChatTabScreen: View {
         NavigationStack(path: $viewModel.navRoutes) {
             VStack(spacing: 0){
                 List {
-                    ListStoryView()
+                    ListNoteView()
                     
                     ListChannelView(channels: viewModel.channels)
                 }
