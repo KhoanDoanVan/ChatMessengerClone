@@ -11,6 +11,9 @@
 		4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */; };
 		4604CB742CB36C2800388B73 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB732CB36C2800388B73 /* NoteCellView.swift */; };
 		4604CB762CB4064100388B73 /* NewNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB752CB4064100388B73 /* NewNoteView.swift */; };
+		4604CB782CB4EC0700388B73 /* NewNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB772CB4EC0700388B73 /* NewNoteViewModel.swift */; };
+		4604CB7A2CB4EC3800388B73 /* NoteItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB792CB4EC3800388B73 /* NoteItem.swift */; };
+		4604CB7C2CB4F63400388B73 /* NoteSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4604CB7B2CB4F63400388B73 /* NoteSevice.swift */; };
 		460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085A2C9D2B0800D542EF /* StickerItem.swift */; };
 		460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085C2C9D2ED900D542EF /* APIConstants.swift */; };
 		460E085F2C9D76AC00D542EF /* StickerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460E085E2C9D76AC00D542EF /* StickerPickerView.swift */; };
@@ -147,6 +150,9 @@
 		4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingOnlineService.swift; sourceTree = "<group>"; };
 		4604CB732CB36C2800388B73 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		4604CB752CB4064100388B73 /* NewNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteView.swift; sourceTree = "<group>"; };
+		4604CB772CB4EC0700388B73 /* NewNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNoteViewModel.swift; sourceTree = "<group>"; };
+		4604CB792CB4EC3800388B73 /* NoteItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItem.swift; sourceTree = "<group>"; };
+		4604CB7B2CB4F63400388B73 /* NoteSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteSevice.swift; sourceTree = "<group>"; };
 		460E085A2C9D2B0800D542EF /* StickerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerItem.swift; sourceTree = "<group>"; };
 		460E085C2C9D2ED900D542EF /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		460E085E2C9D76AC00D542EF /* StickerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPickerView.swift; sourceTree = "<group>"; };
@@ -351,6 +357,7 @@
 				46B3EA122C71F1F20057619A /* MessageService.swift */,
 				4611F7EC2CAA3FBE004D736D /* StoryService.swift */,
 				4604CB712CB233BE00388B73 /* TrackingOnlineService.swift */,
+				4604CB7B2CB4F63400388B73 /* NoteSevice.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -684,6 +691,7 @@
 			children = (
 				46749F782C662C5E00A8A4BD /* ChatTabScreenViewModel.swift */,
 				46749F862C67705100A8A4BD /* GroupChatPickerViewModel.swift */,
+				4604CB772CB4EC0700388B73 /* NewNoteViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -692,6 +700,7 @@
 			isa = PBXGroup;
 			children = (
 				465EBE952C6C495500A97E77 /* ChannelItem.swift */,
+				4604CB792CB4EC3800388B73 /* NoteItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -877,6 +886,7 @@
 				465168432C6E40B7006C8837 /* UserService.swift in Sources */,
 				46BF4CE02C81D5A40024928C /* PreviewVoiceRecordView.swift in Sources */,
 				465168452C6F4227006C8837 /* String+Extension.swift in Sources */,
+				4604CB7A2CB4EC3800388B73 /* NoteItem.swift in Sources */,
 				46B3EA132C71F1F20057619A /* MessageService.swift in Sources */,
 				46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */,
 				4677AE252C899F68000795C7 /* BlurView.swift in Sources */,
@@ -930,6 +940,7 @@
 				46749F682C64DE7B00A8A4BD /* ChatRoomScreen.swift in Sources */,
 				464C26402C96F566008CD4F2 /* ReactionShowSheetView.swift in Sources */,
 				46389BDC2C75C9A40020D804 /* SettingsViewModel.swift in Sources */,
+				4604CB782CB4EC0700388B73 /* NewNoteViewModel.swift in Sources */,
 				46D19B872CA3935A007DB804 /* ColorPickerConstants.swift in Sources */,
 				46749F8B2C67715200A8A4BD /* UserItem.swift in Sources */,
 				46749F6C2C660CE200A8A4BD /* MessageListView.swift in Sources */,
@@ -955,6 +966,7 @@
 				46389BE52C75D89B0020D804 /* FirebaseHelper.swift in Sources */,
 				46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */,
 				464DDAC12CA10163009D355E /* BubbleLocationView.swift in Sources */,
+				4604CB7C2CB4F63400388B73 /* NoteSevice.swift in Sources */,
 				46749F872C67705100A8A4BD /* GroupChatPickerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

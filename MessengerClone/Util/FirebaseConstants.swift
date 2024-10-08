@@ -18,4 +18,5 @@ enum FirebaseConstants {
     static let UserDirectChannelsRef = DatabaseRef.child("user-direct-channels")
     static let UserStoryRef = DatabaseRef.child("user-stories")
     static let OnlineUserRef = DatabaseRef.child("user-online-state")
+    static let UserNoteRef = DatabaseRef.child("user-note")
 }

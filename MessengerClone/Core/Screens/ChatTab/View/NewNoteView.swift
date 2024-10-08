@@ -9,10 +9,13 @@ import SwiftUI
 
 struct NewNoteView: View {
     @FocusState private var isTextFocusState: Bool
-    @State private var text: String = ""
+    
+    @StateObject private var viewModel = NewNoteViewModel()
+    
+    let handleAction: () -> Void
     
     private var isValidNote: Bool {
-        return text.isEmpty
+        return viewModel.text.isEmpty
     }
     
     var body: some View {
@@ -24,7 +27,9 @@ struct NewNoteView: View {
             Spacer()
             bottomView
         }
-        
+        .onAppear {
+            isTextFocusState = true
+        }
         
     }
     
@@ -32,14 +37,13 @@ struct NewNoteView: View {
     private var mainNote: some View {
         VStack(spacing: 10) {
             ZStack {
-                Circle()
-                    .frame(width: 120, height: 120)
-                
+                CircularProfileImage(viewModel.currentUser?.profileImage, size: .xLarge)
+                                
                 bubbleNote
             }
             .frame(width: 200)
             
-            Text("\(text.count)/60")
+            Text("\(viewModel.text.count)/\(viewModel.characterLimit)")
                 .font(.callout)
                 .foregroundStyle(Color(.systemGray2))
             
@@ -77,7 +81,7 @@ struct NewNoteView: View {
     /// Text Field View
     private var textFieldView: some View {
         ZStack {
-            Text(text)
+            Text(viewModel.text)
                 .padding()
                 .background(Color(.systemGray6))
                 .clipShape(
@@ -87,7 +91,7 @@ struct NewNoteView: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            TextField("", text: $text, prompt: Text("Share a thought..."))
+            TextField("", text: $viewModel.text, prompt: Text("Share a thought..."))
                 .padding()
                 .background(Color(.systemGray6))
                 .clipShape(
@@ -95,9 +99,13 @@ struct NewNoteView: View {
                 )
                 .focused($isTextFocusState)
                 .multilineTextAlignment(.center)
-                .opacity(text.isEmpty ? 1 : 0)
+                .opacity(viewModel.text.isEmpty ? 1 : 0)
                 .frame(width: 200)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .onChange(of: viewModel.text) { oldValue, newValue in
+                    /// Limit character of the text
+                    viewModel.text = String(viewModel.text.prefix(viewModel.characterLimit))
+                }
         }
     }
     
@@ -106,13 +114,14 @@ struct NewNoteView: View {
         ZStack {
             HStack {
                 Button {
-                    
+                    handleAction()
                 } label: {
                     Image(systemName: "xmark")
                 }
                 Spacer()
                 Button("Share") {
-                    
+                    viewModel.createANote()
+                    handleAction()
                 }
                 .disabled(isValidNote)
             }
@@ -133,9 +142,12 @@ struct NewNoteView: View {
         }
         .font(.footnote)
         .bold()
+        .padding(.bottom, 10)
     }
 }
 
 #Preview {
-    NewNoteView()
+    NewNoteView() {
+        
+    }
 }
