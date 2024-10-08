@@ -9,17 +9,26 @@ import SwiftUI
 
 struct ListNoteView: View {
     
+    @Binding var listNotes: [NoteItem]
+    @Binding var currentNote: NoteItem?
     @State private var isOpenCreateNote: Bool = false
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 0) {
-                NoteCellView(isOnline: .constant(false), isUserCurrent: .constant(true), noteText: .constant("Your note"))
-                    .onTapGesture {
-                        isOpenCreateNote = true
-                    }
-                ForEach(0..<12) { _ in
-                    NoteCellView(isOnline: .constant(true), isUserCurrent: .constant(false), noteText: .constant("Hello ca nha"))
+                if currentNote != nil {
+                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNote)
+                        .onTapGesture {
+                            isOpenCreateNote = true
+                        }
+                } else {
+                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNoteCurrent)
+                        .onTapGesture {
+                            isOpenCreateNote = true
+                        }
+                }
+                ForEach(listNotes) { note in
+                    NoteCellView(isOnline: true, isUserCurrent: false, note: note)
                 }
             }
         }
@@ -33,5 +42,5 @@ struct ListNoteView: View {
 }
 
 #Preview {
-    ListNoteView()
+    ListNoteView(listNotes: .constant([]), currentNote: .constant(.stubNote))
 }

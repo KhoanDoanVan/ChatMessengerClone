@@ -28,9 +28,14 @@ class ChatTabScreenViewModel: ObservableObject {
     typealias ChannelId = String
     @Published var channelDictionary: [ChannelId: ChannelItem] = [:]
     
+    // MARK: Note
+    @Published var listNotes = [NoteItem]()
+    @Published var currentNote: NoteItem?
+    
     init(_ currentUser: UserItem) {
         self.currentUser = currentUser
         fetchChannelsCurrent()
+        fetchAllNotes()
     }
     
     /// Create new chat
@@ -87,5 +92,64 @@ class ChatTabScreenViewModel: ObservableObject {
     /// Reload Array Channels Realtime (avoid duplication after create new channel)
     func reloadChannelList() {
         self.channels = Array(channelDictionary.values)
+    }
+    
+    /// Fetch All Notes
+    func fetchAllNotes() {
+        NoteSevice.fetchAllNotes { notes in
+            self.listNotes = notes
+            self.attachOwnerNote {
+                self.filterCurrentNote()
+            }
+        }
+    }
+    
+    
+    /// Attach owner into note
+//    private func attachOwnerNote() {
+//        for index in 0..<listNotes.count {
+//            let ownerUid = listNotes[index].ownerUid
+//            let currentIndex = index // Capture the current index to avoid issues with asynchronous closure
+//            UserService.fetchUserByUid(ownerUid) { [weak self] userItem in
+//                guard let self = self else { return }
+//                
+//                // Ensure that the array still has this index when the async call completes
+//                if currentIndex < self.listNotes.count {
+//                    self.listNotes[currentIndex].owner = userItem
+//                }
+//            }
+//        }
+//    }
+    
+    private func attachOwnerNote(completion: @escaping () -> Void) {
+        let dispatchGroup = DispatchGroup() // Use a dispatch group to manage asynchronous tasks
+        
+        for index in 0..<listNotes.count {
+            let ownerUid = listNotes[index].ownerUid
+            dispatchGroup.enter() // Start tracking the async task
+            
+            UserService.fetchUserByUid(ownerUid) { [weak self] userItem in
+                defer { dispatchGroup.leave() } // Mark the async task as finished
+                
+                guard let self = self else { return }
+                if index < self.listNotes.count {
+                    self.listNotes[index].owner = userItem
+                }
+            }
+        }
+        
+        // Notify when all async tasks have finished
+        dispatchGroup.notify(queue: .main) {
+            completion() // Completion handler to notify when owners have been attached
+        }
+    }
+    
+    /// Filter current note
+    private func filterCurrentNote() {
+        if listNotes.contains(where: { $0.ownerUid == currentUser.uid }) {
+            self.currentNote = listNotes.first(where: { $0.ownerUid == currentUser.uid })
+            self.listNotes = listNotes.filter{ $0.ownerUid != currentUser.uid }
+            print("ListNoteAfterFilter: \(listNotes)")
+        }
     }
 }

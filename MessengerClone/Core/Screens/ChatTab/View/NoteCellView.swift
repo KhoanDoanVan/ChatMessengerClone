@@ -9,14 +9,14 @@ import SwiftUI
 
 struct NoteCellView: View {
     
-    @Binding var isOnline: Bool
-    @Binding var isUserCurrent: Bool
-    @Binding var noteText: String
+    let isOnline: Bool
+    let isUserCurrent: Bool
+    let note: NoteItem
     
     private var noteTitle: String {
         let maxChar = 30
-        let trailingChars = noteText.count > maxChar ? "..." : ""
-        let title = String(noteText.prefix(maxChar) + trailingChars)
+        let trailingChars = note.textNote.count > maxChar ? "..." : ""
+        let title = String(note.textNote.prefix(maxChar) + trailingChars)
         
         return title
     }
@@ -24,18 +24,17 @@ struct NoteCellView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 3) {
-                Circle()
-                    .frame(width: 80, height: 80)
-                    .foregroundStyle(.white)
+                CircularProfileImage(note.owner?.profileImage, size: .large)
                 
-                Text("Your note")
+                Text((isUserCurrent ? "Your Note" : note.owner?.username) ?? "")
+                    .font(.footnote)
                     .foregroundStyle(isUserCurrent ? Color(.systemGray3) : .white)
             }
             
             VStack(alignment: .leading) {
                 ZStack {
                     VStack(spacing: 0) {
-                        Text(noteTitle)
+                        Text(isUserCurrent ? "Post a note" : note.textNote)
                             .font(.system(size: 12))
                             .foregroundStyle(isUserCurrent ?  Color(.systemGray) : .white)
                             .padding(.horizontal, 12)
@@ -79,28 +78,30 @@ struct NoteCellView: View {
                     }
                 }
             } else {
-                HStack {
+                if !isUserCurrent {
                     HStack {
-                        Spacer()
-                        ZStack {
-                            Text("12m")
-                                .foregroundStyle(.green)
-                                .font(.footnote)
-                                .padding(.horizontal, 5)
-                                .padding(.vertical, 4)
-                                .background(.black)
-                                .clipShape(Capsule())
-                                .padding(.horizontal, 5)
-                                .padding(.top, 20)
-                            Text("12m")
-                                .foregroundStyle(.green)
-                                .font(.footnote)
-                                .padding(.horizontal, 2)
-                                .padding(.vertical, 1)
-                                .background(Color(.systemGray4))
-                                .clipShape(Capsule())
-                                .padding(.horizontal, 5)
-                                .padding(.top, 20)
+                        HStack {
+                            Spacer()
+                            ZStack {
+                                Text(note.createAt.formattedOnlineChannel())
+                                    .foregroundStyle(.green)
+                                    .font(.footnote)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 4)
+                                    .background(.black)
+                                    .clipShape(Capsule())
+                                    .padding(.horizontal, 5)
+                                    .padding(.top, 20)
+                                Text(note.createAt.formattedOnlineChannel())
+                                    .foregroundStyle(.green)
+                                    .font(.footnote)
+                                    .padding(.horizontal, 2)
+                                    .padding(.vertical, 1)
+                                    .background(Color(.systemGray4))
+                                    .clipShape(Capsule())
+                                    .padding(.horizontal, 5)
+                                    .padding(.top, 20)
+                            }
                         }
                     }
                 }
@@ -113,5 +114,5 @@ struct NoteCellView: View {
 }
 
 #Preview {
-    NoteCellView(isOnline: .constant(false), isUserCurrent: .constant(false), noteText: .constant(""))
+    NoteCellView(isOnline: false, isUserCurrent: false, note: .stubNote)
 }

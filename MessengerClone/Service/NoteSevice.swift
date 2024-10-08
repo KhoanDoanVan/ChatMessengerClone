@@ -25,13 +25,39 @@ struct NoteSevice {
         
         let dictNote: [String:Any] = [
             .id: noteId,
-            .text: text,
-            .timeStamp: timestamp,
+            .textNote: text,
+            .createAt: timestamp,
             .ownerUid: currentUid
         ]
         
         FirebaseConstants.UserNoteRef.child(noteId).setValue(dictNote)
         
         completion()
+    }
+    
+    /// Fetch all notes
+    static func fetchAllNotes(completion: @escaping ([NoteItem]) -> Void) {
+        
+        FirebaseConstants.UserNoteRef
+            .observe(.value) { snapshot  in
+                guard let notesDict = snapshot.value as? [String:Any] else {
+                    completion([])
+                    return
+                }
+                
+                var notes: [NoteItem] = []
+                
+                notesDict.forEach { key, value in
+                    let noteDict = value as? [String:Any] ?? [:]
+                    var note = NoteItem(noteDict)
+                    
+                    notes.append(note)
+                }
+                
+                completion(notes)
+                
+            } withCancel: { error in
+                print("Failed to fetch all notes: \(error.localizedDescription)")
+            }
     }
 }

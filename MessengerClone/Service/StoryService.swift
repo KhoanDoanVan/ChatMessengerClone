@@ -33,39 +33,6 @@ struct StoryService {
         completion()
     }
     
-//    /// Fetch All Story
-//    static func fetchStories(completion: @escaping ([GroupStoryItem]) -> Void) {
-//        
-//        FirebaseConstants.UserStoryRef.observeSingleEvent(of: .value) { snapshot in
-//            guard let data = snapshot.value as? [String: [String:Any]] else {
-//                completion([])
-//                return
-//            }
-//            
-//            var listGroupStory = [GroupStoryItem]()
-//            
-//            for (ownerUid, storyData) in data {
-//                UserService.fetchUserByUid(ownerUid) { userItem in
-//                    guard let userItem else { return }
-//                    
-//                    var groupCell = [StoryItem]()
-//                    
-//                    for (_ , storyDict) in storyData {
-//                        guard let storyDict = storyDict as? [String:Any] else { return }
-//                        
-//                        guard let storyItem = StoryItem(dict: storyDict) else { return }
-//                        groupCell.append(storyItem)
-//                    }
-//                    
-//                    let groupStory = GroupStoryItem(id: ownerUid, owner: userItem, stories: groupCell)
-//                    listGroupStory.append(groupStory)
-//                }
-//            }
-//            
-//            completion(listGroupStory)
-//        }
-//    }
-    
     /// Fetch All Story
     static func fetchStories(completion: @escaping ([GroupStoryItem]) -> Void) {
 

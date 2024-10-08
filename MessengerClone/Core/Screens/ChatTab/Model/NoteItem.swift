@@ -7,15 +7,32 @@
 
 import Foundation
 
-struct NoteItem {
+struct NoteItem: Identifiable {
     
     let id: String
-    let text: String
-    let timeStamp: Date
+    let textNote: String
+    let createAt: Date
     let ownerUid: String
-    let owner: UserItem?
-    let songUrl: String?
-    let songName: String?
+    var owner: UserItem?
+    var songUrl: String?
+    var songName: String?
+    
+    static let stubNote: NoteItem = NoteItem(id: UUID().uuidString, textNote: "", createAt: Date(), ownerUid: "")
+    
+    static let stubNoteCurrent: NoteItem = NoteItem(id: "", textNote: "Post a note", createAt: Date(), ownerUid: "")
     
 }
+extension NoteItem {
+    init(_ dict: [String:Any]) {
+        self.id = dict[.id] as? String ?? ""
+        self.textNote = dict[.textNote] as? String ?? ""
+        let timeStamp = dict[.createAt] as? Double ?? 0
+        self.createAt = Date(timeIntervalSince1970: timeStamp)
+        self.ownerUid = dict[.ownerUid] as? String ?? ""
+    }
+}
 
+extension String {
+    static let textNote = "textNote"
+    static let createAt = "createAt"
+}

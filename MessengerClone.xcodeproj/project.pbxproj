@@ -672,10 +672,10 @@
 		46E0B57F2C50DB7C0059C928 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				466EA9672C9ACBFE0021F753 /* ChatTabScreen.swift */,
 				46B804E82C58DE9B0091020E /* CreateChatView.swift */,
 				46749F7A2C662F9C00A8A4BD /* GroupChatPickerView.swift */,
 				46749F7C2C6637E400A8A4BD /* ChatPartnerRowView.swift */,
-				466EA9672C9ACBFE0021F753 /* ChatTabScreen.swift */,
 				466EA9692C9ACC220021F753 /* ListStoryView.swift */,
 				466EA96B2C9ACC540021F753 /* StoryItemView.swift */,
 				466EA96D2C9ACC7B0021F753 /* ListChannelView.swift */,
