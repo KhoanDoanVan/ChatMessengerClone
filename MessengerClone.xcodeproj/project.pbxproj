@@ -103,6 +103,7 @@
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
 		46A6439B2CB60634002CE4B7 /* DetailNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6439A2CB60634002CE4B7 /* DetailNoteView.swift */; };
+		46A6439D2CB61C36002CE4B7 /* DetailCurrentNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6439C2CB61C36002CE4B7 /* DetailCurrentNoteView.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
 		46AA92652C60DE91003F9CEB /* AddToStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92642C60DE91003F9CEB /* AddToStoryView.swift */; };
 		46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */; };
@@ -242,6 +243,7 @@
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
 		46A6439A2CB60634002CE4B7 /* DetailNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoteView.swift; sourceTree = "<group>"; };
+		46A6439C2CB61C36002CE4B7 /* DetailCurrentNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrentNoteView.swift; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
 		46AA92642C60DE91003F9CEB /* AddToStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToStoryView.swift; sourceTree = "<group>"; };
 		46AA92662C60E3C8003F9CEB /* ButtonTypeStoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTypeStoryView.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 				4604CB732CB36C2800388B73 /* NoteCellView.swift */,
 				4604CB752CB4064100388B73 /* NewNoteView.swift */,
 				46A6439A2CB60634002CE4B7 /* DetailNoteView.swift */,
+				46A6439C2CB61C36002CE4B7 /* DetailCurrentNoteView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -902,6 +905,7 @@
 				4677AE2F2C9125F3000795C7 /* Date+Extension.swift in Sources */,
 				466EA9742C9ACD1B0021F753 /* MessengerCloneApp.swift in Sources */,
 				4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */,
+				46A6439D2CB61C36002CE4B7 /* DetailCurrentNoteView.swift in Sources */,
 				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,

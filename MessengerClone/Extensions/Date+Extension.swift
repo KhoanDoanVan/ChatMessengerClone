@@ -123,7 +123,7 @@ extension Date {
         let secondsInDay: TimeInterval = 86400
         
         if elapsedTime < secondsInMinute {
-            return "second"
+            return "\(Int(secondsInMinute))s"
         } else if elapsedTime < secondsInHour {
             let minutes = Int(elapsedTime / secondsInMinute)
             return "\(Int(minutes))m"

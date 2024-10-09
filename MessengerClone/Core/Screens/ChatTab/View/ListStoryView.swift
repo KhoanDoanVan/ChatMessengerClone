@@ -13,6 +13,8 @@ struct ListNoteView: View {
     @Binding var currentNote: NoteItem?
     @State private var isOpenCreateNote: Bool = false
     @State private var isOpenDetailNote: Bool = false
+    @State private var noteGesture: NoteItem?
+    @State private var isOpenSheetNote: Bool = false
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -20,7 +22,7 @@ struct ListNoteView: View {
                 if currentNote != nil {
                     NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNote)
                         .onTapGesture {
-                            isOpenCreateNote = true
+                            isOpenSheetNote = true
                         }
                 } else {
                     NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNoteCurrent)
@@ -31,6 +33,7 @@ struct ListNoteView: View {
                 ForEach(listNotes) { note in
                     NoteCellView(isOnline: true, isUserCurrent: false, note: note)
                         .onTapGesture {
+                            noteGesture = note
                             isOpenDetailNote = true
                         }
                 }
@@ -42,8 +45,16 @@ struct ListNoteView: View {
             }
         })
         .fullScreenCover(isPresented: $isOpenDetailNote, content: {
-            DetailNoteView() {
-                isOpenDetailNote = false
+            if let note = noteGesture{
+                DetailNoteView(note: note) {
+                    isOpenDetailNote = false
+                }
+            }
+        })
+        .sheet(isPresented: $isOpenSheetNote, content: {
+            if let currentNote {
+                DetailCurrentNoteView(note: currentNote)
+                    .presentationDetents([.medium])
             }
         })
         .listRowInsets(EdgeInsets())

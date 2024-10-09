@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DetailNoteView: View {
     
+    let note: NoteItem
     @State private var text: String = ""
     @FocusState private var isFocusTextField: Bool
     
@@ -36,16 +37,16 @@ struct DetailNoteView: View {
     private var mainContent: some View {
         VStack {
             ZStack {
-                CircularProfileImage(nil, size: .xLarge)
+                CircularProfileImage(note.owner?.profileImage, size: .xLarge)
                                 
                 bubbleNote
             }
             .frame(width: 200)
             
-            Text("Doan Van Khoan")
+            Text(note.owner?.username ?? "Unknown")
                 .bold()
             
-            Text("Shared 14h ago")
+            Text("Shared \(note.createAt.formattedOnlineChannel()) ago")
                 .foregroundStyle(Color(.systemGray))
         }
     }
@@ -70,7 +71,7 @@ struct DetailNoteView: View {
     
     /// Note content
     private var noteContentBubble: some View {
-        Text("This is a note")
+        Text(note.textNote)
             .padding()
             .background(Color(.systemGray6))
             .clipShape(
@@ -135,6 +136,7 @@ struct DetailNoteView: View {
                 }
             }
         }
+        .padding(.bottom, 10)
     }
     
     /// Top Bar
@@ -150,7 +152,7 @@ struct DetailNoteView: View {
 }
 
 #Preview {
-    DetailNoteView() {
+    DetailNoteView(note: .stubNote) {
         
     }
 }
