@@ -14,7 +14,7 @@ struct NoteCellView: View {
     let note: NoteItem
     
     private var noteTitle: String {
-        let maxChar = 30
+        let maxChar = 25
         let trailingChars = note.textNote.count > maxChar ? "..." : ""
         let title = String(note.textNote.prefix(maxChar) + trailingChars)
         
@@ -28,15 +28,15 @@ struct NoteCellView: View {
                 
                 Text((isUserCurrent ? "Your Note" : note.owner?.username) ?? "")
                     .font(.footnote)
-                    .foregroundStyle(isUserCurrent ? Color(.systemGray3) : .white)
+                    .foregroundStyle(note == nil ? Color(.systemGray3) : .white)
             }
             
             VStack(alignment: .leading) {
                 ZStack {
                     VStack(spacing: 0) {
-                        Text(isUserCurrent ? "Post a note" : note.textNote)
+                        Text(note == nil ? "Post a note" : noteTitle)
                             .font(.system(size: 12))
-                            .foregroundStyle(isUserCurrent ?  Color(.systemGray) : .white)
+                            .foregroundStyle(note == nil ? Color(.systemGray) : .white)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 5)
                             .background(Color(.systemGray4))

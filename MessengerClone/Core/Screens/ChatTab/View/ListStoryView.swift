@@ -12,6 +12,7 @@ struct ListNoteView: View {
     @Binding var listNotes: [NoteItem]
     @Binding var currentNote: NoteItem?
     @State private var isOpenCreateNote: Bool = false
+    @State private var isOpenDetailNote: Bool = false
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -29,12 +30,20 @@ struct ListNoteView: View {
                 }
                 ForEach(listNotes) { note in
                     NoteCellView(isOnline: true, isUserCurrent: false, note: note)
+                        .onTapGesture {
+                            isOpenDetailNote = true
+                        }
                 }
             }
         }
         .fullScreenCover(isPresented: $isOpenCreateNote, content: {
             NewNoteView() {
                 isOpenCreateNote = false
+            }
+        })
+        .fullScreenCover(isPresented: $isOpenDetailNote, content: {
+            DetailNoteView() {
+                isOpenDetailNote = false
             }
         })
         .listRowInsets(EdgeInsets())
