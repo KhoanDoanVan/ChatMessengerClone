@@ -21,7 +21,7 @@ class ChatTabScreenViewModel: ObservableObject {
     @Published var newChannel: ChannelItem?
     
     // MARK: Fetch Channels Propertises
-    private var currentUser: UserItem
+    var currentUser: UserItem
     @Published var channels = [ChannelItem]()
     
     // MARK: Avoid Duplication Channels When create new channel
@@ -96,31 +96,19 @@ class ChatTabScreenViewModel: ObservableObject {
     
     /// Fetch All Notes
     func fetchAllNotes() {
-        NoteSevice.fetchAllNotes { notes in
-            self.listNotes = notes
-            self.attachOwnerNote {
-                self.filterCurrentNote()
+        
+        NoteSevice.removeAllNotesOver24Hours {
+            NoteSevice.fetchAllNotes { notes in
+                self.listNotes = notes
+                self.attachOwnerNote {
+                    self.filterCurrentNote()
+                }
             }
         }
     }
     
     
     /// Attach owner into note
-//    private func attachOwnerNote() {
-//        for index in 0..<listNotes.count {
-//            let ownerUid = listNotes[index].ownerUid
-//            let currentIndex = index // Capture the current index to avoid issues with asynchronous closure
-//            UserService.fetchUserByUid(ownerUid) { [weak self] userItem in
-//                guard let self = self else { return }
-//                
-//                // Ensure that the array still has this index when the async call completes
-//                if currentIndex < self.listNotes.count {
-//                    self.listNotes[currentIndex].owner = userItem
-//                }
-//            }
-//        }
-//    }
-    
     private func attachOwnerNote(completion: @escaping () -> Void) {
         let dispatchGroup = DispatchGroup() // Use a dispatch group to manage asynchronous tasks
         
@@ -150,6 +138,17 @@ class ChatTabScreenViewModel: ObservableObject {
             self.currentNote = listNotes.first(where: { $0.ownerUid == currentUser.uid })
             self.listNotes = listNotes.filter{ $0.ownerUid != currentUser.uid }
             print("ListNoteAfterFilter: \(listNotes)")
+        }
+    }
+    
+    func removeANote(_ idNote: String) {
+        NoteSevice.removeANoteById(idNote) {[weak self] error in
+            if let error {
+                print("Error Remove a note: \(error)")
+            } else {
+                self?.currentNote = nil
+                print("Delete note successfully")
+            }
         }
     }
 }

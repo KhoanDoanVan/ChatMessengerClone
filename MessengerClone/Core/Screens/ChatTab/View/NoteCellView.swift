@@ -12,6 +12,7 @@ struct NoteCellView: View {
     let isOnline: Bool
     let isUserCurrent: Bool
     let note: NoteItem
+    let currentUser: UserItem?
     
     private var noteTitle: String {
         let maxChar = 25
@@ -24,7 +25,11 @@ struct NoteCellView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 3) {
-                CircularProfileImage(note.owner?.profileImage, size: .large)
+                if currentUser != nil {
+                    CircularProfileImage(currentUser?.profileImage, size: .large)
+                } else {
+                    CircularProfileImage(note.owner?.profileImage, size: .large)
+                }
                 
                 Text((isUserCurrent ? "Your Note" : note.owner?.username) ?? "")
                     .font(.footnote)
@@ -114,5 +119,5 @@ struct NoteCellView: View {
 }
 
 #Preview {
-    NoteCellView(isOnline: false, isUserCurrent: false, note: .stubNote)
+    NoteCellView(isOnline: false, isUserCurrent: false, note: .stubNote, currentUser: .placeholder)
 }

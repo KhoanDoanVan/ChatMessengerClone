@@ -11,27 +11,30 @@ struct ListNoteView: View {
     
     @Binding var listNotes: [NoteItem]
     @Binding var currentNote: NoteItem?
+    let currentUser: UserItem
     @State private var isOpenCreateNote: Bool = false
     @State private var isOpenDetailNote: Bool = false
     @State private var noteGesture: NoteItem?
     @State private var isOpenSheetNote: Bool = false
     
+    let handleAction: (_ action: DetailCurrentNoteView.DetailCurrentNoteAction) -> Void
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 0) {
                 if currentNote != nil {
-                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNote)
+                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNote, currentUser: nil)
                         .onTapGesture {
                             isOpenSheetNote = true
                         }
                 } else {
-                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNoteCurrent)
+                    NoteCellView(isOnline: false, isUserCurrent: true, note: currentNote ?? .stubNoteCurrent, currentUser: currentUser)
                         .onTapGesture {
                             isOpenCreateNote = true
                         }
                 }
                 ForEach(listNotes) { note in
-                    NoteCellView(isOnline: true, isUserCurrent: false, note: note)
+                    NoteCellView(isOnline: true, isUserCurrent: false, note: note, currentUser: nil)
                         .onTapGesture {
                             noteGesture = note
                             isOpenDetailNote = true
@@ -40,7 +43,7 @@ struct ListNoteView: View {
             }
         }
         .fullScreenCover(isPresented: $isOpenCreateNote, content: {
-            NewNoteView() {
+            NewNoteView(currentNote: currentNote) {
                 isOpenCreateNote = false
             }
         })
@@ -53,8 +56,15 @@ struct ListNoteView: View {
         })
         .sheet(isPresented: $isOpenSheetNote, content: {
             if let currentNote {
-                DetailCurrentNoteView(note: currentNote)
-                    .presentationDetents([.medium])
+                DetailCurrentNoteView(note: currentNote) { action in
+                    switch action {
+                    case .deleteNote:
+                        handleAction(action)
+                    case .leaveANewNote(let note):
+                        isOpenCreateNote = true
+                    }
+                }
+                .presentationDetents([.medium])
             }
         })
         .listRowInsets(EdgeInsets())
@@ -62,5 +72,7 @@ struct ListNoteView: View {
 }
 
 #Preview {
-    ListNoteView(listNotes: .constant([]), currentNote: .constant(.stubNote))
+    ListNoteView(listNotes: .constant([]), currentNote: .constant(.stubNote), currentUser: .placeholder) { action in
+        
+    }
 }

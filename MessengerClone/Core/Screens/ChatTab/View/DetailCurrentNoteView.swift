@@ -11,6 +11,7 @@ struct DetailCurrentNoteView: View {
     
     @Environment(\.dismiss) private var dismiss
     let note: NoteItem
+    let handleAction: (_ action: DetailCurrentNoteAction) -> Void
     
     var body: some View {
         VStack(spacing: 20) {
@@ -20,6 +21,7 @@ struct DetailCurrentNoteView: View {
             
             Button {
                 dismiss()
+                handleAction(.leaveANewNote(note: note))
             } label: {
                 Text("Leave a new note")
                     .bold()
@@ -34,6 +36,7 @@ struct DetailCurrentNoteView: View {
             
             Button("Delete note") {
                 dismiss()
+                handleAction(.deleteNote(note: note))
             }
             .bold()
         }
@@ -98,6 +101,15 @@ struct DetailCurrentNoteView: View {
     }
 }
 
+extension DetailCurrentNoteView {
+    enum DetailCurrentNoteAction {
+        case leaveANewNote(note: NoteItem)
+        case deleteNote(note: NoteItem)
+    }
+}
+
 #Preview {
-    DetailCurrentNoteView(note: .stubNote)
+    DetailCurrentNoteView(note: .stubNote) { action in
+        
+    }
 }

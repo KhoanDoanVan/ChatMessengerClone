@@ -29,8 +29,16 @@ struct ChatTabScreen: View {
                 List {
                     ListNoteView(
                         listNotes: $viewModel.listNotes,
-                        currentNote: $viewModel.currentNote
-                    )
+                        currentNote: $viewModel.currentNote,
+                        currentUser: viewModel.currentUser
+                    ) { action in
+                        switch action {
+                        case .leaveANewNote(let note):
+                            viewModel.openCreateNewMessage = true
+                        case .deleteNote(let note):
+                            viewModel.removeANote(note.id)
+                        }
+                    }
                     
                     ListChannelView(channels: viewModel.channels)
                 }

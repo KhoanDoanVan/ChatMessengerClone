@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import Firebase
 
 struct NoteSevice {
     
@@ -59,5 +60,67 @@ struct NoteSevice {
             } withCancel: { error in
                 print("Failed to fetch all notes: \(error.localizedDescription)")
             }
+    }
+    
+    /// Remove  all note older 24 hours
+    static func removeAllNotesOver24Hours(completion: @escaping () -> Void) {
+        
+        let twentyFourHoursAgo = Date().timeIntervalSince1970 * 1000 - (24 * 60 * 60 * 1000)
+        
+        FirebaseConstants.UserNoteRef
+            .queryOrdered(byChild: "createAt")
+            .queryEnding(atValue: twentyFourHoursAgo)
+            .observeSingleEvent(of: .value) { snapshot in
+                
+                let dispatchGroup = DispatchGroup() // Dispatch group to manage async tasks
+                
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    
+                    if let noteData = snap.value as? [String:AnyObject],
+                       let timeStamp = noteData["createAt"] as? Double,
+                       timeStamp >= twentyFourHoursAgo
+                    {
+                        dispatchGroup.enter() // Start tracking the removal task
+                        
+                        snap.ref.removeValue { error, _ in
+                            if let error {
+                                print("Error to remove note: \(error.localizedDescription)")
+                            } else {
+                                print("Remove snap successfully.")
+                            }
+                            dispatchGroup.leave() // Mark the task as complete
+                        }
+                    }
+                }
+            
+                // Once all remove tasks are complete, call the completion handler
+               dispatchGroup.notify(queue: .main) {
+                   completion()
+               }
+            }
+    }
+    
+    /// Remove a note by Id
+    static func removeANoteById(_ idNote: String, completion: @escaping (Error?) -> Void) {
+        FirebaseConstants.UserNoteRef.child(idNote)
+            .removeValue { error, _ in
+                completion(error)
+            }
+    }
+    
+    /// Change a note
+    static func changeANote(_ idNote: String, _ newText: String, completion: @escaping () -> Void) {
+        
+        let timeStamp = Date().timeIntervalSince1970
+        
+        let dict: [String:Any] = [
+            .createAt: timeStamp,
+            .textNote: newText
+        ]
+        
+        FirebaseConstants.UserNoteRef.child(idNote).updateChildValues(dict)
+        
+        completion()
     }
 }

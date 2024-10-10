@@ -10,9 +10,13 @@ import SwiftUI
 struct NewNoteView: View {
     @FocusState private var isTextFocusState: Bool
     
-    @StateObject private var viewModel = NewNoteViewModel()
-    
+    @StateObject private var viewModel: NewNoteViewModel
     let handleAction: () -> Void
+    
+    init(currentNote: NoteItem?, completion: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: NewNoteViewModel(currentNote: currentNote))
+        self.handleAction = completion
+    }
     
     private var isValidNote: Bool {
         return viewModel.text.isEmpty
@@ -66,12 +70,12 @@ struct NewNoteView: View {
             textFieldView
             Circle()
                 .frame(width: 20, height: 20)
-                .foregroundStyle(Color(.systemGray6))
+                .foregroundStyle(Color(.systemGray5))
                 .padding(.leading, 25)
                 .padding(.top, -20)
             Circle()
                 .frame(width: 10, height: 10)
-                .foregroundStyle(Color(.systemGray6))
+                .foregroundStyle(Color(.systemGray5))
                 .padding(.leading, 35)
                 .padding(.top, -8)
         }
@@ -83,7 +87,7 @@ struct NewNoteView: View {
         ZStack {
             Text(viewModel.text)
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(.systemGray5))
                 .clipShape(
                     .rect(cornerRadius: 20)
                 )
@@ -93,7 +97,7 @@ struct NewNoteView: View {
             
             TextField("", text: $viewModel.text, prompt: Text("Share a thought..."))
                 .padding()
-                .background(Color(.systemGray6))
+                .background(Color(.systemGray5))
                 .clipShape(
                     .rect(cornerRadius: 20)
                 )
@@ -147,7 +151,7 @@ struct NewNoteView: View {
 }
 
 #Preview {
-    NewNoteView() {
+    NewNoteView(currentNote: .stubNote) {
         
     }
 }

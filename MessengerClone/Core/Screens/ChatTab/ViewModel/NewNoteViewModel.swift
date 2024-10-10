@@ -15,10 +15,12 @@ class NewNoteViewModel: ObservableObject {
     var characterLimit: Int = 60
     
     @Published var currentUser: UserItem?
+    @Published var currentNote: NoteItem?
     private var cancellables = Set<AnyCancellable>()
     
     
-    init() {
+    init(currentNote: NoteItem? = nil) {
+        self.currentNote = currentNote
         AuthManager.shared.authState
             .sink { [weak self] authState in
                 switch authState {
@@ -33,8 +35,15 @@ class NewNoteViewModel: ObservableObject {
     
     /// Create A Note
     func createANote() {
-        NoteSevice.uploadANote(text) {
-            print("Upload Note success")
+        if currentNote != nil {
+            guard let idNote = currentNote?.id else { return }
+            NoteSevice.changeANote(idNote, text) {
+                print("Update a Note Success")
+            }
+        } else {
+            NoteSevice.uploadANote(text) {
+                print("Create a Note success")
+            }
         }
     }
 }
