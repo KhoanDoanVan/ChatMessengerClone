@@ -20,13 +20,15 @@ class StoryViewModel: ObservableObject {
     @Published var groupStoryTapGesture: GroupStoryItem?
     
     init() {
-        StoryService.fetchStories { list in
-            self.listGroupStory = list
-            /// Filter current group out of the list group story
-            self.attachCurrentGroupStory()
-            self.removeCurrentGroupStory()
+        StoryService.removeAllStoriesOver24Hours {
+            StoryService.fetchStories { list in
+                self.listGroupStory = list
+                /// Filter current group out of the list group story
+                self.attachCurrentGroupStory()
+                self.removeCurrentGroupStory()
+            }
+            self.userCurrentUid = Auth.auth().currentUser?.uid
         }
-        self.userCurrentUid = Auth.auth().currentUser?.uid
     }
     
     /// Check wheather this group from current user or not

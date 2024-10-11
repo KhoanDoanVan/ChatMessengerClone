@@ -28,25 +28,25 @@ struct StoryScreen: View {
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
-                if !viewModel.listGroupStory.isEmpty {
-                    LazyVGrid(columns: items, spacing: 10) {
-                        if let groupCurrent = viewModel.groupStoryCurrent {
-                            StoryCellView(groupStory: groupCurrent, isShowStory: false)
-                                .onTapGesture {
-                                    viewModel.isOpenStoryPlayer.toggle()
-                                    viewModel.groupStoryTapGesture = groupCurrent
-                                }
-                        } else {
-                            createStoryCell()
-                                .onTapGesture {
-                                    viewModel.openCreateNewStory.toggle()
-                                }
-                        }
-                        
-                        listCellStory()
+                LazyVGrid(columns: items, spacing: 10) {
+                    if let groupCurrent = viewModel.groupStoryCurrent {
+                        StoryCellView(groupStory: groupCurrent, isShowStory: false)
+                            .onTapGesture {
+                                viewModel.isOpenStoryPlayer.toggle()
+                                viewModel.groupStoryTapGesture = groupCurrent
+                            }
+                    } else {
+                        createStoryCell()
+                            .onTapGesture {
+                                viewModel.openCreateNewStory.toggle()
+                            }
                     }
-                } else {
-                    ProgressView()
+                    
+                    if !viewModel.listGroupStory.isEmpty {
+                        listCellStory()
+                    } else {
+                        ProgressView()
+                    }
                 }
             }
             .padding(.top)

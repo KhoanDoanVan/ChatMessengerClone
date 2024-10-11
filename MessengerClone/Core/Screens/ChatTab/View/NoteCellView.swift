@@ -46,8 +46,11 @@ struct NoteCellView: View {
                             .padding(.vertical, 5)
                             .background(Color(.systemGray4))
                             .lineSpacing(-10)
-                            .clipShape(Capsule())
+                            .clipShape(
+                                .rect(cornerRadius: 15)
+                            )
                             .multilineTextAlignment(.center)
+                            .shadow(color: Color(.black).opacity(0.45), radius: 1, x: 0, y: 1)
                         Circle()
                             .frame(width: 15, height: 15)
                             .foregroundStyle(Color(.systemGray4))

@@ -71,7 +71,6 @@ struct BubbleTextView: View {
                 }
             }
         }
-        .shadow(color: Color(.systemGray3).opacity(0.1), radius: 5, x: 0, y: 20)
         .frame(maxWidth: .infinity, alignment: message.alignment)
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)

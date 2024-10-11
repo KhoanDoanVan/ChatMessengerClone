@@ -65,11 +65,10 @@ struct NoteSevice {
     /// Remove  all note older 24 hours
     static func removeAllNotesOver24Hours(completion: @escaping () -> Void) {
         
-        let twentyFourHoursAgo = Date().timeIntervalSince1970 * 1000 - (24 * 60 * 60 * 1000)
+        let currentTime = Date().timeIntervalSince1970 //  seconds
+        let twentyFourHoursInSeconds: Double = 24 * 60 * 60 // seconds
         
         FirebaseConstants.UserNoteRef
-            .queryOrdered(byChild: "createAt")
-            .queryEnding(atValue: twentyFourHoursAgo)
             .observeSingleEvent(of: .value) { snapshot in
                 
                 let dispatchGroup = DispatchGroup() // Dispatch group to manage async tasks
@@ -79,7 +78,7 @@ struct NoteSevice {
                     
                     if let noteData = snap.value as? [String:AnyObject],
                        let timeStamp = noteData["createAt"] as? Double,
-                       timeStamp >= twentyFourHoursAgo
+                       currentTime - timeStamp >= twentyFourHoursInSeconds
                     {
                         dispatchGroup.enter() // Start tracking the removal task
                         

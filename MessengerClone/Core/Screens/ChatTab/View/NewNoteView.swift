@@ -68,6 +68,7 @@ struct NewNoteView: View {
     private var bubbleNote: some View {
         VStack(alignment: .leading) {
             textFieldView
+                .shadow(color: Color(.black).opacity(0.45), radius: 1, x: 0, y: 1)
             Circle()
                 .frame(width: 20, height: 20)
                 .foregroundStyle(Color(.systemGray5))

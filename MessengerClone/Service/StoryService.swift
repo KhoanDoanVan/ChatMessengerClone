@@ -80,5 +80,52 @@ struct StoryService {
             }
         }
     }
+    
+    /// Remove all story older 24 hours
+    static func removeAllStoriesOver24Hours(completion: @escaping () -> Void) {
+        let currentTime = Date().timeIntervalSince1970 //  seconds
+        let twentyFourHoursInSeconds: Double = 24 * 60 * 60 // seconds
+        
+        FirebaseConstants.UserStoryRef
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let data = snapshot.value as? [String: [String: Any]] else {
+                    print("Failed to convert snapshot to data!")
+                    return
+                }
+                
+                let dispatchGroup = DispatchGroup()
+                
+                for (ownerUid, storyData) in data {
+                    dispatchGroup.enter()
+                    
+                    for (storyId, storyDict) in storyData {
+                        guard let storyDict = storyDict as? [String: Any],
+                              let timeStamp = storyDict["timeStamp"] as? Double else {
+                            continue
+                        }
+                        
+                        if (currentTime - timeStamp) >= twentyFourHoursInSeconds {
+                            FirebaseConstants.UserStoryRef
+                                .child(ownerUid)
+                                .child(storyId)
+                                .removeValue { error, _ in
+                                    if let error = error {
+                                        print("Error removing story: \(error.localizedDescription)")
+                                    } else {
+                                        print("Successfully removed story.")
+                                    }
+                                    dispatchGroup.leave()
+                                }
+                        } else {
+                            dispatchGroup.leave()
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion()
+                }
+            }
+    }
 }
 
