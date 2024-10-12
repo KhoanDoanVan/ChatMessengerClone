@@ -36,7 +36,8 @@ struct StoryService {
     /// Fetch All Story
     static func fetchStories(completion: @escaping ([GroupStoryItem]) -> Void) {
 
-        FirebaseConstants.UserStoryRef.observeSingleEvent(of: .value) { snapshot in
+        FirebaseConstants.UserStoryRef
+            .observe(.value) { snapshot in
             guard let data = snapshot.value as? [String: [String:Any]] else {
                 completion([])
                 return

@@ -67,6 +67,8 @@ struct ChannelItem: Identifiable, Hashable {
             return "Like emoji"
         case .location:
             return "Shared location"
+        case .replyStory:
+            return "Reply story"
         }
     }
     

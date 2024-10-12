@@ -58,8 +58,7 @@ struct StoryPlayerView: View {
                         }
                     
                     Button {
-                        viewModel.isTyping = false
-                        viewModel.text = ""
+                        viewModel.sendStoryReply()
                     } label: {
                         Image(systemName: "paperplane.fill")
                             .font(.title2)

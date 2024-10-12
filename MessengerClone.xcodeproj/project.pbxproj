@@ -88,6 +88,7 @@
 		46749F8B2C67715200A8A4BD /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F8A2C67715200A8A4BD /* UserItem.swift */; };
 		46749F8F2C68A46B00A8A4BD /* BubbleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F8E2C68A46B00A8A4BD /* BubbleImageView.swift */; };
 		46749F912C68A60800A8A4BD /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46749F902C68A60800A8A4BD /* MessageItem.swift */; };
+		4674F78D2CB9FE2E0003E695 /* BubbleStoryReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4674F78C2CB9FE2E0003E695 /* BubbleStoryReplyView.swift */; };
 		467751E62CA261FE00D874F1 /* AddToStoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */; };
 		467751E82CA26A6800D874F1 /* StoryBoardNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */; };
 		4677AE232C87157C000795C7 /* BubbleAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677AE222C87157C000795C7 /* BubbleAudioView.swift */; };
@@ -225,6 +226,7 @@
 		46749F8A2C67715200A8A4BD /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserItem.swift; sourceTree = "<group>"; };
 		46749F8E2C68A46B00A8A4BD /* BubbleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleImageView.swift; sourceTree = "<group>"; };
 		46749F902C68A60800A8A4BD /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
+		4674F78C2CB9FE2E0003E695 /* BubbleStoryReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleStoryReplyView.swift; sourceTree = "<group>"; };
 		467751E52CA261FE00D874F1 /* AddToStoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToStoryViewModel.swift; sourceTree = "<group>"; };
 		467751E72CA26A6800D874F1 /* StoryBoardNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBoardNewView.swift; sourceTree = "<group>"; };
 		4677AE222C87157C000795C7 /* BubbleAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleAudioView.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				4624583D2C9D87BE00F77815 /* BubbleStickerView.swift */,
 				4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */,
 				464DDAC02CA10163009D355E /* BubbleLocationView.swift */,
+				4674F78C2CB9FE2E0003E695 /* BubbleStoryReplyView.swift */,
 				465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */,
 				46749F762C661D5200A8A4BD /* ConfigChatView.swift */,
 				46BF4CDF2C81D5A40024928C /* PreviewVoiceRecordView.swift */,
@@ -876,6 +879,7 @@
 				46AA92672C60E3C8003F9CEB /* ButtonTypeStoryView.swift in Sources */,
 				46749F622C64D23B00A8A4BD /* PeopleScreen.swift in Sources */,
 				46AE5DA52CAD5F9800105010 /* StoryPlayerViewModel.swift in Sources */,
+				4674F78D2CB9FE2E0003E695 /* BubbleStoryReplyView.swift in Sources */,
 				466EA9722C9ACCDF0021F753 /* MainTabView.swift in Sources */,
 				4624583E2C9D87BE00F77815 /* BubbleStickerView.swift in Sources */,
 				4604CB722CB233BE00388B73 /* TrackingOnlineService.swift in Sources */,

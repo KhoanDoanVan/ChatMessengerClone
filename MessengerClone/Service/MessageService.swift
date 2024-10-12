@@ -183,6 +183,8 @@ struct MessageService {
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        onComplete()
     }
     
     /// Send Media Message
@@ -219,6 +221,38 @@ struct MessageService {
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        completion()
+    }
+    
+    /// Send reply story
+    static func sendStoryReply(
+        to channelUid: String,
+        from currentUid: String,
+        text: String,
+        urlImageStory: String,
+        completion: @escaping () -> Void
+    ) {
+        guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
+        let timeStamp = Date().timeIntervalSince1970
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageType: MessageType.replyStory.title,
+            .lastMessageTimestamp: timeStamp
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: text,
+            .type: MessageType.replyStory.title,
+            .timeStamp: timeStamp,
+            .ownerUid: currentUid,
+            .urlImageStory: urlImageStory
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channelUid).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channelUid).child(messageId).setValue(messageDict)
         
         completion()
     }

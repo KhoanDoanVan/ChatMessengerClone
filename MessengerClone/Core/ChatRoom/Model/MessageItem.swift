@@ -31,6 +31,7 @@ struct MessageItem {
     var urlSticker: String?
     var emojiString: String?
     var location: LocationItem?
+    var urlImageStory: String?
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -136,6 +137,7 @@ extension MessageItem {
         self.videoCallDuration = dict[.videoCallDuration] as? TimeInterval ?? nil
         self.urlSticker = dict[.urlSticker] as? String ?? ""
         self.emojiString = dict[.emojiString] as? String ?? ""
+        self.urlImageStory = dict[.urlImageStory] as? String ?? ""
         
         /// Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -201,4 +203,5 @@ extension String {
     static let latitude = "latitude"
     static let longtitude = "longtitude"
     static let nameAddress = "nameAddress"
+    static let urlImageStory = "urlImageStory"
 }
