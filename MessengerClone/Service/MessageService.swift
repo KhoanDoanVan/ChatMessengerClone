@@ -257,6 +257,38 @@ struct MessageService {
         completion()
     }
     
+    /// Send reply note
+    static func sendNoteReply(
+        to channelUid: String,
+        from currentUid: String,
+        text: String,
+        textNote: String,
+        completion: @escaping () -> Void
+    ) {
+        guard let messageId = FirebaseConstants.ChannelRef.childByAutoId().key else { return }
+        let timeStamp = Date().timeIntervalSince1970
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageType: MessageType.replyNote.title,
+            .lastMessageTimestamp: timeStamp
+        ]
+        
+        let messageDict: [String:Any] = [
+            .id: messageId,
+            .text: text,
+            .type: MessageType.replyNote.title,
+            .timeStamp: timeStamp,
+            .ownerUid: currentUid,
+            .textNote: textNote
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channelUid).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channelUid).child(messageId).setValue(messageDict)
+        
+        completion()
+    }
+    
     /// Fetch History Messages and Pagination
     static func getHistoryMessages(for channel: ChannelItem, lastCursor: String?, pageSize: UInt ,completion: @escaping(MessageNode) -> Void) {
         

@@ -37,11 +37,8 @@ class StoryPlayerViewModel: ObservableObject {
     /// Send story reply
     func sendStoryReply() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        
-        print("Inside sendStoryReply")
-        
+                
         getChannelFromCurrentAndOwnerStory(currentUid, storyCurrent.ownerUid) { channelId in
-            print("ChannelId: \(channelId)")
             if let channelId {
                 MessageService.sendStoryReply(to: channelId, from: currentUid, text: self.text, urlImageStory: self.storyCurrent.storyImageURL) {
                     self.isTyping = false
@@ -50,30 +47,5 @@ class StoryPlayerViewModel: ObservableObject {
                 }
             }
         }
-    }
-    
-    /// Get channel from userCurrent and owner Story
-    private func getChannelFromCurrentAndOwnerStory(_ currentUid: String, _ ownerStoryUid: String, completion: @escaping (String?) -> Void) {
-
-        FirebaseConstants.ChannelRef
-            .observeSingleEvent(of: .value) { snapshot in
-                
-                for case let channel as DataSnapshot in snapshot.children {
-                                        
-                    if let channelDict = channel.value as? [String: Any],
-                       let membersCount = channelDict["membersCount"] as? Int,
-                       membersCount == 2,
-                       let membersArray = channelDict["memberUids"] as? [String],
-                       membersArray.contains(currentUid) && membersArray.contains(ownerStoryUid) {
-
-                        let channelId = channelDict["id"] as? String
-                        completion(channelId)
-                        print("ChannelId from current && ownerStory: \(channelId ?? "No channelId found")")
-                        return
-                    }
-                }
-                
-                completion(nil)
-            }
     }
 }

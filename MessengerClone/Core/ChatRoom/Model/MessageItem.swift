@@ -32,6 +32,7 @@ struct MessageItem {
     var emojiString: String?
     var location: LocationItem?
     var urlImageStory: String?
+    var textNote: String?
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -96,6 +97,7 @@ struct MessageItem {
     static let stubMessageImage: MessageItem = MessageItem(id: UUID().uuidString, text: "e", type: .photo, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
     static let stubMessageAudio: MessageItem = MessageItem(id: UUID().uuidString, text: "", type: .audio, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
     static let stubMessageReplyStory: MessageItem = MessageItem(id: UUID().uuidString, text: "This is", type: .replyStory, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, urlImageStory: "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+    static let stubMessageReplyNote: MessageItem = MessageItem(id: UUID().uuidString, text: "Beauti", type: .replyNote, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, textNote: "This is the first note i don't think it's true")
     
     static let stubMessages: [MessageItem] = [
         MessageItem(id: UUID().uuidString, text: "Hi", type: .text, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil),
@@ -139,6 +141,7 @@ extension MessageItem {
         self.urlSticker = dict[.urlSticker] as? String ?? ""
         self.emojiString = dict[.emojiString] as? String ?? ""
         self.urlImageStory = dict[.urlImageStory] as? String ?? ""
+        self.textNote = dict[.textNote] as? String ?? ""
         
         /// Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {

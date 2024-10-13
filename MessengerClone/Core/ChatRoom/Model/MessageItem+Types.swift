@@ -13,7 +13,7 @@ enum MessageType: Hashable {
          video, audio,
          videoCall, sticker,
          emoji, location,
-         replyStory
+         replyStory, replyNote
     
     var title: String {
         switch self {
@@ -37,6 +37,8 @@ enum MessageType: Hashable {
             return "location"
         case .replyStory:
             return "replyStory"
+        case .replyNote:
+            return "replyNote"
         }
     }
     
@@ -60,6 +62,8 @@ enum MessageType: Hashable {
             self = .location
         case "replyStory":
             self = .replyStory
+        case "replyNote":
+            self = .replyNote
         default:
             if let adminMessageType = AdminMessageType(rawValue: stringValue) {
                 self = .admin(adminMessageType)

@@ -23,7 +23,18 @@ struct BubbleView: View {
                 showNewDay()
             }
             
-            if message.type == .replyStory {
+            
+            switch message.type {
+            case .replyNote:
+                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                    
+                    showTextReplyNote()
+                    
+                    ZStack {
+                        composeDynamicBubbleView()
+                    }
+                }
+            case .replyStory:
                 VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
                     
                     showTextReplyStory()
@@ -32,7 +43,7 @@ struct BubbleView: View {
                         composeDynamicBubbleView()
                     }
                 }
-            } else {
+            default:
                 VStack(alignment: .leading, spacing: 0) {
                     
                     if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
@@ -113,6 +124,39 @@ struct BubbleView: View {
             { state, message in
                 handleAction(state, message)
             }
+        case .replyNote:
+            BubbleNoteReplyView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender)
+            { state, message in
+                handleAction(state, message)
+            }
+        }
+    }
+    
+    /// Show Text Reply story
+    private func showTextReplyNote() -> some View {
+        HStack(spacing: 0) {
+            if message.type == .replyNote && message.isNotMe {
+                VStack {
+                    
+                }
+                .frame(width: 40, height: 40)
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("\(channel.usersChannel[0].username) replied you note")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+                .padding(.leading, 5)
+            } else if message.type == .replyNote && !message.isNotMe {
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("You replied to their note")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+            }
         }
     }
     
@@ -165,7 +209,7 @@ struct BubbleView: View {
 }
 
 #Preview {
-    BubbleView(message: .stubMessageReplyStory, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
+    BubbleView(message: .stubMessageReplyNote, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
         
     }
 }

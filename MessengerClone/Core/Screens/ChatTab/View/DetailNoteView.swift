@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct DetailNoteView: View {
-    
-    let note: NoteItem
-    @State private var text: String = ""
     @FocusState private var isFocusTextField: Bool
-    
-    private var isFillText: Bool {
-        return !text.isEmpty
-    }
+    @StateObject private var viewModel: DetailNoteViewModel
     
     let handleAction: () -> Void
+    
+    init(note: NoteItem, handleAction: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: DetailNoteViewModel(note: note))
+        self.handleAction = handleAction
+    }
+    
+    
+    private var isFillText: Bool {
+        return !viewModel.text.isEmpty
+    }
     
     var body: some View {
         VStack {
@@ -37,16 +41,16 @@ struct DetailNoteView: View {
     private var mainContent: some View {
         VStack {
             ZStack {
-                CircularProfileImage(note.owner?.profileImage, size: .xLarge)
+                CircularProfileImage(viewModel.note.owner?.profileImage, size: .xLarge)
                                 
                 bubbleNote
             }
             .frame(width: 200)
             
-            Text(note.owner?.username ?? "Unknown")
+            Text(viewModel.note.owner?.username ?? "Unknown")
                 .bold()
             
-            Text("Shared \(note.createAt.formattedOnlineChannel()) ago")
+            Text("Shared \(viewModel.note.createAt.formattedOnlineChannel()) ago")
                 .foregroundStyle(Color(.systemGray))
         }
     }
@@ -72,7 +76,7 @@ struct DetailNoteView: View {
     
     /// Note content
     private var noteContentBubble: some View {
-        Text(note.textNote)
+        Text(viewModel.note.textNote)
             .padding()
             .background(Color(.systemGray6))
             .clipShape(
@@ -84,7 +88,7 @@ struct DetailNoteView: View {
     
     /// TextField
     private var textField: some View {
-        TextField("", text: $text, prompt: Text("Send message"))
+        TextField("", text: $viewModel.text, prompt: Text("Send message"))
             .padding(.leading, 10)
             .padding(.trailing, 40)
             .padding(.vertical, 10)
@@ -110,9 +114,8 @@ struct DetailNoteView: View {
                     textField
                         .frame(maxWidth: .infinity)
                     Button {
-                        withAnimation {
-                            text = ""
-                        }
+                        viewModel.sendReplyNote()
+                        isFocusTextField = false
                     } label: {
                         Image(systemName: "paperplane.fill")
                             .font(.title2)
