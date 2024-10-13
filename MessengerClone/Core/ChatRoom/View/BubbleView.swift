@@ -23,17 +23,28 @@ struct BubbleView: View {
                 showNewDay()
             }
             
-            VStack(alignment: .leading, spacing: 0) {
-                
-                if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
-                    showSenderNameText()
+            if message.type == .replyStory {
+                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                    
+                    showTextReplyStory()
+                    
+                    ZStack {
+                        composeDynamicBubbleView()
+                    }
                 }
-                
-                ZStack {
-                    composeDynamicBubbleView()
+            } else {
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
+                        showSenderNameText()
+                    }
+                    
+                    ZStack {
+                        composeDynamicBubbleView()
+                    }
                 }
+                .frame(maxWidth: .infinity)
             }
-            .frame(maxWidth: .infinity)
         }
         .padding(.horizontal, -8)
     }
@@ -105,6 +116,32 @@ struct BubbleView: View {
         }
     }
     
+    /// Show Text Reply story
+    private func showTextReplyStory() -> some View {
+        HStack(spacing: 0) {
+            if message.type == .replyStory && message.isNotMe {
+                VStack {
+                    
+                }
+                .frame(width: 40, height: 40)
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("\(channel.usersChannel[0].username) replied you story")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+                .padding(.leading, 5)
+            } else if message.type == .replyStory && !message.isNotMe {
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("You replied to \(channel.usersChannel[0].username)'s story")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+            }
+        }
+    }
+    
     /// Show Sender
     private func showSenderNameText() -> some View {
         Text(message.sender?.username ?? "Unknown")
@@ -128,7 +165,7 @@ struct BubbleView: View {
 }
 
 #Preview {
-    BubbleView(message: .stubMessageImage, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
+    BubbleView(message: .stubMessageReplyStory, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
         
     }
 }

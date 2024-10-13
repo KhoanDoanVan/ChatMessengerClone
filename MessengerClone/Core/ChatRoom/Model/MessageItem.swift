@@ -95,6 +95,7 @@ struct MessageItem {
     static let stubMessageTextIsMe: MessageItem = MessageItem(id: UUID().uuidString, text: "Hahaha", type: .text, timeStamp: Date(), ownerUid: "11", thumbnailUrl: nil)
     static let stubMessageImage: MessageItem = MessageItem(id: UUID().uuidString, text: "e", type: .photo, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
     static let stubMessageAudio: MessageItem = MessageItem(id: UUID().uuidString, text: "", type: .audio, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
+    static let stubMessageReplyStory: MessageItem = MessageItem(id: UUID().uuidString, text: "This is", type: .replyStory, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, urlImageStory: "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
     
     static let stubMessages: [MessageItem] = [
         MessageItem(id: UUID().uuidString, text: "Hi", type: .text, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil),

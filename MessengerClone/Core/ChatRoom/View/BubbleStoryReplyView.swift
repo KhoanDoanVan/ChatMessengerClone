@@ -27,20 +27,24 @@ struct BubbleStoryReplyView: View {
             
             if message.isNotMe {
                 ZStack {
-                    HStack {
-                        ZStack {
-                            HStack {
-                                KFImage(URL(string: message.urlImageStory ?? ""))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 150)
-                                    .opacity(0.55)
-                                Spacer()
-                            }
+                    ZStack {
+                        HStack {
+                            KFImage(URL(string: message.urlImageStory ?? ""))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 130, height: 200)
+                                .opacity(0.65)
+                                .clipShape(
+                                    .rect(cornerRadius: 15)
+                                )
+                            Spacer()
+                        }
+                        HStack {
                             textView()
                                 .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
+                                .padding(.top, 180)
+                            Spacer()
                         }
-                        Spacer()
                     }
                     
                     if message.emojis != nil {
@@ -59,18 +63,22 @@ struct BubbleStoryReplyView: View {
                 }
             } else {
                 ZStack {
-                    HStack {
-                        Spacer()
-                        ZStack {
-                            HStack {
-                                KFImage(URL(string: message.urlImageStory ?? ""))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 50, height: 150)
-                                    .opacity(0.55)
-                                Spacer()
-                            }
+                    ZStack {
+                        HStack {
+                            Spacer()
+                            KFImage(URL(string: message.urlImageStory ?? ""))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 130, height: 200)
+                                .opacity(0.65)
+                                .clipShape(
+                                    .rect(cornerRadius: 15)
+                                )
+                        }
+                        HStack {
+                            Spacer()
                             textView()
+                                .padding(.top, 180)
                                 .padding(.horizontal, 0)
                         }
                     }
@@ -147,11 +155,12 @@ struct BubbleStoryReplyView: View {
                             )
                 )
             )
+            .shadow(radius: 10)
     }
 }
 
 #Preview {
-    BubbleStoryReplyView(message: .stubMessageAudio, isShowAvatarSender: false) { state, message in
+    BubbleStoryReplyView(message: .stubMessageText, isShowAvatarSender: false) { state, message in
         
     }
 }
