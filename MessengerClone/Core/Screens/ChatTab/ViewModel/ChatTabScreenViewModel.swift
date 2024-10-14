@@ -101,7 +101,9 @@ class ChatTabScreenViewModel: ObservableObject {
             NoteSevice.fetchAllNotes { notes in
                 self.listNotes = notes
                 self.attachOwnerNote {
-                    self.filterCurrentNote()
+                    self.filterCurrentNote() {
+                        self.attachOwnerOnline()
+                    }
                 }
             }
         }
@@ -133,14 +135,16 @@ class ChatTabScreenViewModel: ObservableObject {
     }
     
     /// Filter current note
-    private func filterCurrentNote() {
+    private func filterCurrentNote(completion: @escaping () -> Void) {
         if listNotes.contains(where: { $0.ownerUid == currentUser.uid }) {
             self.currentNote = listNotes.first(where: { $0.ownerUid == currentUser.uid })
             self.listNotes = listNotes.filter{ $0.ownerUid != currentUser.uid }
             print("ListNoteAfterFilter: \(listNotes)")
+            completion()
         }
     }
     
+    /// Remove a note by id
     func removeANote(_ idNote: String) {
         NoteSevice.removeANoteById(idNote) {[weak self] error in
             if let error {
@@ -148,6 +152,18 @@ class ChatTabScreenViewModel: ObservableObject {
             } else {
                 self?.currentNote = nil
                 print("Delete note successfully")
+            }
+        }
+    }
+    
+    /// Attach Owner Online to note
+    private func attachOwnerOnline() {
+        for index in 0..<listNotes.count {
+            let ownerUid = listNotes[index].ownerUid
+            TrackingOnlineService.singleStateOnlineUserByIds(ownerUid) { state, date in
+                if let date {
+                    self.listNotes[index].isOwnerOnline = (state, date)
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ struct NoteItem: Identifiable {
     var owner: UserItem?
     var songUrl: String?
     var songName: String?
+    var isOwnerOnline: (Bool, Date?)?
     
     static let stubNote: NoteItem = NoteItem(id: UUID().uuidString, textNote: "", createAt: Date(), ownerUid: "")
     

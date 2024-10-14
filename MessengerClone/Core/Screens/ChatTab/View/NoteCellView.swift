@@ -14,6 +14,8 @@ struct NoteCellView: View {
     let note: NoteItem
     let currentUser: UserItem?
     
+    
+    
     private var noteTitle: String {
         let maxChar = 25
         let trailingChars = note.textNote.count > maxChar ? "..." : ""
@@ -67,57 +69,68 @@ struct NoteCellView: View {
                 Spacer()
             }
             
-            
-            
-            if isOnline {
-                if !isUserCurrent {
-                    HStack {
-                        Spacer()
-                        ZStack {
-                            Circle()
-                                .frame(width: 20, height: 20)
-                                .foregroundStyle(.messagesWhite)
-                            Circle()
-                                .frame(width: 15, height: 15)
-                                .foregroundStyle(.green)
-                        }
-                        .padding(.top, 25)
-                        .padding(.horizontal, 8)
-                    }
-                }
-            } else {
-                if !isUserCurrent {
-                    HStack {
-                        HStack {
-                            Spacer()
-                            ZStack {
-                                Text(note.createAt.formattedOnlineChannel())
-                                    .foregroundStyle(.green)
-                                    .font(.footnote)
-                                    .padding(.horizontal, 5)
-                                    .padding(.vertical, 4)
-                                    .background(.black)
-                                    .clipShape(Capsule())
-                                    .padding(.horizontal, 5)
-                                    .padding(.top, 20)
-                                Text(note.createAt.formattedOnlineChannel())
-                                    .foregroundStyle(.green)
-                                    .font(.footnote)
-                                    .padding(.horizontal, 2)
-                                    .padding(.vertical, 1)
-                                    .background(Color(.systemGray4))
-                                    .clipShape(Capsule())
-                                    .padding(.horizontal, 5)
-                                    .padding(.top, 20)
-                            }
-                        }
-                    }
+            if (note.isOwnerOnline?.0 ?? false) {
+                onlineIcon
+            } else if (note.isOwnerOnline?.0 ?? false) && (note.isOwnerOnline?.1?.formattedOnlineChannel() == "second") {
+                onlineIcon
+            } else if (!(note.isOwnerOnline?.0 ?? false)) && (note.isOwnerOnline?.1?.formattedOnlineChannel() == "") {
+                
+            } else if (!(note.isOwnerOnline?.0 ?? false)) {
+                if let lastActive = note.isOwnerOnline?.1 {
+                    timeAgo(lastActive)
                 }
             }
         }
         .frame(width: 100, height: 100)
         .padding(.top, 30)
         .padding(.bottom, 15)
+    }
+    
+    
+    /// Is Online Icon
+    private var onlineIcon: some View {
+        HStack {
+            Spacer()
+            ZStack {
+                Circle()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.messagesWhite)
+                Circle()
+                    .frame(width: 15, height: 15)
+                    .foregroundStyle(.green)
+            }
+            .padding(.top, 25)
+            .padding(.horizontal, 8)
+        }
+    }
+    
+    /// Time Ago
+    private func timeAgo(_ lastActive: Date) -> some View {
+        HStack {
+            HStack {
+                Spacer()
+                ZStack {
+                    Text(lastActive.formattedOnlineChannel())
+                        .foregroundStyle(.green)
+                        .font(.footnote)
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 4)
+                        .background(.black)
+                        .clipShape(Capsule())
+                        .padding(.horizontal, 5)
+                        .padding(.top, 20)
+                    Text(lastActive.formattedOnlineChannel())
+                        .foregroundStyle(.green)
+                        .font(.footnote)
+                        .padding(.horizontal, 2)
+                        .padding(.vertical, 1)
+                        .background(Color(.systemGray4))
+                        .clipShape(Capsule())
+                        .padding(.horizontal, 5)
+                        .padding(.top, 20)
+                }
+            }
+        }
     }
 }
 
