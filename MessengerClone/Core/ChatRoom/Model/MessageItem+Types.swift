@@ -41,7 +41,7 @@ enum MessageType: Hashable {
         case .replyNote:
             return "replyNote"
         case .fileMedia:
-            return "file"
+            return "fileMedia"
         }
     }
     

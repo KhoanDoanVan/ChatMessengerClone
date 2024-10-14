@@ -598,7 +598,8 @@ class ChatRoomScreenViewModel: ObservableObject {
                 attachment: attachment,
                 sender: userCurrent,
                 fileMediaURL: fileUrl.absoluteString,
-                sizeOfFile: sizeOfFile
+                sizeOfFile: sizeOfFile,
+                nameOfFile: nameOfFile
             )
             
             MessageService.sendMediaMessage(to: self.channel, params: uploadParams) { [weak self] in

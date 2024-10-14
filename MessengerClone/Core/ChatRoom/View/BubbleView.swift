@@ -132,7 +132,12 @@ struct BubbleView: View {
                 handleAction(state, message)
             }
         case .fileMedia:
-            Text("File Media 🥰")
+            BubbleFileView(
+                message: message,
+                isShowAvatarSender: isShowAvatarSender)
+            { state, message in
+                handleAction(state, message)
+            }
         }
     }
     

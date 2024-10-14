@@ -42,6 +42,8 @@
 		465168452C6F4227006C8837 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168442C6F4227006C8837 /* String+Extension.swift */; };
 		465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */; };
 		46598C6A2CBCEDC0009FFD71 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46598C692CBCEDC0009FFD71 /* URL+Extension.swift */; };
+		46598C6C2CBD28D1009FFD71 /* BubbleFileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46598C6B2CBD28D1009FFD71 /* BubbleFileView.swift */; };
+		46598C6E2CBD2EF3009FFD71 /* Int64+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46598C6D2CBD2EF3009FFD71 /* Int64+Extension.swift */; };
 		465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE5D2C6ABDB300A97E77 /* LoginScreen.swift */; };
 		465EBE612C6AC84B00A97E77 /* ButtonAuthModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE602C6AC84B00A97E77 /* ButtonAuthModifier.swift */; };
 		465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE622C6AC92F00A97E77 /* TextFieldAuthModifier.swift */; };
@@ -189,6 +191,8 @@
 		465168442C6F4227006C8837 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBubbleTextView.swift; sourceTree = "<group>"; };
 		46598C692CBCEDC0009FFD71 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
+		46598C6B2CBD28D1009FFD71 /* BubbleFileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleFileView.swift; sourceTree = "<group>"; };
+		46598C6D2CBD2EF3009FFD71 /* Int64+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int64+Extension.swift"; sourceTree = "<group>"; };
 		465EBE5D2C6ABDB300A97E77 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		465EBE602C6AC84B00A97E77 /* ButtonAuthModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAuthModifier.swift; sourceTree = "<group>"; };
 		465EBE622C6AC92F00A97E77 /* TextFieldAuthModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAuthModifier.swift; sourceTree = "<group>"; };
@@ -479,6 +483,7 @@
 				464DDAC02CA10163009D355E /* BubbleLocationView.swift */,
 				4674F78C2CB9FE2E0003E695 /* BubbleStoryReplyView.swift */,
 				463094F12CBB7F9F00D9C9CC /* BubbleNoteReplyView.swift */,
+				46598C6B2CBD28D1009FFD71 /* BubbleFileView.swift */,
 				465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */,
 				46749F762C661D5200A8A4BD /* ConfigChatView.swift */,
 				46BF4CDF2C81D5A40024928C /* PreviewVoiceRecordView.swift */,
@@ -571,6 +576,7 @@
 				464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */,
 				4611F7E52CA95C24004D736D /* View+Extension.swift */,
 				46598C692CBCEDC0009FFD71 /* URL+Extension.swift */,
+				46598C6D2CBD2EF3009FFD71 /* Int64+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -983,10 +989,12 @@
 				466EA96C2C9ACC540021F753 /* StoryItemView.swift in Sources */,
 				465EBE612C6AC84B00A97E77 /* ButtonAuthModifier.swift in Sources */,
 				46B804E92C58DE9B0091020E /* CreateChatView.swift in Sources */,
+				46598C6C2CBD28D1009FFD71 /* BubbleFileView.swift in Sources */,
 				46749F8F2C68A46B00A8A4BD /* BubbleImageView.swift in Sources */,
 				465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */,
 				46EE7B772C9AB7010077ABAB /* CallControlsView.swift in Sources */,
 				4677AE292C8B4DC0000795C7 /* CustomVideoPlayer.swift in Sources */,
+				46598C6E2CBD2EF3009FFD71 /* Int64+Extension.swift in Sources */,
 				4604CB762CB4064100388B73 /* NewNoteView.swift in Sources */,
 				4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */,
 				465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */,
