@@ -71,6 +71,8 @@ struct ChannelItem: Identifiable, Hashable {
             return "Reply story"
         case .replyNote:
             return "Reply note"
+        case .fileMedia:
+            return "File Media"
         }
     }
     

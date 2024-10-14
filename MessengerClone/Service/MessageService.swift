@@ -213,6 +213,8 @@ struct MessageService {
         messageDict[.videoDuration] = params.videoDuration ?? nil
         messageDict[.audioURL] = params.audioURL ?? nil
         messageDict[.audioDuration] = params.audioDuration ?? nil
+        messageDict[.fileMediaURL] = params.fileMediaURL ?? nil
+        messageDict[.sizeOfFile] = params.sizeOfFile ?? nil
         
         /// Convert array levels audio
         if let audioLevels = params.audioLevels {
@@ -404,6 +406,8 @@ struct MessageMediaUploadParams {
     var audioURL: String?
     var audioDuration: TimeInterval?
     var audioLevels: [Float]?
+    var fileMediaURL: String?
+    var sizeOfFile: Int64?
     
     var ownerUid: String {
         return sender.uid

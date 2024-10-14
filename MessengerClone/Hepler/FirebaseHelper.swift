@@ -83,10 +83,20 @@ extension FirebaseHelper {
         case videoMessage
         case audioMessage
         case photoStory
+        case fileMediaMessage(_ name: String)
         
         var filePath: StorageReference {
-            let filename = UUID().uuidString
+            var filename: String = ""
             
+            /// Set name of the file
+            switch self {
+            case .fileMediaMessage(let name):
+                filename = name
+            default:
+                filename = UUID().uuidString
+            }
+            
+            /// Main path
             switch self {
             case .profilePhoto:
                 return FirebaseConstants.StorageRef.child("profile_photo").child(filename)
@@ -98,6 +108,8 @@ extension FirebaseHelper {
                 return FirebaseConstants.StorageRef.child("message_audio").child(filename)
             case .photoStory:
                 return FirebaseConstants.StorageRef.child("story_photo").child(filename)
+            case .fileMediaMessage:
+                return FirebaseConstants.StorageRef.child("message_file").child(filename)
             }
         }
     }

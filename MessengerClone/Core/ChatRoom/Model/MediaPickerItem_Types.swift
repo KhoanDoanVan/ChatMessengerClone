@@ -20,6 +20,8 @@ struct MediaAttachment: Identifiable, Hashable {
             return imageThumbnail
         case .audio:
             return UIImage()
+        case .fileMedia:
+            return UIImage()
         }
     }
     var fileUrl: URL? {
@@ -29,6 +31,8 @@ struct MediaAttachment: Identifiable, Hashable {
         case .video(_, let fileUrl, _):
             return fileUrl
         case .audio(let fileUrl, _):
+            return fileUrl
+        case .fileMedia(let fileUrl, _):
             return fileUrl
         }
     }
@@ -40,6 +44,16 @@ struct MediaAttachment: Identifiable, Hashable {
             return duration
         case .audio(_, let duration):
             return duration
+        case .fileMedia(_, _):
+            return nil
+        }
+    }
+    var sizeOfFile: Int64? {
+        switch type {
+        case .fileMedia(_, let size):
+            return size
+        default:
+            return nil
         }
     }
 }
@@ -48,4 +62,5 @@ enum MediaAttachmentType: Hashable {
     case photo(imageThumbnail: UIImage)
     case video(imageThumbnail: UIImage, _ url: URL, _ duration: TimeInterval)
     case audio(_ url: URL, _ duration: TimeInterval)
+    case fileMedia(_ url: URL, _ size: Int64)
 }

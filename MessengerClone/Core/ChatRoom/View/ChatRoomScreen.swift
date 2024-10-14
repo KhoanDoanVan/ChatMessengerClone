@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+
 
 struct ChatRoomScreen: View {
     @Environment(\.dismiss) private var dismiss
@@ -106,6 +108,20 @@ struct ChatRoomScreen: View {
                 viewModel.handleTextInputAction(action)
             }
         }
+        .fileImporter(
+            isPresented: $viewModel.isOpenFileImporter,
+            allowedContentTypes: [.item], // Any File Type
+            allowsMultipleSelection: false
+        ) { result in
+                switch result {
+                case .success(let urls):
+                    if let url = urls.first {
+                        viewModel.handleTextInputAction(TextInputArea.UserAction.shareAFile(url))
+                    }
+                case .failure(let failure):
+                    print("Failed to fetch File from fileImporter!")
+                }
+            }
     }
     
 }

@@ -41,6 +41,7 @@
 		465168432C6E40B7006C8837 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168422C6E40B7006C8837 /* UserService.swift */; };
 		465168452C6F4227006C8837 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168442C6F4227006C8837 /* String+Extension.swift */; };
 		465168472C70AF4C006C8837 /* AdminBubbleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */; };
+		46598C6A2CBCEDC0009FFD71 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46598C692CBCEDC0009FFD71 /* URL+Extension.swift */; };
 		465EBE5E2C6ABDB300A97E77 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE5D2C6ABDB300A97E77 /* LoginScreen.swift */; };
 		465EBE612C6AC84B00A97E77 /* ButtonAuthModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE602C6AC84B00A97E77 /* ButtonAuthModifier.swift */; };
 		465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE622C6AC92F00A97E77 /* TextFieldAuthModifier.swift */; };
@@ -187,6 +188,7 @@
 		465168422C6E40B7006C8837 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		465168442C6F4227006C8837 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminBubbleTextView.swift; sourceTree = "<group>"; };
+		46598C692CBCEDC0009FFD71 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		465EBE5D2C6ABDB300A97E77 /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		465EBE602C6AC84B00A97E77 /* ButtonAuthModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAuthModifier.swift; sourceTree = "<group>"; };
 		465EBE622C6AC92F00A97E77 /* TextFieldAuthModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAuthModifier.swift; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				4677AE2E2C9125F3000795C7 /* Date+Extension.swift */,
 				464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */,
 				4611F7E52CA95C24004D736D /* View+Extension.swift */,
+				46598C692CBCEDC0009FFD71 /* URL+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				4611F7E82CA9757E004D736D /* SnapHelper.swift in Sources */,
 				4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */,
 				465EBE6F2C6B5F8F00A97E77 /* AuthService.swift in Sources */,
+				46598C6A2CBCEDC0009FFD71 /* URL+Extension.swift in Sources */,
 				4611F7ED2CAA3FBE004D736D /* StoryService.swift in Sources */,
 				46749F6A2C65FA7300A8A4BD /* TextInputArea.swift in Sources */,
 				469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */,

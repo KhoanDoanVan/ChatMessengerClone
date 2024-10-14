@@ -33,6 +33,7 @@ struct MessageItem {
     var location: LocationItem?
     var urlImageStory: String?
     var textNote: String?
+    var fileMediaURL: String?
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -142,6 +143,7 @@ extension MessageItem {
         self.emojiString = dict[.emojiString] as? String ?? ""
         self.urlImageStory = dict[.urlImageStory] as? String ?? ""
         self.textNote = dict[.textNote] as? String ?? ""
+        self.fileMediaURL = dict[.fileMediaURL] as? String ?? ""
         
         /// Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -208,4 +210,6 @@ extension String {
     static let longtitude = "longtitude"
     static let nameAddress = "nameAddress"
     static let urlImageStory = "urlImageStory"
+    static let fileMediaURL = "fileMediaURL"
+    static let sizeOfFile = "sizeOfFile"
 }

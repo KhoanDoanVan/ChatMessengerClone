@@ -224,6 +224,15 @@ struct TextInputArea: View {
                     Text("Location")
                 }
             }
+            
+            Button {
+                onAction(.openFileImporter)
+            } label: {
+                HStack {
+                    Image(systemName: "doc.fill")
+                    Text("Share a file")
+                }
+            }
         } label: {
             Image(systemName: "plus")
                 .padding(4)
@@ -255,6 +264,8 @@ extension TextInputArea {
         case sendImageFromCamera(_ uiImage: UIImage)
         case openShareLocation
         case shareLocationCurrent(_ latitude: CLLocationDegrees, _ longtitude: CLLocationDegrees, _ nameAddress: String)
+        case shareAFile(_ url: URL)
+        case openFileImporter
     }
 }
 

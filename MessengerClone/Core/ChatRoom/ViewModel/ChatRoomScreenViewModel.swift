@@ -82,6 +82,9 @@ class ChatRoomScreenViewModel: ObservableObject {
     // MARK: State online
     @Published var onlinePartnerObject: (state: Bool,lastActive: Date)?
     
+    // MARK: File Importer
+    @Published var isOpenFileImporter: Bool = false
+    
     // MARK: Init
     init(channel: ChannelItem) {
         self.channel = channel
@@ -223,6 +226,10 @@ class ChatRoomScreenViewModel: ObservableObject {
             sendLocationCurrentMessage(latitude, longtitude, nameAddress)
         case .closeCamera:
             isShowCamera = false
+        case .openFileImporter:
+            isOpenFileImporter = true
+        case .shareAFile(let url):
+            sendFileMessage(url)
         }
     }
     
@@ -570,6 +577,36 @@ class ChatRoomScreenViewModel: ObservableObject {
         }
     }
     
+    /// Send file message
+    private func sendFileMessage(_ url: URL) {
+        guard let userCurrent,
+              let sizeOfFile = url.getFileSize() // Get size of the file
+        else { return }
+        
+        let attachment = MediaAttachment(id: UUID().uuidString, type: .fileMedia(url, sizeOfFile))
+        
+        /// Get name of file
+        let nameOfFile = url.lastPathComponent
+        
+        uploadFileToStorage(attachment, for: .fileMediaMessage(nameOfFile)) { [weak self] fileUrl in
+            guard let self else { return }
+            
+            let uploadParams = MessageMediaUploadParams(
+                channel: channel,
+                text: text,
+                type: .fileMedia,
+                attachment: attachment,
+                sender: userCurrent,
+                fileMediaURL: fileUrl.absoluteString,
+                sizeOfFile: sizeOfFile
+            )
+            
+            MessageService.sendMediaMessage(to: self.channel, params: uploadParams) { [weak self] in
+                self?.scrollToBottomAction(isAnimated: true)
+            }
+        }
+    }
+    
     /// Send multiple media
     private func sendMultipleMediaMessage(_ text: String, attachments: [MediaAttachment]) {
         
@@ -582,6 +619,8 @@ class ChatRoomScreenViewModel: ObservableObject {
                 sendVideoMessage(text: text, attachment)
             case .audio:
                 sendAudioMessage(text: text)
+            default:
+                break
             }
         }
     }
