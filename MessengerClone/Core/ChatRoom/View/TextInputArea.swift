@@ -15,7 +15,7 @@ struct TextInputArea: View {
     @Binding var isRecording: Bool
     @Binding var audioLevels: [CGFloat]
     @Binding var elaspedTime: TimeInterval
-    
+    @FocusState.Binding var isFocus: Bool
     
     let onAction: (_ action: UserAction) -> Void
     
@@ -160,6 +160,7 @@ struct TextInputArea: View {
             .padding(.trailing, 25)
             .background(.messagesGray)
             .cornerRadius(20)
+            .focused($isFocus)
             .overlay {
                 HStack {
                     Spacer()
@@ -269,8 +270,8 @@ extension TextInputArea {
     }
 }
 
-#Preview {
-    TextInputArea(text: .constant(""), isRecording: .constant(false), audioLevels: .constant([]), elaspedTime: .constant(0)) { action in
-        
-    }
-}
+//#Preview {
+//    TextInputArea(text: .constant(""), isRecording: .constant(false), audioLevels: .constant([]), elaspedTime: .constant(0), isFocus: FocusState.Binding(false)) { action in
+//
+//    }
+//}

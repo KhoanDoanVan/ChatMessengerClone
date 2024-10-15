@@ -89,6 +89,11 @@ class ChatRoomScreenViewModel: ObservableObject {
     @Published var contentsOfFile: String?
     @Published var urlFileDownloaded: String?
     
+    // MARK: Reply
+    @Published var isOpenReplyBox: Bool = false
+    @Published var messageReplyCurrent: MessageItem?
+    @Published var isFocusTextFieldChat: Bool = false
+    
     // MARK: Init
     init(channel: ChannelItem) {
         self.channel = channel

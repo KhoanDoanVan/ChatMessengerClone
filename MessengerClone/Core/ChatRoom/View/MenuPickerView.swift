@@ -13,6 +13,7 @@ struct MenuPickerView: View {
     
     let message: MessageItem
     @StateObject var reactionPickerMenuViewModel: ReactionPickerMenuViewModel
+    let handleAction: (_ action: MenuPickerView.MenuAction) -> Void
     
     var body: some View {
         VStack {
@@ -76,7 +77,7 @@ struct MenuPickerView: View {
     
     private func actionMenu(_ action: MenuAction) -> some View {
         Button {
-            
+            handleAction(action)
         } label: {
             HStack {
                 Text(action.title)
@@ -128,5 +129,7 @@ extension MenuPickerView {
 }
 
 #Preview {
-    MenuPickerView(message: .stubMessageAudio, reactionPickerMenuViewModel: ReactionPickerMenuViewModel(message: .stubMessageAudio, channel: .placeholder))
+    MenuPickerView(message: .stubMessageAudio, reactionPickerMenuViewModel: ReactionPickerMenuViewModel(message: .stubMessageAudio, channel: .placeholder)) { action in
+        
+    }
 }

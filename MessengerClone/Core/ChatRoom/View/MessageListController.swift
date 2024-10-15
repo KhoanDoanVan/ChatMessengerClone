@@ -300,7 +300,17 @@ final class MessageListController: UIViewController {
         let menuPickerView = MenuPickerView(
             message: message,
             reactionPickerMenuViewModel: reactionPickerMenuViewModel
-        )
+        ) { action in
+            switch action {
+            case .reply:
+                self.viewModel.isOpenReplyBox = true
+                self.viewModel.messageReplyCurrent = message
+                self.viewModel.isFocusTextFieldChat = true
+                self.dismissContext()
+            default:
+                break
+            }
+        }
         menuHostViewController = UIHostingController(rootView: menuPickerView)
         menuHostViewController?.view.backgroundColor = .clear
         menuHostViewController?.view.translatesAutoresizingMaskIntoConstraints = false

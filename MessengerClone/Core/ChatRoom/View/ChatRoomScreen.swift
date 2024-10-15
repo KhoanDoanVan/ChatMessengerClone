@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 struct ChatRoomScreen: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: ChatRoomScreenViewModel
+    @FocusState private var focusState: Bool
     
     let channel: ChannelItem
     
@@ -32,15 +33,25 @@ struct ChatRoomScreen: View {
                 headerChatRoom()
             }
             .safeAreaInset(edge: .bottom) {
-                VStack {
+                VStack(spacing: 0) {
                     Divider()
+                    
+                    replyView
+                    
                     TextInputArea(
                         text: $viewModel.text,
                         isRecording: $viewModel.isRecording,
                         audioLevels: $viewModel.audioLevels,
-                        elaspedTime: $viewModel.elaspedTime
+                        elaspedTime: $viewModel.elaspedTime,
+                        isFocus: $focusState
                     ) { action in
                         viewModel.handleTextInputAction(action)
+                    }
+                    .onChange(of: viewModel.isFocusTextFieldChat) { oldValue, newValue in
+                        focusState = newValue // Sync FocusState with ViewModel
+                    }
+                    .onChange(of: focusState) { oldValue, newValue in
+                        viewModel.isFocusTextFieldChat = newValue // Sync ViewModel with FocusState
                     }
                     .padding(.top, 5)
                     .padding(.horizontal, 10)
@@ -135,6 +146,47 @@ struct ChatRoomScreen: View {
                 }
             }
         }
+    }
+    
+    /// Reply View
+    private var replyView: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 5) {
+                if let state = viewModel.messageReplyCurrent?.isNotMe {
+                    if state == true {
+                        Text("Replying to \(viewModel.messageReplyCurrent?.sender?.username ?? "Unknown")")
+                            .foregroundStyle(.white)
+                    } else {
+                        Text("Replying to yourself")
+                            .foregroundStyle(.white)
+                    }
+                }
+                Text(viewModel.messageReplyCurrent?.text ?? "Unknown")
+                    .font(.footnote)
+                    .foregroundStyle(Color(.systemGray))
+            }
+            Spacer()
+            Button {
+                withAnimation {
+                    viewModel.isOpenReplyBox = false
+                }
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.footnote)
+                    .bold()
+                    .foregroundStyle(.white)
+                    .padding(5)
+                    .background(Color(.systemGray2))
+                    .clipShape(Circle())
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: viewModel.isOpenReplyBox ? 50 : 0)
+        .clipped()
+        .padding(.horizontal)
+        .padding(.vertical, 5)
+        .background(Color(.black))
+        .animation(.easeInOut, value: viewModel.isOpenReplyBox)
     }
     
 }
