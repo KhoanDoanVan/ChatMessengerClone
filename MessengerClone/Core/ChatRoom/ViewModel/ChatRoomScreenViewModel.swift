@@ -84,6 +84,10 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     // MARK: File Importer
     @Published var isOpenFileImporter: Bool = false
+    @Published var isOpenPreviewFileText: Bool = false
+    @Published var nameOfFile: String?
+    @Published var contentsOfFile: String?
+    @Published var urlFileDownloaded: String?
     
     // MARK: Init
     init(channel: ChannelItem) {
@@ -787,5 +791,65 @@ class ChatRoomScreenViewModel: ObservableObject {
     /// Open location
     private func openShareLocation() {
         self.isShowMapLocation.toggle()
+    }
+    
+    /// Read the content of the url File
+    func readContentOfsFile(_ fileName: String) {
+        downloadFileFromStorage(fileName) { contentsOf in
+            self.downloadURL(fileName) { url in
+                if let contentsOf, let url {
+                    self.contentsOfFile = contentsOf
+                    self.nameOfFile = fileName
+                    self.urlFileDownloaded = url
+                    self.isOpenPreviewFileText = true
+                    print("Read file successfully.")
+                }
+            }
+        }
+    }
+    
+    /// Download the file from Firebase storage
+    private func downloadFileFromStorage(_ fileName: String, completion: @escaping (String?) -> Void) {
+        let filePath = FirebaseConstants.StorageRef.child("message_file/\(fileName)")
+        
+        filePath.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error {
+                print("Failed to getData File: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            if let data = data,
+               let fileContent = String(data: data, encoding: .utf8)
+            {
+                completion(fileContent)
+            }
+            else {
+                print("Failed to encoding data file.")
+                completion(nil)
+                return
+            }
+        }
+    }
+    
+    /// Download URL to Share Link
+    private func downloadURL(_ fileName: String, completion: @escaping (String?) -> Void) {
+        let filePath = FirebaseConstants.StorageRef.child("message_file/\(fileName)")
+        
+        filePath.downloadURL { url, error in
+            if let error {
+                print("Failed to downloadURL File: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            if let url = url {
+                completion(url.absoluteString)
+                print("Download URl Successfully")
+                return
+            }
+            
+            completion(nil)
+        }
     }
 }

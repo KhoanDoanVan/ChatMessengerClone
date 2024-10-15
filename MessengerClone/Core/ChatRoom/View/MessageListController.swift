@@ -367,10 +367,19 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
             displayPreviewImage(message: messageItem, indexPath)
         case .video:
             displayPreviewVideo(message: messageItem, indexPath)
+        case .fileMedia:
+            if let nameOfFile = messageItem.nameOfFile {
+                readContentsOfFile(fileName: nameOfFile)
+            }
         default:
             break
         }
         
+    }
+    
+    /// Read the file of FileMedia Type
+    private func readContentsOfFile(fileName: String) {
+        viewModel.readContentOfsFile(fileName)
     }
     
     /// Display Preview Image message

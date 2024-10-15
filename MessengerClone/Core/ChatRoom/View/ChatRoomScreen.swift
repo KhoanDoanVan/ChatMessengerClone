@@ -119,9 +119,22 @@ struct ChatRoomScreen: View {
                         viewModel.handleTextInputAction(TextInputArea.UserAction.shareAFile(url))
                     }
                 case .failure(let failure):
-                    print("Failed to fetch File from fileImporter!")
+                    print("Failed to fetch File from fileImporter: \(failure.localizedDescription)!")
                 }
             }
+        .sheet(isPresented: $viewModel.isOpenPreviewFileText) {
+            if let content = viewModel.contentsOfFile,
+               let fileName = viewModel.nameOfFile,
+               let urlString = viewModel.urlFileDownloaded
+            {
+                PreviewFileContentView(content: content, fileName: fileName, urlFileDownloaded: urlString) {
+                    viewModel.isOpenPreviewFileText = false
+                    viewModel.contentsOfFile = nil
+                    viewModel.nameOfFile = nil
+                    viewModel.urlFileDownloaded = nil
+                }
+            }
+        }
     }
     
 }
