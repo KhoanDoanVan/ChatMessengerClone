@@ -8,6 +8,7 @@ The Application built based on Messenger application and more.
 - Chat text realtime
 - Chat images, voice audio, file realtime
 - Chat image from camera
+- Reply message, story, note
 - Send location
 - Reaction message
 - Remove message or hide message
