@@ -161,14 +161,23 @@ struct ChatRoomScreen: View {
                             .foregroundStyle(.white)
                     }
                 }
-                Text(viewModel.messageReplyCurrent?.text ?? "Unknown")
-                    .font(.footnote)
-                    .foregroundStyle(Color(.systemGray))
+                
+                switch viewModel.messageReplyCurrent?.type {
+                case .text, .replyNote, .replyStory:
+                    Text(viewModel.messageReplyCurrent?.text ?? "Unknown")
+                        .font(.footnote)
+                        .foregroundStyle(Color(.systemGray))
+                default:
+                    Text(viewModel.messageReplyCurrent?.type.nameOfType ?? "Unknown")
+                        .font(.footnote)
+                        .foregroundStyle(Color(.systemGray))
+                }
             }
             Spacer()
             Button {
                 withAnimation {
                     viewModel.isOpenReplyBox = false
+                    viewModel.messageReplyCurrent = nil
                 }
             } label: {
                 Image(systemName: "xmark")

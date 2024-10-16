@@ -38,6 +38,7 @@ struct BubbleNoteReplyView: View {
                     ZStack {
                         HStack {
                             Text(noteTextPreview)
+                                .font(.footnote)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 8)
                                 .background(Color(.systemGray6))
@@ -80,6 +81,7 @@ struct BubbleNoteReplyView: View {
                         HStack {
                             Spacer()
                             Text(noteTextPreview)
+                                .font(.footnote)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 8)
                                 .background(Color(.systemGray6))

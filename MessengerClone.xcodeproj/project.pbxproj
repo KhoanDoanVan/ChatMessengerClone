@@ -63,6 +63,7 @@
 		4664A9182C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */; };
 		4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */; };
 		4666C9892CBE0D3700B514C4 /* PreviewFileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */; };
+		4666C98B2CBF433800B514C4 /* BubbleReplyMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */; };
 		4669C2982C9E6CFC00C3342D /* BubbleLikeStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */; };
 		4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */; };
 		4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B62C9EE0C500C3342D /* CameraScreen.swift */; };
@@ -208,6 +209,7 @@
 		4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GenerateThumbnailVideo+Helper.swift"; sourceTree = "<group>"; };
 		4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportVideoFile+Helper.swift"; sourceTree = "<group>"; };
 		4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFileContentView.swift; sourceTree = "<group>"; };
+		4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleReplyMessage.swift; sourceTree = "<group>"; };
 		4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleLikeStickerView.swift; sourceTree = "<group>"; };
 		4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreenViewModel.swift; sourceTree = "<group>"; };
 		4669C2B62C9EE0C500C3342D /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				4674F78C2CB9FE2E0003E695 /* BubbleStoryReplyView.swift */,
 				463094F12CBB7F9F00D9C9CC /* BubbleNoteReplyView.swift */,
 				46598C6B2CBD28D1009FFD71 /* BubbleFileView.swift */,
+				4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */,
 				465168462C70AF4C006C8837 /* AdminBubbleTextView.swift */,
 				46749F762C661D5200A8A4BD /* ConfigChatView.swift */,
 				46BF4CDF2C81D5A40024928C /* PreviewVoiceRecordView.swift */,
@@ -936,6 +939,7 @@
 				46A6439D2CB61C36002CE4B7 /* DetailCurrentNoteView.swift in Sources */,
 				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
+				4666C98B2CBF433800B514C4 /* BubbleReplyMessage.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
 				46D19BDC2CA782B4007DB804 /* SheetStickerView.swift in Sources */,
 				466EA9702C9ACCA60021F753 /* ChannelItemView.swift in Sources */,

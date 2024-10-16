@@ -51,7 +51,7 @@ struct MessageService {
     }
     
     /// Send Text Message
-    static func sendTextMessage(to channel: ChannelItem, from currentUser: UserItem, _ textMessage: String, onComplete: () -> Void) {
+    static func sendTextMessage(to channel: ChannelItem, from currentUser: UserItem, _ textMessage: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -62,13 +62,18 @@ struct MessageService {
             .lastMessageType: MessageType.text.title
         ]
         
-        let messageDict: [String:Any] = [
+        var messageDict: [String:Any] = [
             .id: messageId,
             .text: textMessage,
             .type: MessageType.text.title,
             .timeStamp: timestamp,
             .ownerUid: currentUser.uid
         ]
+        
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            messageDict[.replyType] = MessageReplyType.textReply.rawValue
+        }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
@@ -77,7 +82,7 @@ struct MessageService {
     }
     
     /// Send Emoji String Message
-    static func sendEmojiStringMessage(to channel: ChannelItem, from currentUser: UserItem, _ emojiString: String, onComplete: () -> Void) {
+    static func sendEmojiStringMessage(to channel: ChannelItem, from currentUser: UserItem, _ emojiString: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
         
@@ -87,7 +92,7 @@ struct MessageService {
             .lastMessageType: MessageType.emoji.title
         ]
         
-        let messageDict: [String:Any] = [
+        var messageDict: [String:Any] = [
             .id: messageId,
             .text: "",
             .type: MessageType.emoji.title,
@@ -96,6 +101,11 @@ struct MessageService {
             .emojiString: emojiString
         ]
         
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+        }
+        
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channeDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
         
@@ -103,7 +113,7 @@ struct MessageService {
     }
     
     /// Send Sticker Message
-    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, onComplete: () -> Void) {
+    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -114,7 +124,7 @@ struct MessageService {
             .lastMessageType: MessageType.sticker.title
         ]
         
-        let messageDict: [String:Any] = [
+        var messageDict: [String:Any] = [
             .id: messageId,
             .text: "",
             .type: MessageType.sticker.title,
@@ -123,6 +133,11 @@ struct MessageService {
             .urlSticker: stickerUrl
         ]
         
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+        }
+        
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
         
@@ -130,7 +145,7 @@ struct MessageService {
     }
     
     /// Send Location Message
-    static func sendLocationCurrentMessage(to channel: ChannelItem, from userCurrent: UserItem, _ location: LocationItem, onComplete: () -> Void) {
+    static func sendLocationCurrentMessage(to channel: ChannelItem, from userCurrent: UserItem, _ location: LocationItem, _ uidReplyMessage: String?, onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -141,7 +156,7 @@ struct MessageService {
             .lastMessageType: MessageType.location.title
         ]
         
-        let messageDict: [String:Any] = [
+        var messageDict: [String:Any] = [
             .id: messageId,
             .text: "",
             .type: MessageType.location.title,
@@ -154,6 +169,11 @@ struct MessageService {
             ]
         ]
         
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+        }
+        
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
         
@@ -161,7 +181,7 @@ struct MessageService {
     }
     
     /// Send Video Call Message
-    static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, onComplete: () -> Void) {
+    static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, _ uidReplyMessage: String?, onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -172,7 +192,7 @@ struct MessageService {
             .lastMessageType: MessageType.videoCall.title
         ]
         
-        let messageDict: [String:Any] = [
+        var messageDict: [String:Any] = [
             .id: messageId,
             .text: "",
             .type: MessageType.videoCall.title,
@@ -181,6 +201,11 @@ struct MessageService {
             .videoCallDuration: timeVideoCall
         ]
         
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+        }
+        
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
         FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
         
@@ -188,7 +213,7 @@ struct MessageService {
     }
     
     /// Send Media Message
-    static func sendMediaMessage(to channel: ChannelItem, params: MessageMediaUploadParams, completion: @escaping () -> Void) {
+    static func sendMediaMessage(to channel: ChannelItem, params: MessageMediaUploadParams, _ uidReplyMessage: String?, completion: @escaping () -> Void) {
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
         let timeStamp = Date().timeIntervalSince1970
         
@@ -216,6 +241,19 @@ struct MessageService {
         messageDict[.fileMediaURL] = params.fileMediaURL ?? nil
         messageDict[.sizeOfFile] = params.sizeOfFile ?? nil
         messageDict[.nameOfFile] = params.nameOfFile ?? nil
+        
+        if let uidReplyMessage {
+            messageDict[.uidMessageReply] = uidReplyMessage
+            if params.videoURL != nil {
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            } else if params.audioURL != nil {
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            } else if params.fileMediaURL != nil {
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            } else {
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            }
+        }
         
         /// Convert array levels audio
         if let audioLevels = params.audioLevels {

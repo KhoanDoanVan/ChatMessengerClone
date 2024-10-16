@@ -30,27 +30,31 @@ struct BubbleView: View {
                     
                     showTextReplyNote()
                     
-                    ZStack {
-                        composeDynamicBubbleView()
-                    }
+                    composeDynamicBubbleView()
                 }
             case .replyStory:
                 VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
                     
                     showTextReplyStory()
                     
-                    ZStack {
-                        composeDynamicBubbleView()
-                    }
+                    composeDynamicBubbleView()
                 }
             default:
                 VStack(alignment: .leading, spacing: 0) {
+                    
+                    if message.uidMessageReply != nil {
+                        showTextReplyMessage()
+                            .frame(maxWidth: .infinity, alignment: message.isNotMe ? .leading : .trailing)
+                    }
                     
                     if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
                         showSenderNameText()
                     }
                     
                     ZStack {
+                        if message.uidMessageReply != nil {
+                            BubbleReplyMessage(message: message)
+                        }
                         composeDynamicBubbleView()
                     }
                 }
@@ -186,6 +190,32 @@ struct BubbleView: View {
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
                     Text("You replied to \(channel.usersChannel[0].username)'s story")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+            }
+        }
+    }
+    
+    /// Show Text Reply message
+    private func showTextReplyMessage() -> some View {
+        HStack(spacing: 0) {
+            if message.uidMessageReply != nil && message.isNotMe {
+                VStack {
+                    
+                }
+                .frame(width: 40, height: 40)
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("\(message.sender?.username ?? "Unknown") replied to yourself")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+                .padding(.leading, 5)
+            } else if message.uidMessageReply != nil && !message.isNotMe {
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("You replied to \(message.sender?.username ?? "Unknown")'s message")
                 }
                 .font(.footnote)
                 .foregroundStyle(Color(.systemGray))

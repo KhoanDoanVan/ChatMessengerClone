@@ -30,8 +30,8 @@
             filePath = "MessengerClone/Core/ChatRoom/View/BubbleView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "composeDynamicBubbleView()"
             landmarkType = "7">
          </BreakpointContent>

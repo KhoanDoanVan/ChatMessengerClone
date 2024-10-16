@@ -48,6 +48,9 @@ struct MessageItem {
     var sizeOfFile: Int64?
     var nameOfFile: String?
     
+    var messageReplyType: MessageReplyType?
+    var uidMessageReply: String?
+    
     /// Show avatar or not
     var isNotMe: Bool {
         return direction == .received
@@ -160,6 +163,9 @@ extension MessageItem {
         self.fileMediaURL = dict[.fileMediaURL] as? String ?? ""
         self.sizeOfFile = dict[.sizeOfFile] as? Int64 ?? 0
         self.nameOfFile = dict[.nameOfFile] as? String ?? ""
+        let replyType = dict[.replyType] as? String ?? nil
+        self.messageReplyType = MessageReplyType(replyType ?? "")
+        self.uidMessageReply = dict[.uidMessageReply] as? String ?? nil
         
         /// Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -229,4 +235,6 @@ extension String {
     static let fileMediaURL = "fileMediaURL"
     static let sizeOfFile = "sizeOfFile"
     static let nameOfFile = "nameOfFile"
+    static let replyType = "replyType"
+    static let uidMessageReply = "uidMessageReply"
 }

@@ -45,6 +45,35 @@ enum MessageType: Hashable {
         }
     }
     
+    var nameOfType: String {
+        switch self {
+        case .admin:
+            return "Admin"
+        case .text:
+            return "Text"
+        case .photo:
+            return "Photo"
+        case .video:
+            return "Video"
+        case .audio:
+            return "Audio"
+        case .sticker:
+            return "Sticker"
+        case .videoCall:
+            return "Video Call"
+        case .emoji:
+            return "Like Sticker"
+        case .location:
+            return "Location"
+        case .replyStory:
+            return "Reply Story"
+        case .replyNote:
+            return "Reply Note"
+        case .fileMedia:
+            return "Attachment"
+        }
+    }
+    
     init?(_ stringValue: String) {
         switch stringValue {
         case "text":
@@ -111,4 +140,29 @@ enum MessageDirection {
 
 enum AdminMessageType: String {
     case channelCreation
+}
+
+enum MessageReplyType: String {
+    case textReply, imageReply, videoReply, stickerReply, audioReply, likeReply, attachmentReply
+    
+    init?(_ stringValue: String) {
+        switch stringValue {
+        case "textReply":
+            self = .textReply
+        case "imageReply":
+            self = .imageReply
+        case "videoReply":
+            self = .videoReply
+        case "stickerReply":
+            self = .stickerReply
+        case "audioReply":
+            self = .audioReply
+        case "likeReply":
+            self = .likeReply
+        case "attachmentReply":
+            self = .attachmentReply
+        default:
+            return nil
+        }
+    }
 }
