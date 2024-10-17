@@ -134,9 +134,9 @@ struct BubbleFileView: View {
         )
     }
 }
-
-#Preview {
-    BubbleFileView(message: .stubMessageFile, isShowAvatarSender: true) { state, message in
-        
-    }
-}
+//
+//#Preview {
+//    BubbleFileView(message: .stubMessageFile, isShowAvatarSender: true) { state, message in
+//        
+//    }
+//}

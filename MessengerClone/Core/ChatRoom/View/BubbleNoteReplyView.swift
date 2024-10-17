@@ -179,8 +179,8 @@ struct BubbleNoteReplyView: View {
     }
 }
 
-#Preview {
-    BubbleNoteReplyView(message: .stubMessageReplyNote, isShowAvatarSender: false) { state, message in
-        
-    }
-}
+//#Preview {
+//    BubbleNoteReplyView(message: .stubMessageReplyNote, isShowAvatarSender: false) { state, message in
+//        
+//    }
+//}

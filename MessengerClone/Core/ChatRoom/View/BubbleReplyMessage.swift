@@ -10,18 +10,24 @@ import Kingfisher
 
 struct BubbleReplyMessage: View {
     
-    let message: MessageItem
+    let messageReply: MessageItem
+    let messageCurrent: MessageItem
+//    private var replyMessagePreview: String {
+//        let maxChar = 30
+//        let trailingChars = viewModel.messageReply?.text.count > maxChar ? "..." : ""
+//        let title = String(viewModel.messageReply?.text.prefix(maxChar) + trailingChars)
+//        
+//        return title
+//    }
     
     var body: some View {
         HStack(alignment: .bottom) {
-            if message.isNotMe {
-                VStack {
-                    
-                }
+            if messageCurrent.isNotMe {
+                VStack {}
                 .frame(width: 40, height: 40)
             }
 
-            if message.isNotMe {
+            if messageCurrent.isNotMe {
                 HStack {
                     replyBubbleBehind()
                         .opacity(0.65)
@@ -38,16 +44,16 @@ struct BubbleReplyMessage: View {
             }
 
         }
-        .frame(maxWidth: .infinity, alignment: message.alignment)
-        .padding(.leading, message.leadingPadding)
-        .padding(.trailing, message.trailingPadding)
-        .padding(.bottom, message.emojis != nil ? 25 : 0)
+        .frame(maxWidth: .infinity, alignment: messageCurrent.alignment)
+        .padding(.leading, messageCurrent.leadingPadding)
+        .padding(.trailing, messageCurrent.trailingPadding)
+        .padding(.bottom, messageCurrent.emojis != nil ? 25 : 0)
     }
     
     /// Reply bubble behind main message
     private func replyBubbleBehind() -> some View {
         VStack {
-            switch message.messageReplyType {
+            switch messageCurrent.messageReplyType {
             case .textReply:
                 textView()
                     .onAppear {
@@ -85,15 +91,15 @@ struct BubbleReplyMessage: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
                 .padding(.bottom, 20)
-                .background(message.isNotMe ? .messagesGray : Color(.systemBlue))
+                .background(messageCurrent.isNotMe ? .messagesGray : Color(.systemBlue))
                 .clipShape(
                     .rect(
                         cornerRadii:
                                 .init(
-                                    topLeading: message.isNotMe ? 5 : 20,
-                                    bottomLeading: message.isNotMe ? 5 : 20,
-                                    bottomTrailing: message.isNotMe ? 20 : 5,
-                                    topTrailing: message.isNotMe ? 20 : 5
+                                    topLeading: messageCurrent.isNotMe ? 5 : 20,
+                                    bottomLeading: messageCurrent.isNotMe ? 5 : 20,
+                                    bottomTrailing: messageCurrent.isNotMe ? 20 : 5,
+                                    topTrailing: messageCurrent.isNotMe ? 20 : 5
                                 )
                     )
                 )
@@ -104,19 +110,19 @@ struct BubbleReplyMessage: View {
     
     /// Text
     private func textView() -> some View {
-        Text(message.text)
+        Text(messageReply.text)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(message.isNotMe ? .messagesGray : Color(.systemBlue))
+            .background(Color(.systemGray6))
             .foregroundStyle(.messagesBlack)
             .clipShape(
                 .rect(
                     cornerRadii:
                             .init(
-                                topLeading: message.isNotMe ? 5 : 20,
-                                bottomLeading: message.isNotMe ? 5 : 20,
-                                bottomTrailing: message.isNotMe ? 20 : 5,
-                                topTrailing: message.isNotMe ? 20 : 5
+                                topLeading: messageCurrent.isNotMe ? 5 : 20,
+                                bottomLeading: messageCurrent.isNotMe ? 5 : 20,
+                                bottomTrailing: messageCurrent.isNotMe ? 20 : 5,
+                                topTrailing: messageCurrent.isNotMe ? 20 : 5
                             )
                 )
             )
@@ -124,37 +130,6 @@ struct BubbleReplyMessage: View {
             .padding(.bottom, 60)
     }
     
-    /// Button Reaction
-    private func buttonReaction() -> some View {
-        Button {
-            
-        } label: {
-            HStack(spacing: 3) {
-                ForEach(0..<min(message.emojis?.count ?? 0, 3), id: \.self) { index in
-                    Text(message.emojis?[index].reaction ?? "")
-                        .font(.footnote)
-                }
-                
-                if (message.emojis?.count ?? 0) > 1 {
-                    Text("\(message.emojis?.count ?? 0)")
-                        .font(.footnote)
-                        .foregroundStyle(.white)
-                }
-            }
-            .padding(.horizontal,8)
-            .padding(.vertical, 4)
-            .background(
-                Capsule()
-                    .fill(Color(.systemGray2)) // Main background
-            )
-            .overlay(
-                Capsule()
-                    .stroke(Color.black, lineWidth: 4) // Black stroke effect
-            )
-            .clipShape(Capsule())
-        }
-        .padding(.top)
-    }
     
     /// Image View
     private func imageView() -> some View {
@@ -171,7 +146,7 @@ struct BubbleReplyMessage: View {
                 )
             )
             .overlay {
-                if message.videoURL != nil {
+                if messageReply.videoURL != nil {
                     Image(systemName: "play.fill")
                         .foregroundStyle(.white)
                         .padding()
@@ -180,8 +155,8 @@ struct BubbleReplyMessage: View {
                 }
             }
             .overlay(alignment: .bottomTrailing) {
-                if message.videoURL != nil {
-                    Text(message.durationVideoString)
+                if messageReply.videoURL != nil {
+                    Text(messageReply.durationVideoString)
                         .foregroundStyle(.white)
                         .bold()
                         .font(.footnote)
@@ -196,16 +171,39 @@ struct BubbleReplyMessage: View {
     
     /// Image Message
     private func imageMessage() -> some View {
-        KFImage(URL(string: message.thumbnailUrl ?? ""))
-            .resizable()
-            .placeholder {
-                ProgressView()
-            }
-            .scaledToFill()
-            .frame(width: message.imageSize.width, height: message.imageSize.height)
+        VStack {
+            if let thumbnailUrl = messageReply.thumbnailUrl, let url = URL(string: thumbnailUrl) {
+                        KFImage(url)
+                            .resizable()
+                            .placeholder {
+                                ProgressView()
+                            }
+                            .scaledToFill()
+                            .frame(width: messageReply.imageSize.width, height: messageReply.imageSize.height)
+                    } else {
+                        // Show placeholder or fallback UI
+                        Rectangle()
+                            .fill(Color.gray)
+                            .frame(width: 200, height: 100)
+                            .overlay(
+                                Text("No Image")
+                                    .foregroundColor(.white)
+                            )
+                    }
+        }
+//        KFImage(URL(string: viewModel.messageReply?.thumbnailUrl ?? "https://images.pexels.com/photos/974266/pexels-photo-974266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
+//            .resizable()
+//            .placeholder {
+//                ProgressView()
+//            }
+//            .onAppear {
+//                print("Image Thumbnail: \(viewModel.messageReply?.thumbnailUrl)")
+//            }
+//            .scaledToFill()
+//            .frame(width: viewModel.messageReply?.imageSize.width ?? 200, height: viewModel.messageReply?.imageSize.height ?? 100)
     }
 }
 
-#Preview {
-    BubbleReplyMessage(message: .stubMessageImage)
-}
+//#Preview {
+//    BubbleReplyMessage(.stubMessageImage, .placeholder)
+//}

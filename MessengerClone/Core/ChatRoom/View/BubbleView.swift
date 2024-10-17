@@ -40,7 +40,7 @@ struct BubbleView: View {
                     composeDynamicBubbleView()
                 }
             default:
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
                     
                     if message.uidMessageReply != nil {
                         showTextReplyMessage()
@@ -53,7 +53,7 @@ struct BubbleView: View {
                     
                     ZStack {
                         if message.uidMessageReply != nil {
-                            BubbleReplyMessage(message: message)
+                            BubbleReplyMessage(messageReply: message.messageReply ?? MessageItem.stubMessageText, messageCurrent: message)
                         }
                         composeDynamicBubbleView()
                     }
@@ -244,9 +244,9 @@ struct BubbleView: View {
             .padding(.vertical, 10)
     }
 }
-
-#Preview {
-    BubbleView(message: .stubMessageReplyNote, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
-        
-    }
-}
+//
+//#Preview {
+//    BubbleView(message: .stubMessageReplyNote, channel: .placeholder, isNewDay: false, isShowNameSender: false, isShowAvatarSender: false) { state, message in
+//        
+//    }
+//}

@@ -163,6 +163,7 @@ class ChatRoomScreenViewModel: ObservableObject {
             self?.currentPage = messageNode.currentCursor
             self?.scrollToBottomAction(isAnimated: false)
             self?.paginating = false
+            print(messageNode.messages)
         }
     }
     

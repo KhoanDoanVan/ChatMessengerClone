@@ -64,6 +64,7 @@
 		4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */; };
 		4666C9892CBE0D3700B514C4 /* PreviewFileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */; };
 		4666C98B2CBF433800B514C4 /* BubbleReplyMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */; };
+		4666C98F2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C98E2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift */; };
 		4669C2982C9E6CFC00C3342D /* BubbleLikeStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */; };
 		4669C2B42C9ED7D400C3342D /* CameraScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */; };
 		4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4669C2B62C9EE0C500C3342D /* CameraScreen.swift */; };
@@ -210,6 +211,7 @@
 		4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportVideoFile+Helper.swift"; sourceTree = "<group>"; };
 		4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFileContentView.swift; sourceTree = "<group>"; };
 		4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleReplyMessage.swift; sourceTree = "<group>"; };
+		4666C98E2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleReplyMessageViewModel.swift; sourceTree = "<group>"; };
 		4669C2972C9E6CFC00C3342D /* BubbleLikeStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleLikeStickerView.swift; sourceTree = "<group>"; };
 		4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreenViewModel.swift; sourceTree = "<group>"; };
 		4669C2B62C9EE0C500C3342D /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 				4695D0F32C9BD79900350444 /* StreamCallViewModel.swift */,
 				4669C2B32C9ED7D400C3342D /* CameraScreenViewModel.swift */,
 				464DDABE2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift */,
+				4666C98E2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1008,6 +1011,7 @@
 				465EBE632C6AC92F00A97E77 /* TextFieldAuthModifier.swift in Sources */,
 				46AE5DD92CAF7EE800105010 /* CameraCaptureStoryView.swift in Sources */,
 				46389BE52C75D89B0020D804 /* FirebaseHelper.swift in Sources */,
+				4666C98F2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift in Sources */,
 				46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */,
 				464DDAC12CA10163009D355E /* BubbleLocationView.swift in Sources */,
 				4604CB7C2CB4F63400388B73 /* NoteSevice.swift in Sources */,

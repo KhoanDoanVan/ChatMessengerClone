@@ -11,7 +11,7 @@ import SwiftUI
 import MapKit
 
 // MARK: Message Item
-struct MessageItem {
+class MessageItem {
     let id: String
     let text: String
     let type: MessageType
@@ -50,6 +50,16 @@ struct MessageItem {
     
     var messageReplyType: MessageReplyType?
     var uidMessageReply: String?
+    var messageReply: MessageItem?
+    
+    init(id: String, text: String, type: MessageType, timeStamp: Date, ownerUid: String, thumbnailUrl: String? = nil) {
+            self.id = id
+            self.text = text
+            self.type = type
+            self.timeStamp = timeStamp
+            self.ownerUid = ownerUid
+            self.thumbnailUrl = thumbnailUrl
+        }
     
     /// Show avatar or not
     var isNotMe: Bool {
@@ -113,9 +123,9 @@ struct MessageItem {
     static let stubMessageTextIsMe: MessageItem = MessageItem(id: UUID().uuidString, text: "Hahaha", type: .text, timeStamp: Date(), ownerUid: "11", thumbnailUrl: nil)
     static let stubMessageImage: MessageItem = MessageItem(id: UUID().uuidString, text: "e", type: .photo, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
     static let stubMessageAudio: MessageItem = MessageItem(id: UUID().uuidString, text: "", type: .audio, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil)
-    static let stubMessageReplyStory: MessageItem = MessageItem(id: UUID().uuidString, text: "This is", type: .replyStory, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, urlImageStory: "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-    static let stubMessageReplyNote: MessageItem = MessageItem(id: UUID().uuidString, text: "Beauti", type: .replyNote, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, textNote: "This is the first note i don't think it's true")
-    static let stubMessageFile: MessageItem = MessageItem(id: UUID().uuidString, text: "", type: .fileMedia, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, fileMediaURL: "", sizeOfFile: 507, nameOfFile: "Test.swift")
+//    static let stubMessageReplyStory: MessageItem = MessageItem(id: UUID().uuidString, text: "This is", type: .replyStory, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, urlImageStory: "https://plus.unsplash.com/premium_photo-1671656349322-41de944d259b?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+//    static let stubMessageReplyNote: MessageItem = MessageItem(id: UUID().uuidString, text: "Beauti", type: .replyNote, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, textNote: "This is the first note i don't think it's true")
+//    static let stubMessageFile: MessageItem = MessageItem(id: UUID().uuidString, text: "", type: .fileMedia, timeStamp: Date(), ownerUid: "", thumbnailUrl: nil, fileMediaURL: "", sizeOfFile: 507, nameOfFile: "Test.swift")
     
     static let stubMessages: [MessageItem] = [
         MessageItem(id: UUID().uuidString, text: "Hi", type: .text, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil),
@@ -140,60 +150,54 @@ struct LocationItem: Hashable {
 }
 
 extension MessageItem {
-    init(id: String, dict: [String:Any]) {
-        self.id = id
-        self.text = dict[.text] as? String ?? ""
+    convenience init(id: String, dict: [String:Any]) {
+        let text = dict[.text] as? String ?? ""
         let type = dict[.type] as? String ?? "text"
-        self.type = MessageType(type) ?? .text
+        let messageType = MessageType(type) ?? .text
         let timeInterval = dict[.timeStamp] as? TimeInterval ?? 0
-        self.timeStamp = Date(timeIntervalSince1970: timeInterval)
-        self.ownerUid = dict[.ownerUid] as? String ?? ""
-        self.thumbnailUrl = dict[.thumbnailUrl] as? String ?? nil
-        self.thumbnailWidth = dict[.thumbnailWidth] as? CGFloat ?? nil
-        self.thumbnailHeight = dict[.thumbnailHeight] as? CGFloat ?? nil
-        self.videoURL = dict[.videoURL] as? String ?? nil
-        self.videoDuration = dict[.videoDuration] as? TimeInterval ?? nil
-        self.audioURL = dict[.audioURL] as? String ?? nil
-        self.audioDuration = dict[.audioDuration] as? TimeInterval ?? nil
-        self.videoCallDuration = dict[.videoCallDuration] as? TimeInterval ?? nil
-        self.urlSticker = dict[.urlSticker] as? String ?? ""
-        self.emojiString = dict[.emojiString] as? String ?? ""
-        self.urlImageStory = dict[.urlImageStory] as? String ?? ""
-        self.textNote = dict[.textNote] as? String ?? ""
-        self.fileMediaURL = dict[.fileMediaURL] as? String ?? ""
-        self.sizeOfFile = dict[.sizeOfFile] as? Int64 ?? 0
-        self.nameOfFile = dict[.nameOfFile] as? String ?? ""
-        let replyType = dict[.replyType] as? String ?? nil
-        self.messageReplyType = MessageReplyType(replyType ?? "")
-        self.uidMessageReply = dict[.uidMessageReply] as? String ?? nil
+        let timeStamp = Date(timeIntervalSince1970: timeInterval)
+        let ownerUid = dict[.ownerUid] as? String ?? ""
+        let thumbnailUrl = dict[.thumbnailUrl] as? String ?? nil
         
-        /// Extract audio levels
+        // Call the designated initializer of MessageItem
+        self.init(id: id, text: text, type: messageType, timeStamp: timeStamp, ownerUid: ownerUid, thumbnailUrl: thumbnailUrl)
+        
+        // Initialize other properties
+        self.thumbnailWidth = dict[.thumbnailWidth] as? CGFloat
+        self.thumbnailHeight = dict[.thumbnailHeight] as? CGFloat
+        self.videoURL = dict[.videoURL] as? String
+        self.videoDuration = dict[.videoDuration] as? TimeInterval
+        self.audioURL = dict[.audioURL] as? String
+        self.audioDuration = dict[.audioDuration] as? TimeInterval
+        self.urlSticker = dict[.urlSticker] as? String
+        self.emojiString = dict[.emojiString] as? String
+        self.urlImageStory = dict[.urlImageStory] as? String
+        self.textNote = dict[.textNote] as? String
+        self.fileMediaURL = dict[.fileMediaURL] as? String
+        self.sizeOfFile = dict[.sizeOfFile] as? Int64
+        self.nameOfFile = dict[.nameOfFile] as? String
+        self.messageReplyType = MessageReplyType(dict[.replyType] as? String ?? "")
+        self.uidMessageReply = dict[.uidMessageReply] as? String
+        
+        // Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
-            self.audioLevels = audioLevelsArray.map{ $0.floatValue }
-        } else {
-            self.audioLevels = nil
+            self.audioLevels = audioLevelsArray.map { $0.floatValue }
         }
         
-        /// Extract emojis
-        if let emojiArray = dict[.emojis] as? [[String:Any]] {
-            self.emojis = emojiArray.map{ ReactionItem(dict: $0)}
-        } else {
-            self.emojis = nil
+        // Extract emojis
+        if let emojiArray = dict[.emojis] as? [[String: Any]] {
+            self.emojis = emojiArray.map { ReactionItem(dict: $0) }
         }
         
-        /// Extract location
-        if let locationDict = dict[.location] as? [String:Any],
+        // Extract location
+        if let locationDict = dict[.location] as? [String: Any],
            let latitude = locationDict[.latitude] as? CLLocationDegrees,
            let longtitude = locationDict[.longtitude] as? CLLocationDegrees,
-           let nameAddress = locationDict[.nameAddress] as? String
-        {
+           let nameAddress = locationDict[.nameAddress] as? String {
             self.location = LocationItem(latitude: latitude, longtitude: longtitude, nameAddress: nameAddress)
-        } else {
-            self.location = nil
         }
     }
 }
-
 extension ReactionItem {
     init(dict: [String:Any]) {
         self.ownerUid = dict[.ownerUid] as? String ?? ""

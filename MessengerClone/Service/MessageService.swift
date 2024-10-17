@@ -10,6 +10,20 @@ import Firebase
 
 struct MessageService {
     
+    /// Get message by channelId, messageId
+    static func getMessage(_ channelId: String, _ messageId: String, completion: @escaping (MessageItem?) -> Void) {
+        FirebaseConstants.MessageChannelRef.child(channelId).child(messageId)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let data = snapshot.value as? [String:Any] else {
+                    completion(nil)
+                    return
+                }
+        
+                let messageItem = MessageItem(id: data["id"] as? String ?? "", dict: data)
+                completion(messageItem)
+            }
+    }
+    
     /// Get only first an message
     static func getFirstMessage(_ channel: ChannelItem, completion: @escaping(MessageItem) -> Void) {
         FirebaseConstants.MessageChannelRef.child(channel.id)
@@ -354,6 +368,14 @@ struct MessageService {
                 let messageDict = messageSnapshot.value as? [String:Any] ?? [:]
                 var message = MessageItem(id: messageDict[.id] as? String ?? "" ,dict: messageDict)
                 
+                if let messageReplyUid = message.uidMessageReply {
+                    self.getMessage(channel.id, messageReplyUid) { messageItem in
+                        if let messageItem {
+                            message.messageReply = messageItem
+                        }
+                    }
+                }
+                
                 /// Fetch Sender
                 message.sender = channel.members.first(where: { $0.uid == message.ownerUid })
                 
@@ -393,6 +415,13 @@ struct MessageService {
             .observe(.childAdded) { messageSnapshot in
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
                 var newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
+                if let messageReplyUid = newMessage.uidMessageReply {
+                    self.getMessage(channel.id, messageReplyUid) { messageItem in
+                        if let messageItem {
+                            newMessage.messageReply = messageItem
+                        }
+                    }
+                }
                 newMessage.sender = channel.members.first(where: { $0.uid == newMessage.ownerUid })
                 onNewMessage(newMessage)
             }
@@ -402,6 +431,13 @@ struct MessageService {
             .observe(.childChanged) { messageSnapshot in
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
                 var updateMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
+                if let messageReplyUid = updateMessage.uidMessageReply {
+                    self.getMessage(channel.id, messageReplyUid) { messageItem in
+                        if let messageItem {
+                            updateMessage.messageReply = messageItem
+                        }
+                    }
+                }
                 updateMessage.sender = channel.members.first(where: { $0.uid == updateMessage.ownerUid })
                 onUpdateMessages(updateMessage)
             }
