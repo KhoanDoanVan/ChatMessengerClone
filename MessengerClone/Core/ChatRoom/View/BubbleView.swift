@@ -51,12 +51,12 @@ struct BubbleView: View {
                         showSenderNameText()
                     }
                     
-                    ZStack {
-                        if message.uidMessageReply != nil {
-                            BubbleReplyMessage(messageReply: message.messageReply ?? MessageItem.stubMessageText, messageCurrent: message)
-                        }
-                        composeDynamicBubbleView()
+                    if message.uidMessageReply != nil {
+                        BubbleReplyMessage(messageReply: message.messageReply ?? MessageItem.stubMessageText, messageCurrent: message)
+                            .offset(y: 10)
+                            .zIndex(-1)
                     }
+                    composeDynamicBubbleView()
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -152,7 +152,7 @@ struct BubbleView: View {
                 VStack {
                     
                 }
-                .frame(width: 40, height: 40)
+                .frame(width: 40)
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
                     Text("\(channel.usersChannel[0].username) replied you note")
@@ -178,7 +178,7 @@ struct BubbleView: View {
                 VStack {
                     
                 }
-                .frame(width: 40, height: 40)
+                .frame(width: 40)
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
                     Text("\(channel.usersChannel[0].username) replied you story")
@@ -200,22 +200,22 @@ struct BubbleView: View {
     /// Show Text Reply message
     private func showTextReplyMessage() -> some View {
         HStack(spacing: 0) {
-            if message.uidMessageReply != nil && message.isNotMe {
+            if message.uidMessageReply != nil && message.messageReply?.isNotMe ?? false {
                 VStack {
                     
                 }
-                .frame(width: 40, height: 40)
+                .frame(width: 40)
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
-                    Text("\(message.sender?.username ?? "Unknown") replied to yourself")
+                    Text("You replied to \(message.sender?.username ?? "Unknown")'s message")
                 }
                 .font(.footnote)
                 .foregroundStyle(Color(.systemGray))
                 .padding(.leading, 5)
-            } else if message.uidMessageReply != nil && !message.isNotMe {
+            } else if message.uidMessageReply != nil && !(message.messageReply?.isNotMe ?? false) {
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
-                    Text("You replied to \(message.sender?.username ?? "Unknown")'s message")
+                    Text("\(message.sender?.username ?? "Unknown") replied to yourself")
                 }
                 .font(.footnote)
                 .foregroundStyle(Color(.systemGray))

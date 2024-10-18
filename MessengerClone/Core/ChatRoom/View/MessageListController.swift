@@ -216,6 +216,8 @@ final class MessageListController: UIViewController {
             in: keyWindow
         )
         
+        let shrinkCell = shrinkCell(blurViewModel.startingFrame?.height ?? 0)
+        
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn) {
            
             blurEmojiView.alpha = 1
@@ -223,6 +225,10 @@ final class MessageListController: UIViewController {
             /// set frame for object into keyWindow
             focusedEmojiView.center.y = keyWindow.center.y - 60 // set the focused view center y-axis
             snapshotEmojiCell.frame = focusedEmojiView.bounds
+            /// Scale
+            if shrinkCell {
+                focusedEmojiView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }
         }
     }
     
@@ -263,7 +269,7 @@ final class MessageListController: UIViewController {
         in uiWindow: UIWindow
     ) {
         guard let focusedEmojiView else { return }
-        
+                
         /// Reaction Picker Menu View Model
         let reactionPickerMenuViewModel = ReactionPickerMenuViewModel(
             message: message,
@@ -286,6 +292,8 @@ final class MessageListController: UIViewController {
         reactionHostViewController?.view.translatesAutoresizingMaskIntoConstraints = false
         
         guard let reactionHostViewController else { return }
+        
+        
         
         uiWindow.addSubview(reactionHostViewController.view)
         
@@ -446,22 +454,26 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
             hostingController.view.bottomAnchor.constraint(equalTo: blurView.contentView.bottomAnchor)
         ])
         
+        let shrinkCell = shrinkCell(blurViewModel.startingFrame?.height ?? 0)
+        
         UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseIn) {
             /// Set blur view is visible
             blurView.alpha = 1
             
             focusedView.center.y = keyWindow.center.y
             
-            if message.isNotMe {
-                focusedView.center.x = keyWindow.center.x + 95
-            } else {
-                focusedView.center.x = keyWindow.center.x - 95
-            }
+//            if message.isNotMe {
+//                focusedView.center.x = keyWindow.center.x + 95
+//            } else {
+//                focusedView.center.x = keyWindow.center.x - 95
+//            }
 
             snapshotCell.frame = focusedView.bounds
             
             /// Scale
-            focusedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            if shrinkCell {
+                focusedView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }
         }
     }
     
@@ -505,6 +517,8 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         /// Add hosting controller contain the swiftui into the blurview
         blurView.contentView.addSubview(hostingController.view)
         
+        let shrinkCell = shrinkCell(blurViewModel.startingFrame?.height ?? 0)
+        
         /// Set contraints for this hosting controller
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -520,20 +534,28 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
             
             focusedView.center.y = keyWindow.center.y
             
-            if message.isNotMe {
-                focusedView.center.x = keyWindow.center.x + 60
-            } else {
-                focusedView.center.x = keyWindow.center.x - 60
-            }
+//            if message.isNotMe {
+//                focusedView.center.x = keyWindow.center.x + 60
+//            } else {
+//                focusedView.center.x = keyWindow.center.x - 60
+//            }
 
             snapshotCell.frame = focusedView.bounds
             
             /// Scale
-            focusedView.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+            if shrinkCell {
+                focusedView.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
+            }
             
             /// Difference
             focusedView.alpha = 0
         }
+    }
+    
+    private func shrinkCell(_ cellHeight: CGFloat) -> Bool {
+        let screenHeight = (UIWindowScene.current?.screenHeight ?? 0) / 0.5
+        let spacingForMenuView = screenHeight - cellHeight
+        return spacingForMenuView < 190
     }
 }
 

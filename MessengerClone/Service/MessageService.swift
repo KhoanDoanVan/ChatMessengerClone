@@ -65,7 +65,7 @@ struct MessageService {
     }
     
     /// Send Text Message
-    static func sendTextMessage(to channel: ChannelItem, from currentUser: UserItem, _ textMessage: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
+    static func sendTextMessage(to channel: ChannelItem, from currentUser: UserItem, _ textMessage: String, _ uidReplyMessage: String?, _ messageReplyCurrnet: MessageItem? , onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -86,7 +86,24 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            switch messageReplyCurrnet?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
+            }
         }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
@@ -96,7 +113,7 @@ struct MessageService {
     }
     
     /// Send Emoji String Message
-    static func sendEmojiStringMessage(to channel: ChannelItem, from currentUser: UserItem, _ emojiString: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
+    static func sendEmojiStringMessage(to channel: ChannelItem, from currentUser: UserItem, _ emojiString: String, _ uidReplyMessage: String?, _ messageReplyCurrent: MessageItem? , onComplete: () -> Void) {
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
         
@@ -117,7 +134,24 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            switch messageReplyCurrent?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
+            }
         }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channeDict)
@@ -127,7 +161,7 @@ struct MessageService {
     }
     
     /// Send Sticker Message
-    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, _ uidReplyMessage: String?, onComplete: () -> Void) {
+    static func sendStickerMessage(to channel: ChannelItem, from currentUser: UserItem, _ stickerUrl: String, _ uidReplyMessage: String?, _ messageReplyCurrent: MessageItem? , onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -149,7 +183,24 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            switch messageReplyCurrent?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
+            }
         }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
@@ -159,7 +210,7 @@ struct MessageService {
     }
     
     /// Send Location Message
-    static func sendLocationCurrentMessage(to channel: ChannelItem, from userCurrent: UserItem, _ location: LocationItem, _ uidReplyMessage: String?, onComplete: () -> Void) {
+    static func sendLocationCurrentMessage(to channel: ChannelItem, from userCurrent: UserItem, _ location: LocationItem, _ uidReplyMessage: String?, _ messageReplyCurrent: MessageItem? , onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -185,7 +236,24 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            switch messageReplyCurrent?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
+            }
         }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
@@ -195,7 +263,7 @@ struct MessageService {
     }
     
     /// Send Video Call Message
-    static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, _ uidReplyMessage: String?, onComplete: () -> Void) {
+    static func sendVideoCallMessage(to channel: ChannelItem, from currentUser: UserItem, _ timeVideoCall: TimeInterval, _ uidReplyMessage: String?, _ messageReplyCurrent: MessageItem? , onComplete: () -> Void) {
         
         let timestamp = Date().timeIntervalSince1970
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
@@ -217,7 +285,24 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            switch messageReplyCurrent?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
+                messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
+            }
         }
         
         FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
@@ -227,7 +312,7 @@ struct MessageService {
     }
     
     /// Send Media Message
-    static func sendMediaMessage(to channel: ChannelItem, params: MessageMediaUploadParams, _ uidReplyMessage: String?, completion: @escaping () -> Void) {
+    static func sendMediaMessage(to channel: ChannelItem, params: MessageMediaUploadParams, _ uidReplyMessage: String?, _ messageReplyCurrent: MessageItem? , completion: @escaping () -> Void) {
         guard let messageId = FirebaseConstants.MessageChannelRef.childByAutoId().key else { return }
         let timeStamp = Date().timeIntervalSince1970
         
@@ -258,14 +343,23 @@ struct MessageService {
         
         if let uidReplyMessage {
             messageDict[.uidMessageReply] = uidReplyMessage
-            if params.videoURL != nil {
-                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
-            } else if params.audioURL != nil {
-                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
-            } else if params.fileMediaURL != nil {
-                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
-            } else {
+            switch messageReplyCurrent?.type {
+            case .text:
+                messageDict[.replyType] = MessageReplyType.textReply.rawValue
+            case .photo:
                 messageDict[.replyType] = MessageReplyType.imageReply.rawValue
+            case .video:
+                messageDict[.replyType] = MessageReplyType.videoReply.rawValue
+            case .audio:
+                messageDict[.replyType] = MessageReplyType.audioReply.rawValue
+            case .videoCall,.fileMedia,.location:
+                messageDict[.replyType] = MessageReplyType.attachmentReply.rawValue
+            case .sticker:
+                messageDict[.replyType] = MessageReplyType.stickerReply.rawValue
+            case .emoji:
+                messageDict[.replyType] = MessageReplyType.likeReply.rawValue
+            default:
+                break
             }
         }
         

@@ -12,13 +12,13 @@ struct BubbleReplyMessage: View {
     
     let messageReply: MessageItem
     let messageCurrent: MessageItem
-//    private var replyMessagePreview: String {
-//        let maxChar = 30
-//        let trailingChars = viewModel.messageReply?.text.count > maxChar ? "..." : ""
-//        let title = String(viewModel.messageReply?.text.prefix(maxChar) + trailingChars)
-//        
-//        return title
-//    }
+    private var replyMessagePreview: String {
+        let maxChar = 30
+        let trailingChars = messageReply.text.count > maxChar ? "..." : ""
+        let title = String(messageReply.text.prefix(maxChar) + trailingChars)
+        
+        return title
+    }
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -47,7 +47,6 @@ struct BubbleReplyMessage: View {
         .frame(maxWidth: .infinity, alignment: messageCurrent.alignment)
         .padding(.leading, messageCurrent.leadingPadding)
         .padding(.trailing, messageCurrent.trailingPadding)
-        .padding(.bottom, messageCurrent.emojis != nil ? 25 : 0)
     }
     
     /// Reply bubble behind main message
@@ -56,29 +55,14 @@ struct BubbleReplyMessage: View {
             switch messageCurrent.messageReplyType {
             case .textReply:
                 textView()
-                    .onAppear {
-                        print("textReply")
-                    }
             case .imageReply, .videoReply:
                 imageView()
-                    .onAppear {
-                        print("imageReply")
-                    }
             case .stickerReply:
                 EmptyView()
-                    .onAppear {
-                        print("stickerReply")
-                    }
             case .likeReply:
                 EmptyView()
-                    .onAppear {
-                        print("likeReply")
-                    }
             case .audioReply:
                 EmptyView()
-                    .onAppear {
-                        print("audioReply")
-                    }
             default:
                 HStack {
                     Text("Attachment")
@@ -110,7 +94,7 @@ struct BubbleReplyMessage: View {
     
     /// Text
     private func textView() -> some View {
-        Text(messageReply.text)
+        Text(replyMessagePreview)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(Color(.systemGray6))
@@ -127,7 +111,6 @@ struct BubbleReplyMessage: View {
                 )
             )
             .shadow(radius: 10)
-            .padding(.bottom, 60)
     }
     
     
@@ -173,34 +156,24 @@ struct BubbleReplyMessage: View {
     private func imageMessage() -> some View {
         VStack {
             if let thumbnailUrl = messageReply.thumbnailUrl, let url = URL(string: thumbnailUrl) {
-                        KFImage(url)
-                            .resizable()
-                            .placeholder {
-                                ProgressView()
-                            }
-                            .scaledToFill()
-                            .frame(width: messageReply.imageSize.width, height: messageReply.imageSize.height)
-                    } else {
-                        // Show placeholder or fallback UI
-                        Rectangle()
-                            .fill(Color.gray)
-                            .frame(width: 200, height: 100)
-                            .overlay(
-                                Text("No Image")
-                                    .foregroundColor(.white)
-                            )
+                KFImage(url)
+                    .resizable()
+                    .placeholder {
+                        ProgressView()
                     }
+                    .scaledToFill()
+                    .frame(width: messageReply.imageSize.width, height: messageReply.imageSize.height)
+            } else {
+                // Show placeholder or fallback UI
+                Rectangle()
+                    .fill(Color.gray)
+                    .frame(width: 200, height: 100)
+                    .overlay(
+                        Text("Invalid Image")
+                            .foregroundColor(.white)
+                    )
+            }
         }
-//        KFImage(URL(string: viewModel.messageReply?.thumbnailUrl ?? "https://images.pexels.com/photos/974266/pexels-photo-974266.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"))
-//            .resizable()
-//            .placeholder {
-//                ProgressView()
-//            }
-//            .onAppear {
-//                print("Image Thumbnail: \(viewModel.messageReply?.thumbnailUrl)")
-//            }
-//            .scaledToFill()
-//            .frame(width: viewModel.messageReply?.imageSize.width ?? 200, height: viewModel.messageReply?.imageSize.height ?? 100)
     }
 }
 
