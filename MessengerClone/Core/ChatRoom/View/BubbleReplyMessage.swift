@@ -58,36 +58,13 @@ struct BubbleReplyMessage: View {
             case .imageReply, .videoReply:
                 imageView()
             case .stickerReply:
-                EmptyView()
+                stickerMessage()
             case .likeReply:
-                EmptyView()
+                emojiMessage()
             case .audioReply:
-                EmptyView()
+                audioMessage()
             default:
-                HStack {
-                    Text("Attachment")
-                    Image(systemName: "paperclip")
-                }
-                .onAppear {
-                    print("default")
-                }
-                .font(.footnote)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .padding(.bottom, 20)
-                .background(messageCurrent.isNotMe ? .messagesGray : Color(.systemBlue))
-                .clipShape(
-                    .rect(
-                        cornerRadii:
-                                .init(
-                                    topLeading: messageCurrent.isNotMe ? 5 : 20,
-                                    bottomLeading: messageCurrent.isNotMe ? 5 : 20,
-                                    bottomTrailing: messageCurrent.isNotMe ? 20 : 5,
-                                    topTrailing: messageCurrent.isNotMe ? 20 : 5
-                                )
-                    )
-                )
-                .shadow(radius: 10)
+                attachmentMessage()
             }
         }
     }
@@ -174,6 +151,73 @@ struct BubbleReplyMessage: View {
                     )
             }
         }
+    }
+    
+    /// Attachment Message
+    private func attachmentMessage() -> some View {
+        HStack {
+            Text("Attachment")
+            Image(systemName: "paperclip")
+        }
+        .font(.footnote)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .padding(.bottom, 10)
+        .background(Color(.systemGray6))
+        .clipShape(
+            .rect(
+                cornerRadii:
+                        .init(
+                            topLeading: messageCurrent.isNotMe ? 5 : 20,
+                            bottomLeading: messageCurrent.isNotMe ? 5 : 20,
+                            bottomTrailing: messageCurrent.isNotMe ? 20 : 5,
+                            topTrailing: messageCurrent.isNotMe ? 20 : 5
+                        )
+            )
+        )
+        .shadow(radius: 10)
+    }
+    
+    /// Audio Message
+    private func audioMessage() -> some View {
+        HStack {
+            Text("Audio")
+            Image(systemName: "paperclip")
+        }
+        .font(.footnote)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .padding(.bottom, 10)
+        .background(Color(.systemGray6))
+        .clipShape(
+            .rect(
+                cornerRadii:
+                        .init(
+                            topLeading: messageCurrent.isNotMe ? 5 : 20,
+                            bottomLeading: messageCurrent.isNotMe ? 5 : 20,
+                            bottomTrailing: messageCurrent.isNotMe ? 20 : 5,
+                            topTrailing: messageCurrent.isNotMe ? 20 : 5
+                        )
+            )
+        )
+    }
+    
+    /// Sticker Message
+    private func stickerMessage() -> some View {
+        KFImage(URL(string: messageReply.urlSticker ?? ""))
+            .resizable()
+            .placeholder {
+                ProgressView()
+            }
+            .scaledToFill()
+            .frame(width: 100, height: 100)
+    }
+    
+    /// Emoji Message
+    private func emojiMessage() -> some View {
+        Image(systemName: messageReply.emojiString ?? "")
+            .foregroundStyle(Color(.systemGray6))
+            .font(.system(size: 42))
     }
 }
 
