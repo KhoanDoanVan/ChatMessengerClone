@@ -91,11 +91,15 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     // MARK: Reply
     @Published var isOpenReplyBox: Bool = false
-    @Published var messageReplyCurrent: MessageItem?
+    @Published var messageInteractBlurCurrent: MessageItem?
     @Published var isFocusTextFieldChat: Bool = false
     private var uidReplyMessage: String? {
-        return messageReplyCurrent?.id
+        return messageInteractBlurCurrent?.id
     }
+    
+    // MARK: Unsent
+    @Published var isShowBoxChoiceUnsent: Bool = false
+    @Published var isShowAlertChoiceForYou: Bool = false
     
     // MARK: Init
     init(channel: ChannelItem) {
@@ -272,20 +276,20 @@ class ChatRoomScreenViewModel: ObservableObject {
     /// Send message action
     private func sendTextMessage(_ text: String) {
         guard let userCurrent = userCurrent else { return }
-        MessageService.sendTextMessage(to: channel, from: userCurrent, text, self.uidReplyMessage, self.messageReplyCurrent) { [weak self] in
+        MessageService.sendTextMessage(to: channel, from: userCurrent, text, self.uidReplyMessage, self.messageInteractBlurCurrent) { [weak self] in
             self?.text = ""
             isOpenReplyBox = false
-            messageReplyCurrent = nil
+            messageInteractBlurCurrent = nil
         }
     }
     
     /// Send emoji string action
     private func sendEmojiStringMessage(_ emojiString: String) {
         guard let userCurrent = userCurrent else { return }
-        MessageService.sendEmojiStringMessage(to: channel, from: userCurrent, emojiString, self.uidReplyMessage, self.messageReplyCurrent) {
+        MessageService.sendEmojiStringMessage(to: channel, from: userCurrent, emojiString, self.uidReplyMessage, self.messageInteractBlurCurrent) {
             print("Send emoji string message success")
             isOpenReplyBox = false
-            messageReplyCurrent = nil
+            messageInteractBlurCurrent = nil
         }
     }
     
@@ -294,9 +298,9 @@ class ChatRoomScreenViewModel: ObservableObject {
         guard let userCurrent = userCurrent else { return }
         
         if timeVideoCall != 0 {
-            MessageService.sendVideoCallMessage(to: channel, from: userCurrent, timeVideoCall, self.uidReplyMessage, self.messageReplyCurrent) {
+            MessageService.sendVideoCallMessage(to: channel, from: userCurrent, timeVideoCall, self.uidReplyMessage, self.messageInteractBlurCurrent) {
                 isOpenReplyBox = false
-                messageReplyCurrent = nil
+                messageInteractBlurCurrent = nil
                 print("sendVideoCallMessage success")
             }
         }
@@ -308,10 +312,10 @@ class ChatRoomScreenViewModel: ObservableObject {
         
         let location: LocationItem = LocationItem(latitude: latitude, longtitude: longtitude, nameAddress: nameAddress)
         
-        MessageService.sendLocationCurrentMessage(to: channel, from: userCurrent, location, self.uidReplyMessage, self.messageReplyCurrent) {
+        MessageService.sendLocationCurrentMessage(to: channel, from: userCurrent, location, self.uidReplyMessage, self.messageInteractBlurCurrent) {
             print("Send location current success \(location)")
             isOpenReplyBox = false
-            messageReplyCurrent = nil
+            messageInteractBlurCurrent = nil
         }
     }
     
@@ -333,10 +337,10 @@ class ChatRoomScreenViewModel: ObservableObject {
     private func sendStickerMessage(_ urlSticker: String) {
         guard let userCurrent = userCurrent else { return }
         
-        MessageService.sendStickerMessage(to: channel, from: userCurrent, urlSticker, self.uidReplyMessage, self.messageReplyCurrent) {
+        MessageService.sendStickerMessage(to: channel, from: userCurrent, urlSticker, self.uidReplyMessage, self.messageInteractBlurCurrent) {
             print("send Sticker success")
             isOpenReplyBox = false
-            messageReplyCurrent = nil
+            messageInteractBlurCurrent = nil
         }
     }
     
@@ -533,11 +537,11 @@ class ChatRoomScreenViewModel: ObservableObject {
                 thumbnailUrl: imageUrl.absoluteString
             )
             
-            MessageService.sendMediaMessage(to: channel, params: uploadParams, uidReplyMessage, self.messageReplyCurrent) {
+            MessageService.sendMediaMessage(to: channel, params: uploadParams, uidReplyMessage, self.messageInteractBlurCurrent) {
                 print("sendPhotoMessage success with imageUrl: \(imageUrl)")
                 self.scrollToBottomAction(isAnimated: true)
                 self.isOpenReplyBox = false
-                self.messageReplyCurrent = nil
+                self.messageInteractBlurCurrent = nil
             }
         }
     }
@@ -563,10 +567,10 @@ class ChatRoomScreenViewModel: ObservableObject {
                     videoDuration: duration
                 )
                 
-                MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageReplyCurrent) {
+                MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageInteractBlurCurrent) {
                     self.scrollToBottomAction(isAnimated: true)
                     self.isOpenReplyBox = false
-                    self.messageReplyCurrent = nil
+                    self.messageInteractBlurCurrent = nil
                 }
             })
         }
@@ -596,10 +600,10 @@ class ChatRoomScreenViewModel: ObservableObject {
                 audioLevels: audioFloatForDB
             )
             
-            MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageReplyCurrent) { [weak self] in
+            MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageInteractBlurCurrent) { [weak self] in
                 self?.scrollToBottomAction(isAnimated: true)
                 self?.isOpenReplyBox = false
-                self?.messageReplyCurrent = nil
+                self?.messageInteractBlurCurrent = nil
             }
         }
     }
@@ -629,10 +633,10 @@ class ChatRoomScreenViewModel: ObservableObject {
                 nameOfFile: nameOfFile
             )
             
-            MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageReplyCurrent) { [weak self] in
+            MessageService.sendMediaMessage(to: self.channel, params: uploadParams, self.uidReplyMessage, self.messageInteractBlurCurrent) { [weak self] in
                 self?.scrollToBottomAction(isAnimated: true)
                 self?.isOpenReplyBox = false
-                self?.messageReplyCurrent = nil
+                self?.messageInteractBlurCurrent = nil
             }
         }
     }

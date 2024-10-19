@@ -312,8 +312,12 @@ final class MessageListController: UIViewController {
             switch action {
             case .reply:
                 self.viewModel.isOpenReplyBox = true
-                self.viewModel.messageReplyCurrent = message
+                self.viewModel.messageInteractBlurCurrent = message
                 self.viewModel.isFocusTextFieldChat = true
+                self.dismissContext()
+            case .unsend:
+                self.viewModel.messageInteractBlurCurrent = message
+                self.viewModel.isShowBoxChoiceUnsent = true
                 self.dismissContext()
             default:
                 break

@@ -573,6 +573,17 @@ struct MessageService {
         
         completion()
     }
+    
+    /// Unsend message
+    static func unSent(
+        _ channel: ChannelItem,
+        message: MessageItem,
+        unsentMembers: [String],
+        completion: @escaping () -> Void
+    ) {
+        
+    }
+    
 }
 
 struct MessageNode {

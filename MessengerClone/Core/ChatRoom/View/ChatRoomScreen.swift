@@ -146,15 +146,34 @@ struct ChatRoomScreen: View {
                 }
             }
         }
+        .confirmationDialog("Who do you want to unsent for?", isPresented: $viewModel.isShowBoxChoiceUnsent) {
+            Button("Unsent for everyone", role: .destructive) {
+                viewModel.isShowBoxChoiceUnsent = false
+            }
+            Button("Unsent for you", role: .destructive) {
+                viewModel.isShowBoxChoiceUnsent = false
+                viewModel.isShowAlertChoiceForYou = true
+            }
+        }
+        .alert(isPresented: $viewModel.isShowAlertChoiceForYou) {
+            Alert(
+                title: Text("Unsend for you?"),
+                message: Text("This will remove the message from your device. Other chat members will still be able to see it."),
+                primaryButton: .cancel(),
+                secondaryButton: .destructive(Text("Unsend"), action: {
+                    viewModel.isShowAlertChoiceForYou = false
+                })
+            )
+        }
     }
     
     /// Reply View
     private var replyView: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
-                if let state = viewModel.messageReplyCurrent?.isNotMe {
+                if let state = viewModel.messageInteractBlurCurrent?.isNotMe {
                     if state == true {
-                        Text("Replying to \(viewModel.messageReplyCurrent?.sender?.username ?? "Unknown")")
+                        Text("Replying to \(viewModel.messageInteractBlurCurrent?.sender?.username ?? "Unknown")")
                             .foregroundStyle(.white)
                     } else {
                         Text("Replying to yourself")
@@ -162,13 +181,13 @@ struct ChatRoomScreen: View {
                     }
                 }
                 
-                switch viewModel.messageReplyCurrent?.type {
+                switch viewModel.messageInteractBlurCurrent?.type {
                 case .text, .replyNote, .replyStory:
-                    Text(viewModel.messageReplyCurrent?.text ?? "Unknown")
+                    Text(viewModel.messageInteractBlurCurrent?.text ?? "Unknown")
                         .font(.footnote)
                         .foregroundStyle(Color(.systemGray))
                 default:
-                    Text(viewModel.messageReplyCurrent?.type.nameOfType ?? "Unknown")
+                    Text(viewModel.messageInteractBlurCurrent?.type.nameOfType ?? "Unknown")
                         .font(.footnote)
                         .foregroundStyle(Color(.systemGray))
                 }
@@ -177,7 +196,7 @@ struct ChatRoomScreen: View {
             Button {
                 withAnimation {
                     viewModel.isOpenReplyBox = false
-                    viewModel.messageReplyCurrent = nil
+                    viewModel.messageInteractBlurCurrent = nil
                 }
             } label: {
                 Image(systemName: "xmark")
