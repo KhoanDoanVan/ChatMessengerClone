@@ -35,6 +35,17 @@ struct MessageService {
                     guard let messageDict = snapshot.value as? [String:Any] else { return }
                     var firstMessage = MessageItem(id: key, dict: messageDict)
                     firstMessage.sender = channel.members.first(where: { $0.uid == firstMessage.ownerUid })
+                    
+                    if let messageReplyUid = firstMessage.uidMessageReply {
+                        self.getMessage(channel.id, messageReplyUid) { messageItem in
+                            if let messageItem {
+                                firstMessage.messageReply = messageItem
+                                firstMessage.messageReply?.sender = channel.members.first(where: { $0.uid == firstMessage.messageReply?.ownerUid })
+                                completion(firstMessage)
+                            }
+                        }
+                    }
+                    
                     completion(firstMessage)
                 }
             } withCancel: { failed in
@@ -460,12 +471,13 @@ struct MessageService {
             
             var messages: [MessageItem] = allObjects.compactMap { messageSnapshot in
                 let messageDict = messageSnapshot.value as? [String:Any] ?? [:]
-                var message = MessageItem(id: messageDict[.id] as? String ?? "" ,dict: messageDict)
+                let message = MessageItem(id: messageDict[.id] as? String ?? "" ,dict: messageDict)
                 
                 if let messageReplyUid = message.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
                         if let messageItem {
                             message.messageReply = messageItem
+                            message.messageReply?.sender = channel.members.first(where: { $0.uid == message.messageReply?.ownerUid })
                         }
                     }
                 }
@@ -511,8 +523,13 @@ struct MessageService {
                 var newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
                 if let messageReplyUid = newMessage.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
-                        if let messageItem {
-                            newMessage.messageReply = messageItem
+                        if let messageReplyUid = newMessage.uidMessageReply {
+                            self.getMessage(channel.id, messageReplyUid) { messageItem in
+                                if let messageItem {
+                                    newMessage.messageReply = messageItem
+                                    newMessage.messageReply?.sender = channel.members.first(where: { $0.uid == newMessage.messageReply?.ownerUid })
+                                }
+                            }
                         }
                     }
                 }
@@ -529,6 +546,7 @@ struct MessageService {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
                         if let messageItem {
                             updateMessage.messageReply = messageItem
+                            updateMessage.messageReply?.sender = channel.members.first(where: { $0.uid == updateMessage.messageReply?.ownerUid })
                         }
                     }
                 }

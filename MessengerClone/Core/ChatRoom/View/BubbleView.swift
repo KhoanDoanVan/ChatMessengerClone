@@ -200,25 +200,48 @@ struct BubbleView: View {
     /// Show Text Reply message
     private func showTextReplyMessage() -> some View {
         HStack(spacing: 0) {
-            if message.uidMessageReply != nil && message.messageReply?.isNotMe ?? false {
+            if message.uidMessageReply != nil && message.messageReply?.isNotMe ?? false && !message.isNotMe {
+                if let senderReply = message.messageReply?.sender?.username {
+                    HStack {
+                        Image(systemName: "arrowshape.turn.up.left.fill")
+                        Text("You replied to \(senderReply)'s message")
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(Color(.systemGray))
+                }
+            } else if message.uidMessageReply != nil && message.messageReply?.isNotMe ?? false && message.isNotMe {
+                VStack {
+                    
+                }
+                .frame(width: 40)
+                if let senderReply = message.messageReply?.sender?.username {
+                    HStack {
+                        Image(systemName: "arrowshape.turn.up.left.fill")
+                        Text("\(message.sender?.username ?? "Unknown") replied to \(senderReply)'s message")
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(Color(.systemGray))
+                    .padding(.leading, 7)
+                }
+            } else if message.uidMessageReply != nil && !(message.messageReply?.isNotMe ?? false) && !message.isNotMe {
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                    Text("You replied to yourself")
+                }
+                .font(.footnote)
+                .foregroundStyle(Color(.systemGray))
+            } else if message.uidMessageReply != nil && !(message.messageReply?.isNotMe ?? false) && message.isNotMe {
                 VStack {
                     
                 }
                 .frame(width: 40)
                 HStack {
                     Image(systemName: "arrowshape.turn.up.left.fill")
-                    Text("You replied to \(message.sender?.username ?? "Unknown")'s message")
+                    Text("\(message.sender?.username ?? "Unknown") replied to your message")
                 }
                 .font(.footnote)
                 .foregroundStyle(Color(.systemGray))
-                .padding(.leading, 5)
-            } else if message.uidMessageReply != nil && !(message.messageReply?.isNotMe ?? false) {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.left.fill")
-                    Text("\(message.sender?.username ?? "Unknown") replied to yourself")
-                }
-                .font(.footnote)
-                .foregroundStyle(Color(.systemGray))
+                .padding(.leading, 7)
             }
         }
     }
