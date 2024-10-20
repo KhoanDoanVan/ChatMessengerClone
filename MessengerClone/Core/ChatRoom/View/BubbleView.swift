@@ -23,42 +23,58 @@ struct BubbleView: View {
                 showNewDay()
             }
             
-            
-            switch message.type {
-            case .replyNote:
-                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
-                    
-                    showTextReplyNote()
-                    
-                    composeDynamicBubbleView()
-                }
-            case .replyStory:
-                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
-                    
-                    showTextReplyStory()
-                    
-                    composeDynamicBubbleView()
-                }
-            default:
-                VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
-                    
-                    if message.uidMessageReply != nil {
-                        showTextReplyMessage()
-                            .frame(maxWidth: .infinity, alignment: message.isNotMe ? .leading : .trailing)
+            /// Check message unsent
+            if message.unsentIsContainMe {
+                if message.isUnsentUids?.count == 1 {
+                    VStack {
+                        
                     }
-                    
-                    if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
-                        showSenderNameText()
+                } else {
+                    VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                        BubbleUnsentView(
+                            message: message,
+                            isShowAvatarSender: isShowAvatarSender) { state, message in
+                                
+                            }
                     }
-                    
-                    if message.uidMessageReply != nil {
-                        BubbleReplyMessage(messageReply: message.messageReply ?? MessageItem.stubMessageText, messageCurrent: message)
-                            .offset(y: 10)
-                            .zIndex(-1)
-                    }
-                    composeDynamicBubbleView()
                 }
-                .frame(maxWidth: .infinity)
+            } else {
+                switch message.type {
+                case .replyNote:
+                    VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                        
+                        showTextReplyNote()
+                        
+                        composeDynamicBubbleView()
+                    }
+                case .replyStory:
+                    VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                        
+                        showTextReplyStory()
+                        
+                        composeDynamicBubbleView()
+                    }
+                default:
+                    VStack(alignment: message.isNotMe ? .leading : .trailing, spacing: 0) {
+                        
+                        if message.uidMessageReply != nil {
+                            showTextReplyMessage()
+                                .frame(maxWidth: .infinity, alignment: message.isNotMe ? .leading : .trailing)
+                        }
+                        
+                        if isShowNameSender && message.isNotMe && (message.type != .admin(.channelCreation)) {
+                            showSenderNameText()
+                        }
+                        
+                        if message.uidMessageReply != nil {
+                            BubbleReplyMessage(messageReply: message.messageReply ?? MessageItem.stubMessageText, messageCurrent: message)
+                                .offset(y: 10)
+                                .zIndex(-1)
+                        }
+                        composeDynamicBubbleView()
+                    }
+                    .frame(maxWidth: .infinity)
+                }
             }
         }
         .padding(.horizontal, -8)

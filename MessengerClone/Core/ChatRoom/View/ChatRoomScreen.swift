@@ -148,6 +148,9 @@ struct ChatRoomScreen: View {
         }
         .confirmationDialog("Who do you want to unsent for?", isPresented: $viewModel.isShowBoxChoiceUnsent) {
             Button("Unsent for everyone", role: .destructive) {
+                /// Set unsent everyone
+                viewModel.unsentMessage(.everyOne)
+                
                 viewModel.isShowBoxChoiceUnsent = false
             }
             Button("Unsent for you", role: .destructive) {
@@ -162,6 +165,9 @@ struct ChatRoomScreen: View {
                 primaryButton: .cancel(),
                 secondaryButton: .destructive(Text("Unsend"), action: {
                     viewModel.isShowAlertChoiceForYou = false
+                    
+                    /// Set unsent only me
+                    viewModel.unsentMessage(.onlyMe)
                 })
             )
         }

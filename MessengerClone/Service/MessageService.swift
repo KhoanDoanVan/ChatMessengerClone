@@ -33,7 +33,7 @@ struct MessageService {
                 
                 messagesDict.forEach { key, value in
                     guard let messageDict = snapshot.value as? [String:Any] else { return }
-                    var firstMessage = MessageItem(id: key, dict: messageDict)
+                    let firstMessage = MessageItem(id: key, dict: messageDict)
                     firstMessage.sender = channel.members.first(where: { $0.uid == firstMessage.ownerUid })
                     
                     if let messageReplyUid = firstMessage.uidMessageReply {
@@ -61,7 +61,7 @@ struct MessageService {
                 var messages: [MessageItem] = []
                 messagesDict.forEach { key, value in
                     let messageDict = value as? [String:Any] ?? [:]
-                    var message = MessageItem(id: key, dict: messageDict)
+                    let message = MessageItem(id: key, dict: messageDict)
                     message.sender = channel.members.first(where: { $0.uid == message.ownerUid })
                     messages.append(message)
                     
@@ -520,7 +520,7 @@ struct MessageService {
             .queryLimited(toLast: 1)
             .observe(.childAdded) { messageSnapshot in
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
-                var newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
+                let newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
                 if let messageReplyUid = newMessage.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
                         if let messageReplyUid = newMessage.uidMessageReply {
@@ -541,7 +541,7 @@ struct MessageService {
         messageRef
             .observe(.childChanged) { messageSnapshot in
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
-                var updateMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
+                let updateMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
                 if let messageReplyUid = updateMessage.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
                         if let messageItem {
@@ -578,10 +578,16 @@ struct MessageService {
     static func unSent(
         _ channel: ChannelItem,
         message: MessageItem,
-        unsentMembers: [String],
+        unsentMemberUids: [String],
         completion: @escaping () -> Void
     ) {
+        let messageDict: [String:Any] = [
+            .isUnsentUids: unsentMemberUids
+        ]
         
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(message.id).updateChildValues(messageDict)
+        
+        completion()
     }
     
 }

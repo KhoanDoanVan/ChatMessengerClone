@@ -52,6 +52,8 @@ class MessageItem {
     var uidMessageReply: String?
     var messageReply: MessageItem?
     
+    var isUnsentUids: [String]?
+    
     init(id: String, text: String, type: MessageType, timeStamp: Date, ownerUid: String, thumbnailUrl: String? = nil) {
             self.id = id
             self.text = text
@@ -64,6 +66,12 @@ class MessageItem {
     /// Show avatar or not
     var isNotMe: Bool {
         return direction == .received
+    }
+    
+    /// Unsent is contain me?
+    var unsentIsContainMe: Bool {
+        let uidCurrent = Auth.auth().currentUser?.uid
+        return isUnsentUids?.contains(where: { $0 == uidCurrent }) ?? false
     }
     
     /// Contain same owner
@@ -178,6 +186,7 @@ extension MessageItem {
         self.nameOfFile = dict[.nameOfFile] as? String
         self.messageReplyType = MessageReplyType(dict[.replyType] as? String ?? "")
         self.uidMessageReply = dict[.uidMessageReply] as? String
+        self.isUnsentUids = dict[.isUnsentUids] as? [String]
         
         // Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -241,4 +250,5 @@ extension String {
     static let nameOfFile = "nameOfFile"
     static let replyType = "replyType"
     static let uidMessageReply = "uidMessageReply"
+    static let isUnsentUids = "isUnsentUids"
 }

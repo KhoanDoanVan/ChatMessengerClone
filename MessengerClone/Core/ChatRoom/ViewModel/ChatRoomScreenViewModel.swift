@@ -641,6 +641,29 @@ class ChatRoomScreenViewModel: ObservableObject {
         }
     }
     
+    /// Unsent message
+    func unsentMessage(_ type: MessageUnsentType) {
+        
+        guard let userCurrent,
+              let messageInteractBlurCurrent
+        else { return }
+        
+        var membersUids: [String] = []
+        
+        /// Check type
+        switch type {
+        case .everyOne:
+            membersUids = channel.memberUids
+        case .onlyMe:
+            membersUids.append(userCurrent.uid)
+        }
+        
+        MessageService.unSent(channel, message: messageInteractBlurCurrent, unsentMemberUids: membersUids) {
+            print("Unsent message successfully")
+            self.messageInteractBlurCurrent = nil
+        }
+    }
+    
     /// Send multiple media
     private func sendMultipleMediaMessage(_ text: String, attachments: [MediaAttachment]) {
         

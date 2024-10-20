@@ -169,6 +169,10 @@ final class MessageListController: UIViewController {
         /// MessageItem
         let message = viewModel.messages[indexPath.item]
         
+        if message.unsentIsContainMe {
+            return
+        }
+        
         /// Select cell
         guard let selectedCell = messageCollectionView.cellForItem(at: indexPath) else { return }
         

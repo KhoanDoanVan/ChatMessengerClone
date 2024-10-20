@@ -166,3 +166,7 @@ enum MessageReplyType: String {
         }
     }
 }
+
+enum MessageUnsentType: String {
+    case everyOne, onlyMe
+}
