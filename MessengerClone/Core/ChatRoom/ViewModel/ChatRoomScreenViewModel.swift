@@ -20,6 +20,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     // MARK: Propertises
     private(set) var channel: ChannelItem
     var userCurrent: UserItem?
+    @Published var bubbleMessageDidSelect: MessageItem?
     
     // MARK: Fetch Messages Propertises
     @Published var messages = [MessageItem]()
@@ -902,6 +903,42 @@ class ChatRoomScreenViewModel: ObservableObject {
             }
             
             completion(nil)
+        }
+    }
+    
+    /// Find message from Pagination
+    func findBubbleMessageScrollTo(completion: @escaping (Int?) -> Void ) {
+        
+        guard let messageReplyId = bubbleMessageDidSelect?.messageReply?.id else { return }
+        
+        if let indexMessage = messages.firstIndex(where: { $0.id == messageReplyId }) {
+            completion(indexMessage)
+        } else {
+            findMessageUntilFound(messageReplyId, completion: completion)
+        }
+    }
+    
+    
+    /// Find message until find correctly message from pagination
+    private func findMessageUntilFound(_ messageId: String, completion: @escaping (Int?) -> Void) {
+        
+        MessageService.getHistoryMessages(for: channel, lastCursor: currentPage, pageSize: 12) { [weak self] messageNode in
+            guard let self = self else {
+                completion(nil)
+                return
+            }
+            
+            self.messages.insert(contentsOf: messageNode.messages, at: 0)
+            
+            self.currentPage = messageNode.currentCursor
+            
+            if let messageIndex = self.messages.firstIndex(where: { $0.id == messageId }) {
+                completion(messageIndex)
+            } else if messageNode.messages.isEmpty {
+                completion(nil)
+            } else {
+                self.findMessageUntilFound(messageId, completion: completion)
+            }
         }
     }
 }

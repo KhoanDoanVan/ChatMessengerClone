@@ -373,7 +373,8 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
                 channel: viewModel.channel,
                 isNewDay: isNewDay,
                 isShowNameSender: isShowNameSender,
-                isShowAvatarSender: isShowAvatarSender
+                isShowAvatarSender: isShowAvatarSender,
+                viewModel: viewModel
             ) { state, message in
                 self.viewModel.isShowReactions = state
                 self.viewModel.messageReactions = message
@@ -388,6 +389,15 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         /// Get message in that index
         let messageItem = viewModel.messages[indexPath.item]
         
+        /// Selected messaged
+        viewModel.bubbleMessageDidSelect = messageItem
+        
+        if viewModel.bubbleMessageDidSelect?.messageReply == nil {
+            return
+        }
+        
+        self.messageCollectionView.scrollToMessageDidSelected(at: .centeredVertically, viewModel: viewModel, animate: true)
+        
         switch messageItem.type {
         case .photo:
             displayPreviewImage(message: messageItem, indexPath)
@@ -400,7 +410,6 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         default:
             break
         }
-        
     }
     
     /// Read the file of FileMedia Type
@@ -577,6 +586,16 @@ extension UICollectionView {
         let lastRowIndex = numberOfItems(inSection: lastSectionIndex) - 1
         let lastRowIndexPath = IndexPath(row: lastRowIndex, section: lastSectionIndex)
         scrollToItem(at: lastRowIndexPath, at: scrollPosition, animated: animated)
+    }
+    
+    func scrollToMessageDidSelected(at scrollPosition: UICollectionView.ScrollPosition, viewModel: ChatRoomScreenViewModel, animate: Bool) {
+        
+        viewModel.findBubbleMessageScrollTo { indexMessage in
+            if let indexMessage {
+                let messageRowIndexPath = IndexPath(item: indexMessage, section: 0)
+                self.scrollToItem(at: messageRowIndexPath, at: scrollPosition, animated: animate)
+            }
+        }
     }
 }
 

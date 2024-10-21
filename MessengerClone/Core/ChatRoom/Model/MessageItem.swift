@@ -11,7 +11,8 @@ import SwiftUI
 import MapKit
 
 // MARK: Message Item
-class MessageItem {
+class MessageItem: Hashable {
+    
     let id: String
     let text: String
     let type: MessageType
@@ -140,6 +141,38 @@ class MessageItem {
         MessageItem(id: UUID().uuidString, text: "", type: .photo, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil),
         MessageItem(id: UUID().uuidString, text: "Nice try", type: .text, timeStamp: Date(), ownerUid: UUID().uuidString, thumbnailUrl: nil),
     ]
+    
+    static func == (lhs: MessageItem, rhs: MessageItem) -> Bool {
+            return lhs.id == rhs.id
+                && lhs.text == rhs.text
+                && lhs.type == rhs.type
+                && lhs.timeStamp == rhs.timeStamp
+                && lhs.ownerUid == rhs.ownerUid
+                && lhs.thumbnailUrl == rhs.thumbnailUrl
+                && lhs.videoURL == rhs.videoURL
+                && lhs.videoDuration == rhs.videoDuration
+                && lhs.audioURL == rhs.audioURL
+                && lhs.audioDuration == rhs.audioDuration
+                && lhs.audioLevels == rhs.audioLevels
+                && lhs.emojis == rhs.emojis
+                && lhs.videoCallDuration == rhs.videoCallDuration
+                && lhs.urlSticker == rhs.urlSticker
+                && lhs.emojiString == rhs.emojiString
+                && lhs.location == rhs.location
+                && lhs.urlImageStory == rhs.urlImageStory
+                && lhs.textNote == rhs.textNote
+                && lhs.fileMediaURL == rhs.fileMediaURL
+                && lhs.sizeOfFile == rhs.sizeOfFile
+                && lhs.nameOfFile == rhs.nameOfFile
+                && lhs.messageReplyType == rhs.messageReplyType
+                && lhs.uidMessageReply == rhs.uidMessageReply
+                && lhs.isUnsentUids == rhs.isUnsentUids
+        }
+        
+        // Implement the hash function for Hashable conformance
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
 }
 
 // MARK: Reaction Item

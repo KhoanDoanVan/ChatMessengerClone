@@ -134,7 +134,7 @@ enum Reaction: Int, CaseIterable {
     }
 }
 
-enum MessageDirection {
+enum MessageDirection: Hashable {
     case received, sent
 }
 
@@ -142,7 +142,7 @@ enum AdminMessageType: String {
     case channelCreation
 }
 
-enum MessageReplyType: String {
+enum MessageReplyType: String, Hashable {
     case textReply, imageReply, videoReply, stickerReply, audioReply, likeReply, attachmentReply
     
     init?(_ stringValue: String) {

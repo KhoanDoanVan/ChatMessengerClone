@@ -14,8 +14,12 @@ struct BubbleView: View {
     let isNewDay: Bool
     let isShowNameSender: Bool
     let isShowAvatarSender: Bool
+    @ObservedObject var viewModel: ChatRoomScreenViewModel
     
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
+    
+    // State to manage the scale of the bubble
+    @State private var isScaled = false
     
     var body: some View {
         VStack {
@@ -72,9 +76,21 @@ struct BubbleView: View {
                                 .zIndex(-1)
                         }
                         composeDynamicBubbleView()
+                            .scaleEffect(x: isScaled ? 1.01 : 1.0 ,y: isScaled ? 1.05 : 1.0)  // Apply scale effect based on state
+                            .animation(.easeInOut(duration: 0.25), value: isScaled)  // 1s animation
+                            .onAppear {
+                                if viewModel.bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()  // Trigger the animation
+                                }
+                            }
                     }
                     .frame(maxWidth: .infinity)
                 }
+            }
+        }
+        .onChange(of: viewModel.bubbleMessageDidSelect) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage?.messageReply?.id == message.id {
+                scaleUpAndReset()  // Trigger the animation when a new message is selected
             }
         }
         .padding(.horizontal, -8)
@@ -160,6 +176,22 @@ struct BubbleView: View {
             }
         }
     }
+    
+    /// Function to scale up and reset the scale back after 1s
+        private func scaleUpAndReset() {
+            // Scale up
+            withAnimation {
+                isScaled = true
+            }
+            
+            // After 1 second, reset the scale back to normal
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                withAnimation {
+                    isScaled = false
+                    viewModel.bubbleMessageDidSelect = nil
+                }
+            }
+        }
     
     /// Show Text Reply story
     private func showTextReplyNote() -> some View {
