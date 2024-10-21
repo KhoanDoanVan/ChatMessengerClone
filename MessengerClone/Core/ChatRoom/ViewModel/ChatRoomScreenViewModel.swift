@@ -102,6 +102,9 @@ class ChatRoomScreenViewModel: ObservableObject {
     @Published var isShowBoxChoiceUnsent: Bool = false
     @Published var isShowAlertChoiceForYou: Bool = false
     
+    // MARK: Forward
+    @Published var isShowForwardSheet: Bool = false
+    
     // MARK: Init
     init(channel: ChannelItem) {
         self.channel = channel

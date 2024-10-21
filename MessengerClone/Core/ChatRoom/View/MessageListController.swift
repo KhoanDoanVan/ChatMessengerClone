@@ -313,19 +313,23 @@ final class MessageListController: UIViewController {
             message: message,
             reactionPickerMenuViewModel: reactionPickerMenuViewModel
         ) { action in
+            
+            self.viewModel.messageInteractBlurCurrent = message
+            
             switch action {
             case .reply:
                 self.viewModel.isOpenReplyBox = true
-                self.viewModel.messageInteractBlurCurrent = message
                 self.viewModel.isFocusTextFieldChat = true
-                self.dismissContext()
             case .unsend:
-                self.viewModel.messageInteractBlurCurrent = message
                 self.viewModel.isShowBoxChoiceUnsent = true
-                self.dismissContext()
+            case .forward:
+                self.viewModel.isShowForwardSheet = true
             default:
                 break
             }
+            
+            self.dismissContext()
+            
         }
         menuHostViewController = UIHostingController(rootView: menuPickerView)
         menuHostViewController?.view.backgroundColor = .clear

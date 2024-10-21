@@ -46,7 +46,7 @@ struct ChannelItem: Identifiable, Hashable {
         }
     }
     
-    /// Preview message channel
+    /// Preview message `channel`
     var previewMessage: String {
         switch lastMessageType {
         case .admin:
