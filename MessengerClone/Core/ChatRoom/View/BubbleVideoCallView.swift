@@ -11,6 +11,10 @@ struct BubbleVideoCallView: View {
     
     let message: MessageItem
     let isShowAvatarSender: Bool
+    @Binding var bubbleMessageDidSelect: MessageItem?
+    
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -39,6 +43,13 @@ struct BubbleVideoCallView: View {
                         .font(.footnote)
                 }
             }
+            .scaleEffect(isScaled ? 1.1 : 1.0)
+            .animation(.easeInOut(duration: 0.35), value: isScaled)
+            .onAppear {
+                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                    scaleUpAndReset()
+                }
+            }
             .padding(.horizontal, 15)
             .padding(.vertical, 10)
             .background(Color(.systemGray6))
@@ -49,9 +60,30 @@ struct BubbleVideoCallView: View {
         .frame(maxWidth: .infinity, alignment: message.alignment)
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
+        .onChange(of: bubbleMessageDidSelect ?? .stubMessageText) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage.messageReply?.id == message.id {
+                scaleUpAndReset()
+            }
+        }
+    }
+    
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
     }
 }
 
-#Preview {
-    BubbleVideoCallView(message: .stubMessageAudio, isShowAvatarSender: true)
-}
+//#Preview {
+//    BubbleVideoCallView(message: .stubMessageAudio, isShowAvatarSender: true)
+//}

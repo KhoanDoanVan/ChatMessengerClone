@@ -11,8 +11,12 @@ struct BubbleEmojiView: View {
     
     let message: MessageItem
     let isShowAvatarSender: Bool
+    @Binding var bubbleMessageDidSelect: MessageItem?
     
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
+    
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -29,6 +33,13 @@ struct BubbleEmojiView: View {
                 ZStack {
                     HStack {
                         emojiView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
                         Spacer()
                     }
@@ -50,6 +61,13 @@ struct BubbleEmojiView: View {
                     HStack {
                         Spacer()
                         emojiView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, 0)
                     }
                     
@@ -71,6 +89,11 @@ struct BubbleEmojiView: View {
         .frame(maxWidth: .infinity, alignment: message.alignment)
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
+        .onChange(of: bubbleMessageDidSelect ?? .stubMessageText) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage.messageReply?.id == message.id {
+                scaleUpAndReset()
+            }
+        }
     }
     
     /// Button Reaction
@@ -105,6 +128,22 @@ struct BubbleEmojiView: View {
         .padding(.top)
     }
     
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
+    }
+    
     /// Emoji View
     private func emojiView() -> some View {
         Image(systemName: message.emojiString ?? "")
@@ -113,9 +152,9 @@ struct BubbleEmojiView: View {
     }
 }
 
-#Preview {
-    BubbleEmojiView(message: .stubMessageImage, isShowAvatarSender: true) {
-        state, message in
-        
-    }
-}
+//#Preview {
+//    BubbleEmojiView(message: .stubMessageImage, isShowAvatarSender: true) {
+//        state, message in
+//        
+//    }
+//}

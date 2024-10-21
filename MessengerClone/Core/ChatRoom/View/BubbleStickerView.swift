@@ -12,8 +12,12 @@ struct BubbleStickerView: View {
     
     let message: MessageItem
     let isShowAvatarSender: Bool
+    @Binding var bubbleMessageDidSelect: MessageItem?
     
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
+    
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
     
     var body: some View {
         HStack(alignment: .bottom) {
@@ -30,6 +34,13 @@ struct BubbleStickerView: View {
                 ZStack {
                     HStack {
                         stickerView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
                         Spacer()
                     }
@@ -53,6 +64,13 @@ struct BubbleStickerView: View {
                     HStack {
                         Spacer()
                         stickerView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, 0)
                     }
                     
@@ -76,6 +94,27 @@ struct BubbleStickerView: View {
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
         .padding(.bottom, message.emojis != nil ? 25 : 0)
+        .onChange(of: bubbleMessageDidSelect ?? .stubMessageText) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage.messageReply?.id == message.id {
+                scaleUpAndReset()
+            }
+        }
+    }
+    
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
     }
     
     /// Sticker View
@@ -122,8 +161,8 @@ struct BubbleStickerView: View {
     }
 }
 
-#Preview {
-    BubbleStickerView(message: .stubMessageAudio, isShowAvatarSender: false) { action, message in
-        
-    }
-}
+//#Preview {
+//    BubbleStickerView(message: .stubMessageAudio, isShowAvatarSender: false) { action, message in
+//        
+//    }
+//}

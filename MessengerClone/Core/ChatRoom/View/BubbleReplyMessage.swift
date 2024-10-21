@@ -19,6 +19,7 @@ struct BubbleReplyMessage: View {
         
         return title
     }
+
     
     var body: some View {
         HStack(alignment: .bottom) {

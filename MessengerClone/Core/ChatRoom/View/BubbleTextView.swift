@@ -11,8 +11,12 @@ struct BubbleTextView: View {
     
     let message: MessageItem
     let isShowAvatarSender: Bool
+    @Binding var bubbleMessageDidSelect: MessageItem?
     
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
+    
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
         
     var body: some View {
         HStack(alignment: .bottom) {
@@ -29,6 +33,13 @@ struct BubbleTextView: View {
                 ZStack {
                     HStack {
                         textView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
                         Spacer()
                     }
@@ -52,6 +63,13 @@ struct BubbleTextView: View {
                     HStack {
                         Spacer()
                         textView()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, 0)
                     }
                     
@@ -75,6 +93,11 @@ struct BubbleTextView: View {
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
         .padding(.bottom, message.emojis != nil ? 25 : 0)
+        .onChange(of: bubbleMessageDidSelect ?? .stubMessageText) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage.messageReply?.id == message.id {
+                scaleUpAndReset()
+            }
+        }
     }
     
     /// Button Reaction
@@ -109,6 +132,22 @@ struct BubbleTextView: View {
         .padding(.top)
     }
     
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
+    }
+    
     /// Text
     private func textView() -> some View {
         Text(message.text)
@@ -130,8 +169,8 @@ struct BubbleTextView: View {
     }
 }
 
-#Preview {
-    BubbleTextView(message: .stubMessageTextIsMe, isShowAvatarSender: false) { state, message in
-        
-    }
-}
+//#Preview {
+//    BubbleTextView(message: .stubMessageTextIsMe, isShowAvatarSender: false, viewModel: ChatRoomScreenViewModel(channel: .placeholder)) { state, message in
+//        
+//    }
+//}

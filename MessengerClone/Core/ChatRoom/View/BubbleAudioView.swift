@@ -16,6 +16,8 @@ struct BubbleAudioView: View {
     let isShowAvatarSender: Bool
     var levelsPreviewMain: [CGFloat] = []
     
+    @Binding var bubbleMessageDidSelect: MessageItem?
+    
     @State private var levelsPreviewPlay: [CGFloat] = []
     @State private var playingPreview: Bool = false
     @State private var elapsedTimePreview: TimeInterval = 0
@@ -24,10 +26,14 @@ struct BubbleAudioView: View {
     var urlAudio: URL?
     @State private var avAudioPlayer: AVAudioPlayer?
     
-    init(message: MessageItem, isShowAvatarSender: Bool, handleAction: @escaping (_ state: Bool, _ message: MessageItem) -> Void) {
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
+    
+    init(message: MessageItem, isShowAvatarSender: Bool, bubbleMessageDidSelect: Binding<MessageItem?>, handleAction: @escaping (_ state: Bool, _ message: MessageItem) -> Void) {
         self.handleAction = handleAction
         self.message = message
         self.isShowAvatarSender = isShowAvatarSender
+        self._bubbleMessageDidSelect = bubbleMessageDidSelect
         self.urlAudio = URL(string: message.audioURL ?? "")
         
         if let listLevelAudio = message.audioLevels {
@@ -50,6 +56,13 @@ struct BubbleAudioView: View {
                 ZStack {
                     HStack {
                         frameAudio()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
                         Spacer()
                     }
@@ -73,6 +86,13 @@ struct BubbleAudioView: View {
                     HStack {
                         Spacer()
                         frameAudio()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, 0)
                     }
                     
@@ -97,6 +117,22 @@ struct BubbleAudioView: View {
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
         .padding(.bottom, message.emojis != nil ? 25 : 0)
+    }
+    
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
     }
     
     /// Button Reaction
@@ -323,8 +359,8 @@ extension BubbleAudioView {
     }
 }
 
-#Preview {
-    BubbleAudioView(message: .stubMessageAudio, isShowAvatarSender: false){ state, message in
-        
-    }
-}
+//#Preview {
+//    BubbleAudioView(message: .stubMessageAudio, isShowAvatarSender: false){ state, message in
+//        
+//    }
+//}

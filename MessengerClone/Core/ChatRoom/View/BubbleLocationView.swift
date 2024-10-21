@@ -16,14 +16,21 @@ struct BubbleLocationView: View {
     var latitude: CLLocationDegrees?
     var longtitude: CLLocationDegrees?
     
+    @Binding var bubbleMessageDidSelect: MessageItem?
+    
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
     
     @State private var cameraPosition : MapCameraPosition = .region(.userRegionFarmore)
     
-    init(message: MessageItem, isShowAvatarSender: Bool, handleAction: @escaping (_: Bool, _: MessageItem) -> Void) {
+    /// State to manage the scale of the bubble
+    @State private var isScaled = false
+    
+    init(message: MessageItem, isShowAvatarSender: Bool,
+         bubbleMessageDidSelect: Binding<MessageItem?>, handleAction: @escaping (_: Bool, _: MessageItem) -> Void) {
         self.message = message
         self.isShowAvatarSender = isShowAvatarSender
         self.handleAction = handleAction
+        self._bubbleMessageDidSelect = bubbleMessageDidSelect
         self.cameraPosition = cameraPosition
         
         if let location = message.location {
@@ -47,6 +54,13 @@ struct BubbleLocationView: View {
                 ZStack {
                     HStack {
                         bubbleMap()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, message.emojis != nil && message.isNotMe == false ? -8 : 0)
                         Spacer()
                     }
@@ -68,6 +82,13 @@ struct BubbleLocationView: View {
                     HStack {
                         Spacer()
                         bubbleMap()
+                            .scaleEffect(isScaled ? 1.1 : 1.0)
+                            .animation(.easeInOut(duration: 0.35), value: isScaled)
+                            .onAppear {
+                                if bubbleMessageDidSelect?.messageReply?.id == message.id {
+                                    scaleUpAndReset()
+                                }
+                            }
                             .padding(.horizontal, 0)
                     }
                     
@@ -89,6 +110,27 @@ struct BubbleLocationView: View {
         .padding(.leading, message.leadingPadding)
         .padding(.trailing, message.trailingPadding)
         .padding(.bottom, message.emojis != nil ? 25 : 0)
+        .onChange(of: bubbleMessageDidSelect ?? .stubMessageText) { oldSelectedMessage,newSelectedMessage in
+            if newSelectedMessage.messageReply?.id == message.id {
+                scaleUpAndReset()
+            }
+        }
+    }
+    
+    /// Setup scale with dispatchQueue
+    private func scaleUpAndReset() {
+        // Scale up
+        withAnimation {
+            isScaled = true
+        }
+        
+        // After 1 second, reset the scale back to normal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                isScaled = false
+                bubbleMessageDidSelect = nil
+            }
+        }
     }
     
     /// Button Reaction
@@ -171,8 +213,8 @@ struct BubbleLocationView: View {
     }
 }
 
-#Preview {
-    BubbleLocationView(message: .stubMessageTextIsMe, isShowAvatarSender: false) { state, message in
-        
-    }
-}
+//#Preview {
+//    BubbleLocationView(message: .stubMessageTextIsMe, isShowAvatarSender: false) { state, message in
+//        
+//    }
+//}
