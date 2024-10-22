@@ -84,8 +84,8 @@ class ChatTabScreenViewModel: ObservableObject {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let membersUids = Array(channel.memberUids.filter{ $0 != currentUserUid })
         
-        UserService.fetchUsersByUids(membersUids) { userNode in
-            completion(userNode.users)
+        UserService.fetchUsersByUids(membersUids) { users in
+            completion(users)
         }
     }
     

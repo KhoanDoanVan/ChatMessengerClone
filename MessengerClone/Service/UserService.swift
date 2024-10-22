@@ -53,18 +53,22 @@ struct UserService {
     }
     
     /// Get users by userUids
-    static func fetchUsersByUids(_ membersUids: [String], completion: @escaping (_ userNode: UserNode) -> Void){
+    static func fetchUsersByUids(_ membersUids: [String], completion: @escaping (_ userNode: [UserItem]) -> Void){
         var users: [UserItem] = []
         for uid in membersUids {
             FirebaseConstants.UserRef.child(uid).observeSingleEvent(of: .value) { snapshot in
                 guard let user = try? snapshot.data(as: UserItem.self) else { return }
                 users.append(user)
                 
+                
                 if users.count == membersUids.count {
-                    completion(UserNode(users: users))
+                    print("completion")
+                    completion(users)
                 }
+                
+                
             } withCancel: { failure in
-                completion(.emptyNode)
+                completion([])
             }
         }
     }

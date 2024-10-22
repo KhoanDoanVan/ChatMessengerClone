@@ -21,32 +21,68 @@ struct ForwardSheet: View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(viewModel.listChannel, id: \.self) { channel in
-                        HStack {
-                            
-                            if channel.isGroupChat {
-                                CircularProfileImage(channel, size: .small)
-                            } else {
-                                CircularProfileImage(channel.coverImageUrl ,size: .small)
-                            }
-                            
-                            Text("\(channel.title)")
-                                .bold()
-                            
-                            Spacer()
-                            
-                            Button {
-                                viewModel.isSent.toggle()
-                            } label: {
-                                Text(viewModel.isSent ? "Send" : "Unsent")
+                    if !viewModel.listChannel.isEmpty {
+                        ForEach(viewModel.listChannel, id: \.self) { channel in
+                            HStack {
+                                
+                                if channel.isGroupChat {
+                                    CircularProfileImage(channel, size: .small)
+                                } else {
+                                    CircularProfileImage(channel.coverImageUrl ,size: .small)
+                                }
+                                
+                                Text("\(channel.title)")
                                     .bold()
-                                    .foregroundStyle(.white)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 5)
-                                    .background(Color(.systemGray5))
-                                    .clipShape(Capsule())
+                                
+                                Spacer()
+                                
+                                Button {
+                                   
+                                } label: {
+                                    Text(viewModel.isSent ? "Unsent" : "Send")
+                                        .bold()
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 5)
+                                        .background(Color(.systemGray5))
+                                        .clipShape(Capsule())
+                                }
                             }
                         }
+                    } else {
+                        ProgressView()
+                    }
+                    
+                    if !viewModel.listUser.isEmpty {
+                        ForEach(viewModel.listUser, id: \.self) { user in
+                            HStack {
+                                
+                                CircularProfileImage(user.profileImage, size: .small)
+                                
+                                Text("\(user.username)")
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Button {
+                                    
+                                } label: {
+                                    Text(viewModel.isSent ? "Unsent" : "Send")
+                                        .bold()
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 5)
+                                        .background(Color(.systemGray5))
+                                        .clipShape(Capsule())
+                                }
+                            }
+                        }
+                    } else {
+                        ProgressView()
+                    }
+                    
+                    if viewModel.pagination {
+                        loadingMoreUsers()
                     }
                 }
                 .scrollIndicators(.hidden)
@@ -60,7 +96,22 @@ struct ForwardSheet: View {
                 toolbarLeading
                 toolbarTrailing
             }
+            .onAppear {
+                viewModel.fetchChannels()
+            }
         }
+    }
+    
+    private func loadingMoreUsers() -> some View {
+        ProgressView()
+            .frame(maxWidth: .infinity)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+            .onAppear {
+                Task {
+                    try await viewModel.fetchUsers()
+                }
+            }
     }
     
     /// Leading toolbar
