@@ -687,7 +687,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     }
     
     /// Scroll To Bottom
-    private func scrollToBottomAction(isAnimated: Bool) {
+    func scrollToBottomAction(isAnimated: Bool) {
         scrollToBottom.scroll = true
         scrollToBottom.isAnimate = isAnimated
     }

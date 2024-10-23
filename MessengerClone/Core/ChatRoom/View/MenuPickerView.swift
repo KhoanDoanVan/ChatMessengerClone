@@ -20,7 +20,13 @@ struct MenuPickerView: View {
             VStack {
                 ForEach(MenuAction.allCases) { action in
                     VStack {
-                        actionMenu(action)
+                        
+                        if message.isNotMe && action == .unsend {
+                            
+                        } else {
+                            actionMenu(action)
+                        }
+                        
                         if action != MenuAction.unsend {
                             Divider()
                                 .padding(0)

@@ -88,15 +88,45 @@ final class MessageListController: UIViewController {
         return collectionView
     }()
     
+    /// Message Button Scroll to bottom
+    private var buttonScrollToBottom: UIButton = {
+        var buttonBottom = UIButton(type: .system)
+        let chevronImage = UIImage(systemName: "chevron.down")
+        buttonBottom.setImage(chevronImage, for: .normal)
+        buttonBottom.backgroundColor = UIColor.systemGray6
+        buttonBottom.tintColor = UIColor.white
+        buttonBottom.layer.cornerRadius = 20
+        buttonBottom.translatesAutoresizingMaskIntoConstraints = false
+        buttonBottom.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonBottom.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonBottom.isHidden = true
+        buttonBottom.isEnabled = false
+        
+        buttonBottom.layer.shadowColor = UIColor.black.cgColor
+        buttonBottom.layer.shadowOpacity = 0.75 // Adjust the opacity as needed
+        buttonBottom.layer.shadowOffset = CGSize(width: 0, height: 1) // Offset for shadow
+        buttonBottom.layer.shadowRadius = 1
+        
+        buttonBottom.addTarget(self, action: #selector(scrollToBottom), for: .touchUpInside)
+        
+        return buttonBottom
+    }()
+    
     /// Set up Views
     private func setUpViews() {
         view.addSubview(messageCollectionView)
+        view.addSubview(buttonScrollToBottom)
         
         NSLayoutConstraint.activate([
             messageCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             messageCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             messageCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             messageCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            buttonScrollToBottom.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonScrollToBottom.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -141,6 +171,11 @@ final class MessageListController: UIViewController {
                 }
             }
             .store(in: &subscription)
+    }
+    
+    /// Call scroll to bottom in viewModel
+    @objc private func scrollToBottom() {
+        self.messageCollectionView.scrollToLastItem(at: .bottom, animated: true)
     }
     
     /// Pull to refresh
@@ -573,11 +608,26 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
+    /// Checking the height cell view wheather larger 2/3 screen -> scale it
     private func shrinkCell(_ cellHeight: CGFloat) -> Bool {
         let screenHeight = (UIWindowScene.current?.screenHeight ?? 0) / 0.5
         let spacingForMenuView = screenHeight - cellHeight
         return spacingForMenuView < 190
     }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let contentOffsetY = scrollView.contentOffset.y
+            let screenHeight = view.frame.height
+            
+            if contentOffsetY > screenHeight {
+                buttonScrollToBottom.isHidden = true
+                buttonScrollToBottom.isEnabled = false
+            } else {
+                buttonScrollToBottom.isHidden = false
+                buttonScrollToBottom.isEnabled = true
+            }
+        }
 }
 
 /// Scroll Action
