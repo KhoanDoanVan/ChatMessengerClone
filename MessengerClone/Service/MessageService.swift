@@ -590,6 +590,78 @@ struct MessageService {
         completion()
     }
     
+    
+    /// Forward message to channel
+    static func forwardMessageToChannel(
+        _ channel: ChannelItem,
+        messageForward: MessageItem,
+        currentUser: UserItem,
+        completion: @escaping (String) -> Void
+    ) {
+        guard let messageId = FirebaseConstants.ChannelRef.childByAutoId().key else { return }
+        let timeStamp = Date().timeIntervalSince1970
+        
+        let channelDict: [String:Any] = [
+            .lastMessage: "",
+            .lastMessageType: messageForward.type.title,
+            .lastMessageTimestamp: timeStamp
+        ]
+        
+        var messageDict: [String:Any] = [
+            .id: messageId,
+            .text: messageForward.text,
+            .type: messageForward.type.title,
+            .timeStamp: timeStamp,
+            .ownerUid: currentUser.uid
+        ]
+        
+        messageDict[.thumbnailUrl] = messageForward.thumbnailUrl ?? nil
+        messageDict[.thumbnailWidth] = messageForward.thumbnailWidth ?? nil
+        messageDict[.thumbnailHeight] = messageForward.thumbnailHeight ?? nil
+        messageDict[.videoURL] = messageForward.videoURL ?? nil
+        messageDict[.videoDuration] = messageForward.videoDuration ?? nil
+        messageDict[.audioURL] = messageForward.audioURL ?? nil
+        messageDict[.audioDuration] = messageForward.audioDuration ?? nil
+        messageDict[.fileMediaURL] = messageForward.fileMediaURL ?? nil
+        messageDict[.sizeOfFile] = messageForward.sizeOfFile ?? nil
+        messageDict[.nameOfFile] = messageForward.nameOfFile ?? nil
+        messageDict[.emojiString] = messageForward.emojiString ?? nil
+        messageDict[.urlSticker] = messageForward.urlSticker ?? nil
+        
+        if messageForward.type == .location, 
+            let location = messageForward.location
+        {
+            messageDict[.location] = [
+                "latitude": Double(location.latitude),
+                "longtitude": Double(location.longtitude),
+                "nameAddress": location.nameAddress
+            ]
+        }
+        
+        messageDict[.videoCallDuration] = messageForward.videoCallDuration ?? nil
+        
+        FirebaseConstants.ChannelRef.child(channel.id).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId).setValue(messageDict)
+        
+        completion(messageId)
+    }
+    
+    
+    /// Remove message from channel
+    static func removeMessage(
+        _ channel: ChannelItem,
+        _ messageId: String,
+        completion: @escaping () -> Void
+    ) {
+        FirebaseConstants.MessageChannelRef.child(channel.id).child(messageId)
+            .removeValue { error, _ in
+                if let error {
+                    print("Failed to remove message: \(error.localizedDescription)")
+                }
+                
+                completion()
+            }
+    }
 }
 
 struct MessageNode {

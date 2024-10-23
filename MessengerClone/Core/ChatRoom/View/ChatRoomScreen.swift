@@ -147,7 +147,7 @@ struct ChatRoomScreen: View {
             }
         }
         .sheet(isPresented: $viewModel.isShowForwardSheet) {
-            ForwardSheet(viewModel.messageInteractBlurCurrent ?? .stubMessageText, viewModel.userCurrent ?? .placeholder)
+            ForwardSheet(viewModel.messageInteractBlurCurrent ?? .stubMessageText, viewModel.userCurrent ?? .placeholder, currentChannel: viewModel.channel)
         }
         .confirmationDialog("Who do you want to unsent for?", isPresented: $viewModel.isShowBoxChoiceUnsent) {
             Button("Unsent for everyone", role: .destructive) {
