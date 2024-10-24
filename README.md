@@ -18,6 +18,7 @@ The Application built based on Messenger application and more.
 - Share file media
 - Push notifications and Receive notifications
 - Tracking online and offline state
+- Tracking seen messages
 
 ### Technical
 - Swift: base language to develope IOS application
