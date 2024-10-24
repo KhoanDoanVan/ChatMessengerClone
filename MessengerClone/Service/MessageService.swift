@@ -84,7 +84,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: textMessage,
             .lastMessageTimestamp: timestamp,
-            .lastMessageType: MessageType.text.title
+            .lastMessageType: MessageType.text.title,
+            .seenBy: [currentUser.uid]
         ]
         
         var messageDict: [String:Any] = [
@@ -92,7 +93,8 @@ struct MessageService {
             .text: textMessage,
             .type: MessageType.text.title,
             .timeStamp: timestamp,
-            .ownerUid: currentUser.uid
+            .ownerUid: currentUser.uid,
+            .seenBy: [currentUser.uid]
         ]
         
         if let uidReplyMessage {
@@ -131,7 +133,8 @@ struct MessageService {
         let channeDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageTimestamp: timestamp,
-            .lastMessageType: MessageType.emoji.title
+            .lastMessageType: MessageType.emoji.title,
+            .seenBy: [currentUser.uid]
         ]
         
         var messageDict: [String:Any] = [
@@ -140,7 +143,8 @@ struct MessageService {
             .type: MessageType.emoji.title,
             .timeStamp: timestamp,
             .ownerUid: currentUser.uid,
-            .emojiString: emojiString
+            .seenBy: [currentUser.uid],
+            .emojiString: emojiString,
         ]
         
         if let uidReplyMessage {
@@ -180,7 +184,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageTimestamp: timestamp,
-            .lastMessageType: MessageType.sticker.title
+            .lastMessageType: MessageType.sticker.title,
+            .seenBy: [currentUser.uid]
         ]
         
         var messageDict: [String:Any] = [
@@ -189,6 +194,7 @@ struct MessageService {
             .type: MessageType.sticker.title,
             .timeStamp: timestamp,
             .ownerUid: currentUser.uid,
+            .seenBy: [currentUser.uid],
             .urlSticker: stickerUrl
         ]
         
@@ -229,7 +235,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageTimestamp: timestamp,
-            .lastMessageType: MessageType.location.title
+            .lastMessageType: MessageType.location.title,
+            .seenBy: [userCurrent.uid]
         ]
         
         var messageDict: [String:Any] = [
@@ -238,6 +245,7 @@ struct MessageService {
             .type: MessageType.location.title,
             .timeStamp: timestamp,
             .ownerUid: userCurrent.uid,
+            .seenBy: [userCurrent.uid],
             .location: [
                 "latitude": Double(location.latitude),
                 "longtitude": Double(location.longtitude),
@@ -282,7 +290,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageTimestamp: timestamp,
-            .lastMessageType: MessageType.videoCall.title
+            .lastMessageType: MessageType.videoCall.title,
+            .seenBy: [currentUser.uid]
         ]
         
         var messageDict: [String:Any] = [
@@ -291,6 +300,7 @@ struct MessageService {
             .type: MessageType.videoCall.title,
             .timeStamp: timestamp,
             .ownerUid: currentUser.uid,
+            .seenBy: [currentUser.uid],
             .videoCallDuration: timeVideoCall
         ]
         
@@ -330,7 +340,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: params.text,
             .lastMessageTimestamp: timeStamp,
-            .lastMessageType: params.type.title
+            .lastMessageType: params.type.title,
+            .seenBy: [params.ownerUid],
         ]
         
         var messageDict: [String:Any] = [
@@ -338,6 +349,7 @@ struct MessageService {
             .text: params.text,
             .type: params.type.title,
             .timeStamp: timeStamp,
+            .seenBy: [params.ownerUid],
             .ownerUid: params.ownerUid
         ]
         
@@ -399,7 +411,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageType: MessageType.replyStory.title,
-            .lastMessageTimestamp: timeStamp
+            .lastMessageTimestamp: timeStamp,
+            .seenBy: [currentUid]
         ]
         
         let messageDict: [String:Any] = [
@@ -408,6 +421,7 @@ struct MessageService {
             .type: MessageType.replyStory.title,
             .timeStamp: timeStamp,
             .ownerUid: currentUid,
+            .seenBy: [currentUid],
             .urlImageStory: urlImageStory
         ]
         
@@ -431,7 +445,8 @@ struct MessageService {
         let channelDict: [String:Any] = [
             .lastMessage: "",
             .lastMessageType: MessageType.replyNote.title,
-            .lastMessageTimestamp: timeStamp
+            .lastMessageTimestamp: timeStamp,
+            .seenBy: [currentUid]
         ]
         
         let messageDict: [String:Any] = [
@@ -440,6 +455,7 @@ struct MessageService {
             .type: MessageType.replyNote.title,
             .timeStamp: timeStamp,
             .ownerUid: currentUid,
+            .seenBy: [currentUid],
             .textNote: textNote
         ]
         
@@ -450,7 +466,7 @@ struct MessageService {
     }
     
     /// Fetch History Messages and Pagination
-    static func getHistoryMessages(for channel: ChannelItem, lastCursor: String?, pageSize: UInt ,completion: @escaping(MessageNode) -> Void) {
+    static func getHistoryMessages(for channel: ChannelItem, currentUserUid: String, lastCursor: String?, pageSize: UInt ,completion: @escaping(MessageNode) -> Void) {
         
         /// Setup Query
         let query: DatabaseQuery
@@ -478,6 +494,16 @@ struct MessageService {
                         if let messageItem {
                             message.messageReply = messageItem
                             message.messageReply?.sender = channel.members.first(where: { $0.uid == message.messageReply?.ownerUid })
+                        }
+                    }
+                }
+                
+                if let arraySeenBy = message.seenBy {
+                    if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
+                        print("This here")
+                        message.seenBy?.append(currentUserUid)
+                        seenMessage(channel.id, message.id, message.seenBy ?? []) {
+                            print("Successfully seen message")
                         }
                     }
                 }
@@ -510,6 +536,7 @@ struct MessageService {
     /// Listen new message when i've sent new message
     static func listenToMessage(
         _ channel: ChannelItem,
+        currentUserUid: String,
         onNewMessage: @escaping(MessageItem) -> Void,
         onUpdateMessages: @escaping(MessageItem) -> Void
     ) {
@@ -525,9 +552,19 @@ struct MessageService {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
                         if let messageReplyUid = newMessage.uidMessageReply {
                             self.getMessage(channel.id, messageReplyUid) { messageItem in
+                                
                                 if let messageItem {
                                     newMessage.messageReply = messageItem
                                     newMessage.messageReply?.sender = channel.members.first(where: { $0.uid == newMessage.messageReply?.ownerUid })
+                                    
+                                    if let arraySeenBy = messageItem.seenBy {
+                                        if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
+                                            messageItem.seenBy?.append(currentUserUid)
+                                            seenMessage(channel.id, messageItem.id, messageItem.seenBy ?? []) {
+                                                print("Successfully seen message")
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -661,6 +698,27 @@ struct MessageService {
                 
                 completion()
             }
+    }
+    
+    /// Seen message from channel
+    static func seenMessage(
+        _ channelId: String,
+        _ messageId: String,
+        _ arrayUsersSeen: [String],
+        completion: @escaping () -> Void
+    ) {
+        let channelDict: [String:Any] = [
+            .seenBy: arrayUsersSeen
+        ]
+        
+        let messageDict: [String:Any] = [
+            .seenBy: arrayUsersSeen
+        ]
+        
+        FirebaseConstants.ChannelRef.child(channelId).updateChildValues(channelDict)
+        FirebaseConstants.MessageChannelRef.child(channelId).child(messageId).updateChildValues(messageDict)
+        
+        completion()
     }
 }
 

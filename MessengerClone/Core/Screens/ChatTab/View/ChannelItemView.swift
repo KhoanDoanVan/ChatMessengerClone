@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 class ChannelItemViewModel: ObservableObject {
     @Published var onlineObject: (state: Bool, lastActive: Date?)?
+    @Published var currentUserUid: String
     
     init(channel: ChannelItem) {
+        self.currentUserUid = Auth.auth().currentUser?.uid ?? ""
         if !channel.isGroupChat {
             let uidPartner = channel.usersChannel[0].id
             TrackingOnlineService.singleStateOnlineUserByIds(uidPartner) { state, lastActive in
@@ -57,9 +60,14 @@ struct ChannelItemView: View {
                     .fontWeight(.bold)
                 HStack(spacing: 0){
                     Text(channelPreviewMessage)
+                        .foregroundStyle(channel.seenBy.contains(where: { $0 == viewModel.currentUserUid }) ? .messagesBlack.opacity(0.5) : .white)
+                        .onAppear {
+                            print("ChannelCheckCurrentUserSeen: \(channel.seenBy.contains(where: { $0 == viewModel.currentUserUid })) with channelSeenBy: \(channel.seenBy) and currentUserUid: \(viewModel.currentUserUid)")
+                        }
                     Text(" • \(channel.lastMessageTimestamp.formattedTimeIntervalPreviewChannel())")
+                        .foregroundStyle(.messagesBlack.opacity(0.5))
+                        .bold(!channel.seenBy.contains(where: { $0 == viewModel.currentUserUid }))
                 }
-                .foregroundStyle(.messagesBlack.opacity(0.5))
                 .font(.subheadline)
             }
         }

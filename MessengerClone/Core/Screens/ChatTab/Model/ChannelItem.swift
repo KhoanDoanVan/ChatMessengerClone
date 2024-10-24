@@ -14,6 +14,7 @@ struct ChannelItem: Identifiable, Hashable {
     private var lastMessage: String
     var creationDate: Date
     var lastMessageTimestamp: Date
+    var seenBy: [String]
     var membersCount: Int
     var adminUids: [String]
     var memberUids: [String]
@@ -128,11 +129,11 @@ struct ChannelItem: Identifiable, Hashable {
         return arrayUrl
     }
     
-    static let placeholder: ChannelItem = ChannelItem.init(id: "1", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), membersCount: 4, adminUids: [], memberUids: [], members: [], createdBy: "1234", lastMessageType: .text)
+    static let placeholder: ChannelItem = ChannelItem.init(id: "1", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), seenBy: [], membersCount: 4, adminUids: [], memberUids: [], members: [], createdBy: "1234", lastMessageType: .text)
     
     static let placeholders: [ChannelItem] = [
-        ChannelItem.init(id: "1", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), membersCount: 2, adminUids: [], memberUids: [], members: [], createdBy: "1234", lastMessageType: .text),
-        ChannelItem.init(id: "2", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), membersCount: 2, adminUids: [], memberUids: [], members: [], createdBy: "5123", lastMessageType: .text)
+        ChannelItem.init(id: "1", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), seenBy: [], membersCount: 2, adminUids: [], memberUids: [], members: [], createdBy: "1234", lastMessageType: .text),
+        ChannelItem.init(id: "2", lastMessage: "None", creationDate: Date(), lastMessageTimestamp: Date(), seenBy: [], membersCount: 2,  adminUids: [], memberUids: [], members: [], createdBy: "5123", lastMessageType: .text)
     ]
 }
 
@@ -152,6 +153,7 @@ extension ChannelItem {
         self.createdBy = channelDict[.createdBy] as? String ?? ""
         let messageType = channelDict[.lastMessageType] as? String ?? "text"
         self.lastMessageType = MessageType(messageType) ?? .text
+        self.seenBy = channelDict[.seenBy] as? [String] ?? []
     }
 }
 

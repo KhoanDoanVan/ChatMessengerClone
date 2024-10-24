@@ -159,7 +159,12 @@ class ChatRoomScreenViewModel: ObservableObject {
     /// Fetch History Messages
     func fetchHistoryMessages() {
         paginating = currentPage != nil
-        MessageService.getHistoryMessages(for: channel, lastCursor: currentPage, pageSize: 12) { [weak self] messageNode in
+        MessageService.getHistoryMessages(
+            for: channel,
+            currentUserUid: userCurrent?.uid ?? "",
+            lastCursor: currentPage,
+            pageSize: 12
+        ) { [weak self] messageNode in
             if self?.currentPage == nil {
                 self?.fetchFirstMessage()
                 self?.listenNewMessage()
@@ -193,7 +198,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     /// Listen for new message
     private func listenNewMessage() {
-        MessageService.listenToMessage(channel) { [weak self] newMessage in
+        MessageService.listenToMessage(channel, currentUserUid: userCurrent?.uid ?? "") { [weak self] newMessage in
             self?.messages.append(newMessage)
             self?.scrollToBottomAction(isAnimated: false)
         } onUpdateMessages: { updateMessage in
@@ -925,7 +930,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     /// Find message until find correctly message from pagination
     private func findMessageUntilFound(_ messageId: String, completion: @escaping (Int?) -> Void) {
         
-        MessageService.getHistoryMessages(for: channel, lastCursor: currentPage, pageSize: 12) { [weak self] messageNode in
+        MessageService.getHistoryMessages(for: channel, currentUserUid: userCurrent?.uid ?? "", lastCursor: currentPage, pageSize: 12) { [weak self] messageNode in
             guard let self = self else {
                 completion(nil)
                 return
