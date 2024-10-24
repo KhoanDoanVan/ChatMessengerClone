@@ -55,6 +55,8 @@ class MessageItem: Hashable {
     
     var isUnsentUids: [String]?
     
+    var seenBy: [String]?
+    
     init(id: String, text: String, type: MessageType, timeStamp: Date, ownerUid: String, thumbnailUrl: String? = nil) {
             self.id = id
             self.text = text
@@ -143,30 +145,31 @@ class MessageItem: Hashable {
     ]
     
     static func == (lhs: MessageItem, rhs: MessageItem) -> Bool {
-            return lhs.id == rhs.id
-                && lhs.text == rhs.text
-                && lhs.type == rhs.type
-                && lhs.timeStamp == rhs.timeStamp
-                && lhs.ownerUid == rhs.ownerUid
-                && lhs.thumbnailUrl == rhs.thumbnailUrl
-                && lhs.videoURL == rhs.videoURL
-                && lhs.videoDuration == rhs.videoDuration
-                && lhs.audioURL == rhs.audioURL
-                && lhs.audioDuration == rhs.audioDuration
-                && lhs.audioLevels == rhs.audioLevels
-                && lhs.emojis == rhs.emojis
-                && lhs.videoCallDuration == rhs.videoCallDuration
-                && lhs.urlSticker == rhs.urlSticker
-                && lhs.emojiString == rhs.emojiString
-                && lhs.location == rhs.location
-                && lhs.urlImageStory == rhs.urlImageStory
-                && lhs.textNote == rhs.textNote
-                && lhs.fileMediaURL == rhs.fileMediaURL
-                && lhs.sizeOfFile == rhs.sizeOfFile
-                && lhs.nameOfFile == rhs.nameOfFile
-                && lhs.messageReplyType == rhs.messageReplyType
-                && lhs.uidMessageReply == rhs.uidMessageReply
-                && lhs.isUnsentUids == rhs.isUnsentUids
+        return lhs.id == rhs.id
+            && lhs.text == rhs.text
+            && lhs.type == rhs.type
+            && lhs.timeStamp == rhs.timeStamp
+            && lhs.ownerUid == rhs.ownerUid
+            && lhs.thumbnailUrl == rhs.thumbnailUrl
+            && lhs.videoURL == rhs.videoURL
+            && lhs.videoDuration == rhs.videoDuration
+            && lhs.audioURL == rhs.audioURL
+            && lhs.audioDuration == rhs.audioDuration
+            && lhs.audioLevels == rhs.audioLevels
+            && lhs.emojis == rhs.emojis
+            && lhs.videoCallDuration == rhs.videoCallDuration
+            && lhs.urlSticker == rhs.urlSticker
+            && lhs.emojiString == rhs.emojiString
+            && lhs.location == rhs.location
+            && lhs.urlImageStory == rhs.urlImageStory
+            && lhs.textNote == rhs.textNote
+            && lhs.fileMediaURL == rhs.fileMediaURL
+            && lhs.sizeOfFile == rhs.sizeOfFile
+            && lhs.nameOfFile == rhs.nameOfFile
+            && lhs.messageReplyType == rhs.messageReplyType
+            && lhs.uidMessageReply == rhs.uidMessageReply
+            && lhs.isUnsentUids == rhs.isUnsentUids
+            && lhs.seenBy == rhs.seenBy
         }
         
         // Implement the hash function for Hashable conformance
@@ -220,6 +223,7 @@ extension MessageItem {
         self.messageReplyType = MessageReplyType(dict[.replyType] as? String ?? "")
         self.uidMessageReply = dict[.uidMessageReply] as? String
         self.isUnsentUids = dict[.isUnsentUids] as? [String]
+        self.seenBy = dict[.seenBy] as? [String]
         
         // Extract audio levels
         if let audioLevelsArray = dict[.audioLevels] as? [NSNumber] {
@@ -284,4 +288,5 @@ extension String {
     static let replyType = "replyType"
     static let uidMessageReply = "uidMessageReply"
     static let isUnsentUids = "isUnsentUids"
+    static let seenBy = "seenBy"
 }

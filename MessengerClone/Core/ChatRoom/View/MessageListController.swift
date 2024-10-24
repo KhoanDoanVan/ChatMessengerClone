@@ -413,6 +413,7 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
                 isNewDay: isNewDay,
                 isShowNameSender: isShowNameSender,
                 isShowAvatarSender: isShowAvatarSender,
+                isShowUsersSeen: true,
                 viewModel: viewModel
             ) { state, message in
                 self.viewModel.isShowReactions = state

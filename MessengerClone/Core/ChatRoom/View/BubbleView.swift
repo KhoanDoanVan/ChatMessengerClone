@@ -14,6 +14,7 @@ struct BubbleView: View {
     let isNewDay: Bool
     let isShowNameSender: Bool
     let isShowAvatarSender: Bool
+    let isShowUsersSeen: Bool
     @ObservedObject var viewModel: ChatRoomScreenViewModel
     
     let handleAction: (_ state: Bool, _ message: MessageItem) -> Void
@@ -73,9 +74,14 @@ struct BubbleView: View {
                                 .offset(y: 10)
                                 .zIndex(-1)
                         }
-                        composeDynamicBubbleView()                    }
+                        composeDynamicBubbleView()
+                    }
                     .frame(maxWidth: .infinity)
                 }
+            }
+            
+            if isShowUsersSeen {
+                showUsersSeen()
             }
         }
         .padding(.horizontal, -8)
@@ -169,6 +175,19 @@ struct BubbleView: View {
             ) { state, message in
                 handleAction(state, message)
             }
+        }
+    }
+    
+    /// Show Users Seen
+    private func showUsersSeen() -> some View {
+        HStack {
+            Spacer()
+            HStack(spacing: 5) {
+                ForEach(channel.members) { member in
+                    CircularProfileImage(member.profileImage, size: .custom(15))
+                }
+            }
+            .padding(.horizontal, 5)
         }
     }
     
