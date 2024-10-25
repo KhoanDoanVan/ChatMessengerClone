@@ -191,7 +191,7 @@ class ChatRoomScreenViewModel: ObservableObject {
     
     /// Fetch First Messages
     private func fetchFirstMessage() {
-        MessageService.getFirstMessage(channel) { [weak self] message in
+        MessageService.getFirstMessage(channel, currentUserUid: userCurrent?.uid ?? "") { [weak self] message in
             self?.firstMessage = message
         }
     }

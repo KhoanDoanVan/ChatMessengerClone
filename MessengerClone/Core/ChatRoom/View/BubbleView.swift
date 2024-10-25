@@ -183,8 +183,11 @@ struct BubbleView: View {
         HStack {
             Spacer()
             HStack(spacing: 5) {
-                ForEach(channel.members) { member in
-                    CircularProfileImage(member.profileImage, size: .custom(15))
+                ForEach(message.seenByUsersInfo ?? []) { user in
+                    CircularProfileImage(user.profileImage, size: .custom(15))
+                }
+                .onAppear {
+                    print("userSeenInfo: \(message.seenByUsersInfo ?? [])")
                 }
             }
             .padding(.horizontal, 5)

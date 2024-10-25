@@ -55,7 +55,9 @@ class MessageItem: Hashable {
     
     var isUnsentUids: [String]?
     
+    /// Seenby info users not contains current User
     var seenBy: [String]?
+    var seenByUsersInfo: [UserItem]?
     
     init(id: String, text: String, type: MessageType, timeStamp: Date, ownerUid: String, thumbnailUrl: String? = nil) {
             self.id = id

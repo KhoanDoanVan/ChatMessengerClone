@@ -175,7 +175,9 @@ final class MessageListController: UIViewController {
     
     /// Call scroll to bottom in viewModel
     @objc private func scrollToBottom() {
-        self.messageCollectionView.scrollToLastItem(at: .bottom, animated: true)
+        if viewModel.messages.count > 10 {
+            self.messageCollectionView.scrollToLastItem(at: .bottom, animated: true)
+        }
     }
     
     /// Pull to refresh
@@ -616,7 +618,7 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         return spacingForMenuView < 190
     }
     
-    
+    /// Action checking to display button scroll to bottom
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let contentOffsetY = scrollView.contentOffset.y
             let screenHeight = view.frame.height
@@ -625,8 +627,10 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
                 buttonScrollToBottom.isHidden = true
                 buttonScrollToBottom.isEnabled = false
             } else {
-                buttonScrollToBottom.isHidden = false
-                buttonScrollToBottom.isEnabled = true
+                if viewModel.messages.count > 10 {
+                    buttonScrollToBottom.isHidden = false
+                    buttonScrollToBottom.isEnabled = true
+                }
             }
         }
 }
