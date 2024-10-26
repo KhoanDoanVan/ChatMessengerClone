@@ -111,6 +111,21 @@ class ChatRoomScreenViewModel: ObservableObject {
         listenToAuthState()
     }
     
+    // MARK: Deinit
+    deinit {
+        // Cancel Combine subscriptions
+        subscription.forEach { $0.cancel() }
+        subscription.removeAll()
+        
+        // Stop audio playback if active
+        avAudioPlayer?.stop()
+        avAudioPlayer = nil
+        
+        // Remove Firebase listeners
+        FirebaseConstants.MessageChannelRef.child(channel.id).removeAllObservers()
+        
+    }
+    
     /// Listen messages
     private func listenToAuthState() {
         AuthManager.shared.authState
@@ -140,9 +155,7 @@ class ChatRoomScreenViewModel: ObservableObject {
         if let userUid = userUid {
             TrackingOnlineService.observeStateOnlineUserByIds(userUid) { state, lastActive in
                 if let lastActive {
-                    print("State, LastAction: \(state), \(lastActive)")
                     self.onlinePartnerObject = (state, lastActive)
-                    print("Online Partner: \(self.onlinePartnerObject), now: \(Date())")
                 }
             }
         }
@@ -176,7 +189,6 @@ class ChatRoomScreenViewModel: ObservableObject {
             self?.currentPage = messageNode.currentCursor
             self?.scrollToBottomAction(isAnimated: false)
             self?.paginating = false
-            print(messageNode.messages)
         }
     }
     
@@ -287,8 +299,8 @@ class ChatRoomScreenViewModel: ObservableObject {
         guard let userCurrent = userCurrent else { return }
         MessageService.sendTextMessage(to: channel, from: userCurrent, text, self.uidReplyMessage, self.messageInteractBlurCurrent) { [weak self] in
             self?.text = ""
-            isOpenReplyBox = false
-            messageInteractBlurCurrent = nil
+            self?.isOpenReplyBox = false
+            self?.messageInteractBlurCurrent = nil
         }
     }
     
@@ -847,6 +859,23 @@ class ChatRoomScreenViewModel: ObservableObject {
         let priorIndex = max(0, nextIndex)
         let priorMessage = messages[priorIndex]
         return !message.timeStamp.isSameDay(as: priorMessage.timeStamp)
+    }
+    
+    /// Show seen by user message
+    func isShowSeenByUsers(for message: MessageItem, at index: Int) -> Bool {
+
+        let nextIndex = max(0, index + 1)
+        guard nextIndex < messages.count else { return true }
+        
+        let messageNext = messages[nextIndex]
+        
+        // Ensure that `seenBy` is comparable as a Set
+        if let seenBy = message.seenBy, let seenByNext = messageNext.seenBy {
+            if Set(seenBy) == Set(seenByNext) {
+                return false
+            }
+        }
+        return true
     }
     
     /// Open location

@@ -407,6 +407,8 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         let isShowNameSender = viewModel.showSenderName(for: message, at: indexPath.item)
         /// is show avatar
         let isShowAvatarSender = viewModel.showSenderAvatar(for: message, at: indexPath.item)
+        /// is show seen users
+        let isShowSeenUsers = viewModel.isShowSeenByUsers(for: message, at: indexPath.item)
         
         cell.contentConfiguration = UIHostingConfiguration(content: {
             BubbleView(
@@ -415,7 +417,7 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
                 isNewDay: isNewDay,
                 isShowNameSender: isShowNameSender,
                 isShowAvatarSender: isShowAvatarSender,
-                isShowUsersSeen: true,
+                isShowUsersSeen: isShowSeenUsers,
                 viewModel: viewModel
             ) { state, message in
                 self.viewModel.isShowReactions = state

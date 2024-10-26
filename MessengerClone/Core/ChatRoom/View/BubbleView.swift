@@ -186,9 +186,6 @@ struct BubbleView: View {
                 ForEach(message.seenByUsersInfo ?? []) { user in
                     CircularProfileImage(user.profileImage, size: .custom(15))
                 }
-                .onAppear {
-                    print("userSeenInfo: \(message.seenByUsersInfo ?? [])")
-                }
             }
             .padding(.horizontal, 5)
         }

@@ -28,11 +28,11 @@ struct MessageService {
     static func getFirstMessage(_ channel: ChannelItem, currentUserUid: String, completion: @escaping(MessageItem) -> Void) {
         FirebaseConstants.MessageChannelRef.child(channel.id)
             .queryLimited(toFirst: 1)
-            .observeSingleEvent(of: .value) { snapshot in
-                guard let messagesDict = snapshot.value as? [String:Any] else { return } // array dict
+            .observe(.value) { snapshot in
+                guard let messagesDict = snapshot.value as? [String:Any] else { return }
                 
                 messagesDict.forEach { key, value in
-                    guard let messageDict = snapshot.value as? [String:Any] else { return }
+                    guard let messageDict = value as? [String:Any] else { return }
                     let firstMessage = MessageItem(id: key, dict: messageDict)
                     firstMessage.sender = channel.members.first(where: { $0.uid == firstMessage.ownerUid })
                     
@@ -579,9 +579,9 @@ struct MessageService {
         messageRef
             .queryLimited(toLast: 1)
             .observe(.childAdded) { messageSnapshot in
+                
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
                 let newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
-                newMessage.sender = channel.members.first(where: { $0.uid == newMessage.ownerUid })
                 
                 if let messageReplyUid = newMessage.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
@@ -597,23 +597,8 @@ struct MessageService {
                     }
                 }
                 
-                if let arraySeenBy = newMessage.seenBy {
-                    if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
-                        UserService.fetchUsersByUids(arraySeenBy) { users in
-                            newMessage.seenByUsersInfo = users
-                            newMessage.seenBy?.append(currentUserUid)
-                            seenMessage(channel.id, newMessage.id, newMessage.seenBy ?? []) {
-                                
-                            }
-                        }
-                    } else {
-                        UserService.fetchUsersByUids(arraySeenBy) { users in
-                            newMessage.seenByUsersInfo = users
-                        }
-                    }
-                }
-                
                 newMessage.sender = channel.members.first(where: { $0.uid == newMessage.ownerUid })
+                
                 onNewMessage(newMessage)
             }
         
@@ -622,7 +607,6 @@ struct MessageService {
             .observe(.childChanged) { messageSnapshot in
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
                 let updateMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
-                updateMessage.sender = channel.members.first(where: { $0.uid == updateMessage.ownerUid })
                 
                 
                 if let messageReplyUid = updateMessage.uidMessageReply {
@@ -634,23 +618,8 @@ struct MessageService {
                     }
                 }
                 
-                if let arraySeenBy = updateMessage.seenBy {
-                    if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
-                        UserService.fetchUsersByUids(arraySeenBy) { users in
-                            updateMessage.seenByUsersInfo = users
-                            updateMessage.seenBy?.append(currentUserUid)
-                            seenMessage(channel.id, updateMessage.id, updateMessage.seenBy ?? []) {
-                                
-                            }
-                        }
-                    } else {
-                        UserService.fetchUsersByUids(arraySeenBy) { users in
-                            updateMessage.seenByUsersInfo = users
-                        }
-                    }
-                }
-                
                 updateMessage.sender = channel.members.first(where: { $0.uid == updateMessage.ownerUid })
+                
                 onUpdateMessages(updateMessage)
             }
     }
