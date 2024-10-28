@@ -107,7 +107,7 @@ final class MessageListController: UIViewController {
         buttonBottom.layer.shadowOffset = CGSize(width: 0, height: 1) // Offset for shadow
         buttonBottom.layer.shadowRadius = 1
         
-        buttonBottom.addTarget(self, action: #selector(scrollToBottom), for: .touchUpInside)
+        buttonBottom.addTarget(MessageListController.self, action: #selector(scrollToBottom), for: .touchUpInside)
         
         return buttonBottom
     }()
@@ -115,7 +115,7 @@ final class MessageListController: UIViewController {
     /// Set up Views
     private func setUpViews() {
         view.addSubview(messageCollectionView)
-        view.addSubview(buttonScrollToBottom)
+//        view.addSubview(buttonScrollToBottom)
         
         NSLayoutConstraint.activate([
             messageCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -124,10 +124,10 @@ final class MessageListController: UIViewController {
             messageCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
         
-        NSLayoutConstraint.activate([
-            buttonScrollToBottom.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonScrollToBottom.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
-        ])
+//        NSLayoutConstraint.activate([
+//            buttonScrollToBottom.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            buttonScrollToBottom.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+//        ])
     }
     
     /// Set up messages listener
@@ -401,6 +401,8 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         
         /// message
         let message = viewModel.messages[indexPath.item]
+        
+        print("Message: \(message.seenByUsersInfo) \n")
         /// is new day
         let isNewDay = viewModel.isNewDay(for: message, at: indexPath.item)
         /// is show sender

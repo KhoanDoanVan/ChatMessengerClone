@@ -510,15 +510,6 @@ struct MessageService {
                 
                 message.sender = channel.members.first(where: { $0.uid == message.ownerUid })
                 
-                if let messageReplyUid = message.uidMessageReply {
-                    self.getMessage(channel.id, messageReplyUid) { messageItem in
-                        if let messageItem {
-                            message.messageReply = messageItem
-                            message.messageReply?.sender = channel.members.first(where: { $0.uid == message.messageReply?.ownerUid })
-                        }
-                    }
-                }
-                
                 if let arraySeenBy = message.seenBy {
                     if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
                         UserService.fetchUsersByUids(arraySeenBy) { users in
@@ -544,6 +535,15 @@ struct MessageService {
                     }
                 }
                 
+                if let messageReplyUid = message.uidMessageReply {
+                    self.getMessage(channel.id, messageReplyUid) { messageItem in
+                        if let messageItem {
+                            message.messageReply = messageItem
+                            message.messageReply?.sender = channel.members.first(where: { $0.uid == message.messageReply?.ownerUid })
+                        }
+                    }
+                }
+                
                 return message
             }
             
@@ -565,7 +565,7 @@ struct MessageService {
             completion(.emptyNode)
         }
     }
-    
+
     /// Listen new message when i've sent new message
     static func listenToMessage(
         _ channel: ChannelItem,
@@ -582,6 +582,31 @@ struct MessageService {
                 
                 guard let messageDict = messageSnapshot.value as? [String:Any] else { return }
                 let newMessage = MessageItem(id: messageSnapshot.key, dict: messageDict)
+                
+                if let arraySeenBy = newMessage.seenBy {
+                    if !arraySeenBy.contains(where: { $0 == currentUserUid }) {
+                        UserService.fetchUsersByUids(arraySeenBy) { users in
+                            newMessage.seenByUsersInfo = users
+                            newMessage.seenBy?.append(currentUserUid)
+                            seenMessage(channel.id, newMessage.id, newMessage.seenBy ?? []) {
+                                print("Successfully seen message")
+                            }
+                            /// Fetch Sender
+                            newMessage.sender = channel.members.first(where: { $0.uid == newMessage.ownerUid })
+                            
+                        }
+                    } else {
+                        let arraySeenByNotContainCurrentUser = arraySeenBy.filter({
+                            $0 != currentUserUid
+                        })
+                        UserService.fetchUsersByUids(arraySeenByNotContainCurrentUser) { users in
+                            newMessage.seenByUsersInfo = users
+                            
+                            /// Fetch Sender
+                            newMessage.sender = channel.members.first(where: { $0.uid == newMessage.ownerUid })
+                        }
+                    }
+                }
                 
                 if let messageReplyUid = newMessage.uidMessageReply {
                     self.getMessage(channel.id, messageReplyUid) { messageItem in
