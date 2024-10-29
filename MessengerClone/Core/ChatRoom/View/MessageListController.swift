@@ -17,7 +17,10 @@ final class MessageListController: UIViewController {
         view.backgroundColor = .clear
         setUpViews()
         setUpMessagesListener()
+        
+        /// Setup Tap Gesture
         setUpLongTapGesture()
+        setUpDoubleTapGesture()
     }
     
     init(
@@ -191,6 +194,51 @@ final class MessageListController: UIViewController {
         let longTapGesture = UILongPressGestureRecognizer(target: self, action: #selector(showContextMenu))
         longTapGesture.minimumPressDuration = 0.5
         messageCollectionView.addGestureRecognizer(longTapGesture)
+    }
+    
+    /// Setup Double Tap Gesture
+    private func setUpDoubleTapGesture() {
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(likeMessageByDoubleTap))
+        doubleTapGesture.numberOfTapsRequired = 2
+        messageCollectionView.addGestureRecognizer(doubleTapGesture)
+    }
+    
+    /// Double tap to Like message
+    @objc private func likeMessageByDoubleTap(_ gesture: UITapGestureRecognizer) {
+        let point = gesture.location(in: messageCollectionView)
+        guard let indexPath = messageCollectionView.indexPathForItem(at: point) else { return }
+        
+        let message = viewModel.messages[indexPath.item]
+        
+        if message.unsentIsContainMe {
+            return
+        }
+        
+        /// Like Action
+        likeMessage(message)
+    }
+    
+    /// Like Message
+    private func likeMessage(_ message: MessageItem) {
+        guard let userCurrent = viewModel.userCurrent else { return }
+        
+        let reactionItem = ReactionItem(ownerUid: userCurrent.uid, reaction: "❤️")
+        
+        var reactionArray: [ReactionItem]?
+        
+        if message.emojis == nil {
+            reactionArray = []
+            reactionArray?.append(reactionItem)
+        } else {
+            reactionArray = message.emojis
+            reactionArray?.append(reactionItem)
+        }
+        
+        guard let arrayEmojis = reactionArray else { return }
+        
+        MessageService.reactionMessage(viewModel.channel, message: message, emojis: arrayEmojis) {
+            print("Double Tap to like message")
+        }
     }
     
     /// Show context Emoji and Menu
@@ -396,13 +444,11 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
     /// Create cell
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-        
         cell.backgroundColor = .clear
         
         /// message
         let message = viewModel.messages[indexPath.item]
         
-        print("Message: \(message.seenByUsersInfo) \n")
         /// is new day
         let isNewDay = viewModel.isNewDay(for: message, at: indexPath.item)
         /// is show sender
@@ -437,24 +483,23 @@ extension MessageListController: UICollectionViewDelegate, UICollectionViewDataS
         
         /// Selected messaged
         viewModel.bubbleMessageDidSelect = messageItem
+
         
-        if viewModel.bubbleMessageDidSelect?.messageReply == nil {
-            return
-        }
-        
-        self.messageCollectionView.scrollToMessageDidSelected(at: .centeredVertically, viewModel: viewModel, animate: true)
-        
-        switch messageItem.type {
-        case .photo:
-            displayPreviewImage(message: messageItem, indexPath)
-        case .video:
-            displayPreviewVideo(message: messageItem, indexPath)
-        case .fileMedia:
-            if let nameOfFile = messageItem.nameOfFile {
-                readContentsOfFile(fileName: nameOfFile)
+        if viewModel.bubbleMessageDidSelect?.messageReply != nil {
+            self.messageCollectionView.scrollToMessageDidSelected(at: .centeredVertically, viewModel: viewModel, animate: true)
+        } else {
+            switch messageItem.type {
+            case .photo:
+                displayPreviewImage(message: messageItem, indexPath)
+            case .video:
+                displayPreviewVideo(message: messageItem, indexPath)
+            case .fileMedia:
+                if let nameOfFile = messageItem.nameOfFile {
+                    readContentsOfFile(fileName: nameOfFile)
+                }
+            default:
+                break
             }
-        default:
-            break
         }
     }
     
