@@ -1,5 +1,7 @@
 # Chat Messenger Clone 💭
 
+![ref image](https://github.com/KhoanDoanVan/ChatMessengerClone/blob/main/demo.png?raw=true)
+
 ## Summary
 The Application built based on Messenger application and more.
 
@@ -25,7 +27,7 @@ The Application built based on Messenger application and more.
 - Firebase: Firestore, Authentication, Storage, Realtime
 - SwiftUI/UIKit: Framework UI
 - Stream SDK: used for video call and voice call
-- Another: Combine, PhotosUI, AVKit, Kingfisher, MapKit
+- Another: Combine, PhotosUI, AVKit, MapKit,Kingfisher, Elegant-Emoji-Picker, ...
 
 ### Require Minimum System
 - IOS 17.0 +
@@ -64,9 +66,6 @@ if you want to distribute for project, please follow here:
 3. Commit changes yourself (git commit -m 'Add some feature')
 4. Push to main branch (git push origin feature/your-feature)
 5. Create a Pull Request
-
-### Demo UI
-![ref image](https://github.com/KhoanDoanVan/ChatMessengerClone/blob/main/demo.png?raw=true)
 
 ### Enjoying this project?
 Please consider giving it a star
