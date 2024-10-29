@@ -37,6 +37,7 @@
 		464648DB2C7C495900617A6F /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */; };
 		464C26402C96F566008CD4F2 /* ReactionShowSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */; };
 		464C26422C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */; };
+		464C70462CD09A5D003F0F75 /* ElegantEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 464C70452CD09A5D003F0F75 /* ElegantEmojiPicker */; };
 		464DDABB2CA0ED71009D355E /* CurrentLocationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABA2CA0ED71009D355E /* CurrentLocationSheet.swift */; };
 		464DDABD2CA0EDA2009D355E /* LocationCoordinate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABC2CA0EDA2009D355E /* LocationCoordinate+Extension.swift */; };
 		464DDABF2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464DDABE2CA0F15F009D355E /* CurrentLocationSheetViewModel.swift */; };
@@ -303,6 +304,7 @@
 				46EE7B682C9939A20077ABAB /* StreamVideo in Frameworks */,
 				465EBE762C6B60C800A97E77 /* FirebaseDatabase in Frameworks */,
 				465EBE7A2C6B60C800A97E77 /* FirebaseStorage in Frameworks */,
+				464C70462CD09A5D003F0F75 /* ElegantEmojiPicker in Frameworks */,
 				465EBE742C6B60C800A97E77 /* FirebaseAuth in Frameworks */,
 				465EBE782C6B60C800A97E77 /* FirebaseFirestore in Frameworks */,
 				465EBE942C6C32F900A97E77 /* Kingfisher in Frameworks */,
@@ -785,6 +787,7 @@
 				465EBE932C6C32F900A97E77 /* Kingfisher */,
 				46EE7B672C9939A20077ABAB /* StreamVideo */,
 				46EE7B692C9939A20077ABAB /* StreamVideoSwiftUI */,
+				464C70452CD09A5D003F0F75 /* ElegantEmojiPicker */,
 			);
 			productName = MessengerClone;
 			productReference = 4695D0EE2C9BBC6100350444 /* MessengerClone.app */;
@@ -863,6 +866,7 @@
 				465EBE722C6B60C800A97E77 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				465EBE922C6C32F900A97E77 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				46EE7B662C9939A20077ABAB /* XCRemoteSwiftPackageReference "stream-video-swift" */,
+				464C70442CD09A5D003F0F75 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */,
 			);
 			productRefGroup = 46E0B53F2C50D14B0059C928;
 			projectDirPath = "";
@@ -1368,6 +1372,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		464C70442CD09A5D003F0F75 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Finalet/Elegant-Emoji-Picker";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		465EBE722C6B60C800A97E77 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1395,6 +1407,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		464C70452CD09A5D003F0F75 /* ElegantEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 464C70442CD09A5D003F0F75 /* XCRemoteSwiftPackageReference "Elegant-Emoji-Picker" */;
+			productName = ElegantEmojiPicker;
+		};
 		465EBE732C6B60C800A97E77 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 465EBE722C6B60C800A97E77 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -1,5 +1,5 @@
 {
-  "originHash" : "edbe3232e4cdbacabb2e0c760654e2bf5be9598df516847275f58cfc95552ea3",
+  "originHash" : "58b6961b99c7763b544b30de5c2bad45e0ab758008a6ff1255521cfab1593055",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "87dd288fc792bf9751e522e171a47df5b783b0b8",
         "version" : "11.1.0"
+      }
+    },
+    {
+      "identity" : "elegant-emoji-picker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Finalet/Elegant-Emoji-Picker",
+      "state" : {
+        "branch" : "main",
+        "revision" : "71d2d46092b4d550cc593614efc06438f845f6e6"
       }
     },
     {

@@ -8,6 +8,17 @@
 import SwiftUI
 import UIKit
 import Combine
+import ElegantEmojiPicker
+
+extension MessageListController: ElegantEmojiPickerDelegate {
+    func emojiPicker(_ picker: ElegantEmojiPicker, didSelectEmoji emoji: Emoji?) {
+        guard let emoji = emoji,
+              let message = messageToEmojiPicker
+        else { return }
+        
+        self.reactionMessageWithEmoji(message, emoji.emoji)
+    }
+}
 
 final class MessageListController: UIViewController {
     
@@ -55,12 +66,24 @@ final class MessageListController: UIViewController {
     private var reactionHostViewController: UIViewController?
     private var menuHostViewController: UIViewController?
     
+    // MARK: Message From More Emoji Selected
+    private var messageToEmojiPicker: MessageItem?
+    
+    /// Emoji
+    private lazy var emojiPicker: ElegantEmojiPicker = {
+        let config = ElegantConfiguration(showRandom: false, showReset: false, defaultSkinTone: .Light)
+        let picker = ElegantEmojiPicker(delegate: self, configuration: config)
+        return picker
+    }()
+    
+    /// Pull to Refresh
     private lazy var pullToRefresh: UIRefreshControl = {
         let pullToRefreshControl = UIRefreshControl()
         pullToRefreshControl.addTarget(self, action: #selector(pullToRefreshAction), for: .valueChanged)
         return pullToRefreshControl
     }()
     
+    /// CompositionalLayout
     private let compositionalLayout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
         
         /// Create list
@@ -214,15 +237,14 @@ final class MessageListController: UIViewController {
             return
         }
         
-        /// Like Action
-        likeMessage(message)
+        reactionMessageWithEmoji(message, "❤️")
     }
     
     /// Like Message
-    private func likeMessage(_ message: MessageItem) {
+    private func reactionMessageWithEmoji(_ message: MessageItem, _ emoji: String) {
         guard let userCurrent = viewModel.userCurrent else { return }
         
-        let reactionItem = ReactionItem(ownerUid: userCurrent.uid, reaction: "❤️")
+        let reactionItem = ReactionItem(ownerUid: userCurrent.uid, reaction: emoji)
         
         var reactionArray: [ReactionItem]?
         
@@ -237,6 +259,9 @@ final class MessageListController: UIViewController {
         guard let arrayEmojis = reactionArray else { return }
         
         MessageService.reactionMessage(viewModel.channel, message: message, emojis: arrayEmojis) {
+            if let message = self.messageToEmojiPicker {
+                self.messageToEmojiPicker = nil
+            }
             print("Double Tap to like message")
         }
     }
@@ -372,6 +397,10 @@ final class MessageListController: UIViewController {
         ) { action in
             switch action {
             case .reaction:
+                self.dismissContext()
+            case .moreReaction:
+                self.messageToEmojiPicker = message
+                self.present(self.emojiPicker, animated: true)
                 self.dismissContext()
             }
         }

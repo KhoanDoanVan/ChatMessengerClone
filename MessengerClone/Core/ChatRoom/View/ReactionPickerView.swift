@@ -8,10 +8,13 @@
 import SwiftUI
 
 
+// MARK: Main View
 struct ReactionPickerView: View {
     
     @State private var scaleEmojis: Bool = false
     @StateObject var reactionPickerMenuViewModel: ReactionPickerMenuViewModel
+    
+    @State private var isShowMore: Bool = false
     
     let message: MessageItem
     let actionHandler: (_ action: ReactionPickerView.ReactionAction) -> Void
@@ -34,6 +37,9 @@ struct ReactionPickerView: View {
                     scaleEmojis.toggle()
                 }
             }
+        }
+        .sheet(isPresented: $isShowMore) {
+            
         }
     }
     
@@ -59,7 +65,7 @@ struct ReactionPickerView: View {
     /// More
     private func moreButton() -> some View {
         Button {
-            
+            actionHandler(.moreReaction)
         } label: {
             Image(systemName: "plus")
                 .bold()
@@ -75,6 +81,7 @@ struct ReactionPickerView: View {
 extension ReactionPickerView {
     enum ReactionAction {
         case reaction
+        case moreReaction
     }
 }
 
