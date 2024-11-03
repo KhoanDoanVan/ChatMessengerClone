@@ -58,6 +58,8 @@ struct ChatRoomScreen: View {
                 }
             }
             
+            // Test
+            
             // MARK: - Picker Photo View
             PickerPhotoView(
                 listAttachment: $viewModel.listMediaAttachment,
