@@ -115,6 +115,8 @@
 		4695D0F62C9C408E00350444 /* BubbleVideoCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4695D0F52C9C408E00350444 /* BubbleVideoCallView.swift */; };
 		469A69CE2C5F89CD0017E763 /* StoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69CD2C5F89CD0017E763 /* StoryScreen.swift */; };
 		469A69D22C5F8C3F0017E763 /* UIWindowScene+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */; };
+		46A1244E2CD874EE0065361F /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 46A1244D2CD874EE0065361F /* Toast */; };
+		46A1245F2CD89CF10065361F /* ToastGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A1245E2CD89CF10065361F /* ToastGroup.swift */; };
 		46A6439B2CB60634002CE4B7 /* DetailNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6439A2CB60634002CE4B7 /* DetailNoteView.swift */; };
 		46A6439D2CB61C36002CE4B7 /* DetailCurrentNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A6439C2CB61C36002CE4B7 /* DetailCurrentNoteView.swift */; };
 		46AA92632C60DAA8003F9CEB /* StoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA92622C60DAA8003F9CEB /* StoryCellView.swift */; };
@@ -268,6 +270,7 @@
 		4695D0F52C9C408E00350444 /* BubbleVideoCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleVideoCallView.swift; sourceTree = "<group>"; };
 		469A69CD2C5F89CD0017E763 /* StoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryScreen.swift; sourceTree = "<group>"; };
 		469A69D12C5F8C3F0017E763 /* UIWindowScene+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindowScene+Extension.swift"; sourceTree = "<group>"; };
+		46A1245E2CD89CF10065361F /* ToastGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastGroup.swift; sourceTree = "<group>"; };
 		46A6439A2CB60634002CE4B7 /* DetailNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoteView.swift; sourceTree = "<group>"; };
 		46A6439C2CB61C36002CE4B7 /* DetailCurrentNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrentNoteView.swift; sourceTree = "<group>"; };
 		46AA92622C60DAA8003F9CEB /* StoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCellView.swift; sourceTree = "<group>"; };
@@ -299,6 +302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46A1244E2CD874EE0065361F /* Toast in Frameworks */,
 				46EE7B6A2C9939A20077ABAB /* StreamVideoSwiftUI in Frameworks */,
 				46EE7B682C9939A20077ABAB /* StreamVideo in Frameworks */,
 				465EBE762C6B60C800A97E77 /* FirebaseDatabase in Frameworks */,
@@ -396,6 +400,7 @@
 		465EBE7B2C6B647800A97E77 /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				46A1245D2CD89CE60065361F /* Component */,
 				465EBE872C6B772E00A97E77 /* View */,
 				465EBE862C6B772100A97E77 /* ViewModel */,
 			);
@@ -608,6 +613,14 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		46A1245D2CD89CE60065361F /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				46A1245E2CD89CF10065361F /* ToastGroup.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		46AA92712C6232C6003F9CEB /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -785,6 +798,7 @@
 				465EBE932C6C32F900A97E77 /* Kingfisher */,
 				46EE7B672C9939A20077ABAB /* StreamVideo */,
 				46EE7B692C9939A20077ABAB /* StreamVideoSwiftUI */,
+				46A1244D2CD874EE0065361F /* Toast */,
 			);
 			productName = MessengerClone;
 			productReference = 4695D0EE2C9BBC6100350444 /* MessengerClone.app */;
@@ -863,6 +877,7 @@
 				465EBE722C6B60C800A97E77 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				465EBE922C6C32F900A97E77 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				46EE7B662C9939A20077ABAB /* XCRemoteSwiftPackageReference "stream-video-swift" */,
+				46A1244C2CD874EE0065361F /* XCRemoteSwiftPackageReference "Toast-SPM" */,
 			);
 			productRefGroup = 46E0B53F2C50D14B0059C928;
 			projectDirPath = "";
@@ -1002,6 +1017,7 @@
 				46749F8B2C67715200A8A4BD /* UserItem.swift in Sources */,
 				46749F6C2C660CE200A8A4BD /* MessageListView.swift in Sources */,
 				46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */,
+				46A1245F2CD89CF10065361F /* ToastGroup.swift in Sources */,
 				465EBE7D2C6B648200A97E77 /* RootView.swift in Sources */,
 				460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */,
 				46749F792C662C5E00A8A4BD /* ChatTabScreenViewModel.swift in Sources */,
@@ -1384,6 +1400,14 @@
 				minimumVersion = 7.12.0;
 			};
 		};
+		46A1244C2CD874EE0065361F /* XCRemoteSwiftPackageReference "Toast-SPM" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/KhoanDoanVan/Toast-SPM";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		46EE7B662C9939A20077ABAB /* XCRemoteSwiftPackageReference "stream-video-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/GetStream/stream-video-swift";
@@ -1419,6 +1443,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 465EBE922C6C32F900A97E77 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		46A1244D2CD874EE0065361F /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A1244C2CD874EE0065361F /* XCRemoteSwiftPackageReference "Toast-SPM" */;
+			productName = Toast;
 		};
 		46EE7B672C9939A20077ABAB /* StreamVideo */ = {
 			isa = XCSwiftPackageProductDependency;

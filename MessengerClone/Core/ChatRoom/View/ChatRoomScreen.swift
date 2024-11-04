@@ -23,6 +23,7 @@ struct ChatRoomScreen: View {
     
     var body: some View {
         VStack {
+                        
             // MARK: - Message List View
             MessageListView(viewModel)
             .toolbar(.hidden, for: .tabBar)
