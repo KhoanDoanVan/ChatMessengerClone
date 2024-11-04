@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Toast
 
 struct SettingsView: View {
     
@@ -43,6 +44,7 @@ struct SettingsView: View {
         Button {
             Task {
                 try await AuthManager.shared.logOut()
+                Toast.shared.present(title: "SignOut Successfully", symbol: "lock.shield")
             }
         } label: {
             Text("Sign Out")

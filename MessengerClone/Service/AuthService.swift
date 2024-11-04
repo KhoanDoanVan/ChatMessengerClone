@@ -7,6 +7,7 @@
 
 import Combine
 import FirebaseAuth
+import Toast
 
 // MARK: Protocal
 protocol AuthService {
@@ -39,6 +40,7 @@ final class AuthManager: AuthService {
     func createAnAcounnt(for username: String, with email: String, and password: String) async throws {
         do {
             let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+
             
             /// Fetch token
             let token = try await fetchAuthToken(for: authResult.user)
@@ -49,6 +51,8 @@ final class AuthManager: AuthService {
             /// Add token
             newUserForRealtimeDB.token = token
             self.authState.send(.loggedIn(newUserForRealtimeDB))
+            
+            Toast.shared.present(title: "Register Account Successfully", symbol: "lock.shield")
         } catch {
             print("Failed to create an account. Error: \(error.localizedDescription)")
             throw AuthError.signUpFailed(error.localizedDescription)

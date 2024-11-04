@@ -1,5 +1,5 @@
 {
-  "originHash" : "58b6961b99c7763b544b30de5c2bad45e0ab758008a6ff1255521cfab1593055",
+  "originHash" : "6091667aa6b93e24cc984efcea574141653b9ecb7f9694499a772f713c86c8f4",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -152,6 +152,15 @@
       "state" : {
         "revision" : "ebc7251dd5b37f627c93698e4374084d98409633",
         "version" : "1.28.2"
+      }
+    },
+    {
+      "identity" : "toast-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/KhoanDoanVan/Toast-SPM",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f2bdb69c6aee397050bb6b2be16bcf04b156c484"
       }
     }
   ],

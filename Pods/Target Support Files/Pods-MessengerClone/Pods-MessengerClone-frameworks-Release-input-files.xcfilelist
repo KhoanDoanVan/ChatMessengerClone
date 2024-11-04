@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-MessengerClone/Pods-MessengerClone-frameworks.sh
+${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/Giphy/GiphyUISDK.framework/GiphyUISDK
