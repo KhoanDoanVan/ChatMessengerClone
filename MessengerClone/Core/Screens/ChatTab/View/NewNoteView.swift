@@ -143,7 +143,7 @@ struct NewNoteView: View {
                                 .foregroundStyle(Color(.white))
                                 .clipShape(Capsule())
                                 .offset(x: viewModel.scrollOffsetXMusic)
-                                .padding(.leading, 14.7714285714)
+                                .padding(.leading, viewModel.leadingPadding)
                             Spacer()
                         }
                     }

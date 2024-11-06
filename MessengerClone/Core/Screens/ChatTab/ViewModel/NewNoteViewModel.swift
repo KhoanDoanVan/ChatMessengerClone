@@ -28,6 +28,7 @@ class NewNoteViewModel: ObservableObject {
     /// Width of the second rectangle
     let smallRectangleWidth: CGFloat = 30
     var bottomBarContentWidth: CGFloat = 14 * 150 + (190)
+    var leadingPadding: CGFloat = 14.7714285714
     var times: CGFloat {
         return bottomBarContentWidth / 220
     }
