@@ -16,8 +16,23 @@ class NewNoteViewModel: ObservableObject {
     
     @Published var currentUser: UserItem?
     @Published var currentNote: NoteItem?
-    private var cancellables = Set<AnyCancellable>()
     
+    /// Music picker
+    @Published var isShowMusicPicker: Bool = false
+    @Published var isDetailMusic: Bool = true
+    @Published var textSearch: String = ""
+    @Published var scrollOffsetXMusic: CGFloat = 0
+    @Published var count: Int = 0
+    /// Width of the main rectangle
+    let mainRectangleWidth: CGFloat = 220
+    /// Width of the second rectangle
+    let smallRectangleWidth: CGFloat = 30
+    var bottomBarContentWidth: CGFloat = 14 * 150 + (190)
+    var times: CGFloat {
+        return bottomBarContentWidth / 220
+    }
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init(currentNote: NoteItem? = nil) {
         self.currentNote = currentNote
