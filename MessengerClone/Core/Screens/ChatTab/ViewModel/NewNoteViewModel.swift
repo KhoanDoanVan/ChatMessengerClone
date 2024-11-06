@@ -8,6 +8,8 @@
 import Foundation
 import FirebaseAuth
 import Combine
+import FirebaseFirestore
+import FirebaseDatabase
 
 class NewNoteViewModel: ObservableObject {
     
@@ -18,8 +20,10 @@ class NewNoteViewModel: ObservableObject {
     @Published var currentNote: NoteItem?
     
     /// Music picker
+    @Published var listMusics: [MusicItem] = []
+    @Published var musicPicked: MusicItem?
     @Published var isShowMusicPicker: Bool = false
-    @Published var isDetailMusic: Bool = true
+    @Published var isDetailMusic: Bool = false
     @Published var textSearch: String = ""
     @Published var scrollOffsetXMusic: CGFloat = 0
     @Published var count: Int = 0
@@ -60,6 +64,37 @@ class NewNoteViewModel: ObservableObject {
             NoteSevice.uploadANote(text) {
                 print("Create a Note success")
             }
+        }
+    }
+    
+    /// Fetch list musics
+    func fetchListMusics() {
+        self.fetchMusicItems { [weak self] musics in
+            self?.listMusics = musics
+        }
+    }
+    
+    /// Service fetch musics
+    private func fetchMusicItems(completion: @escaping ([MusicItem]) -> Void) {
+        
+        var musics: [MusicItem] = []
+        
+        FirebaseConstants.MusicsRef.getDocuments { querySnapshot, error in
+            if let error {
+                print("Error Fetch Musics: \(error)")
+                completion([])
+            }
+            
+            for document in querySnapshot!.documents {
+                do {
+                    let musicItem = try document.data(as: MusicItem.self)
+                    musics.append(musicItem)
+                } catch {
+                    print("Failed to decode MusicItem: \(error)")
+                }
+            }
+            
+            completion(musics)
         }
     }
 }

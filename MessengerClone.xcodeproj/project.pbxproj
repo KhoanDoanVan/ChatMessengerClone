@@ -66,6 +66,7 @@
 		465EBE962C6C495500A97E77 /* ChannelItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EBE952C6C495500A97E77 /* ChannelItem.swift */; };
 		4664A9182C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */; };
 		4664A91A2C7A3BD00028537B /* ExportVideoFile+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */; };
+		4665C9582CDB8EDE0016948A /* MusicItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4665C9572CDB8ED80016948A /* MusicItem.swift */; };
 		4666C9892CBE0D3700B514C4 /* PreviewFileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */; };
 		4666C98B2CBF433800B514C4 /* BubbleReplyMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */; };
 		4666C98F2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666C98E2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift */; };
@@ -217,6 +218,7 @@
 		465EBE952C6C495500A97E77 /* ChannelItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelItem.swift; sourceTree = "<group>"; };
 		4664A9172C7A2E8E0028537B /* GenerateThumbnailVideo+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GenerateThumbnailVideo+Helper.swift"; sourceTree = "<group>"; };
 		4664A9192C7A3BD00028537B /* ExportVideoFile+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ExportVideoFile+Helper.swift"; sourceTree = "<group>"; };
+		4665C9572CDB8ED80016948A /* MusicItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicItem.swift; sourceTree = "<group>"; };
 		4666C9882CBE0D3700B514C4 /* PreviewFileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFileContentView.swift; sourceTree = "<group>"; };
 		4666C98A2CBF433800B514C4 /* BubbleReplyMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleReplyMessage.swift; sourceTree = "<group>"; };
 		4666C98E2CC0BB5000B514C4 /* BubbleReplyMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleReplyMessageViewModel.swift; sourceTree = "<group>"; };
@@ -756,6 +758,7 @@
 		46E0B5812C50DB860059C928 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4665C9572CDB8ED80016948A /* MusicItem.swift */,
 				465EBE952C6C495500A97E77 /* ChannelItem.swift */,
 				4604CB792CB4EC3800388B73 /* NoteItem.swift */,
 			);
@@ -947,6 +950,7 @@
 				4611F7E82CA9757E004D736D /* SnapHelper.swift in Sources */,
 				4695D0F22C9BC18F00350444 /* UserStreamItem.swift in Sources */,
 				465EBE6F2C6B5F8F00A97E77 /* AuthService.swift in Sources */,
+				4665C9582CDB8EDE0016948A /* MusicItem.swift in Sources */,
 				46598C6A2CBCEDC0009FFD71 /* URL+Extension.swift in Sources */,
 				4611F7ED2CAA3FBE004D736D /* StoryService.swift in Sources */,
 				46749F6A2C65FA7300A8A4BD /* TextInputArea.swift in Sources */,

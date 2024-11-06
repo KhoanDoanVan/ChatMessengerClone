@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NewNoteView: View {
     @FocusState private var isTextFocusState: Bool
@@ -83,18 +84,27 @@ struct NewNoteView: View {
             }
             .padding(10)
             
-            List {
-                ForEach(0..<10) { item in
-                    MusicCellView()
-                        .onTapGesture {
-                            viewModel.isShowMusicPicker = false
-                            viewModel.isDetailMusic = true
-                        }
+            if !viewModel.listMusics.isEmpty {
+                List {
+                    ForEach(viewModel.listMusics) { music in
+                        MusicCellView(music: music)
+                            .onTapGesture {
+                                viewModel.isShowMusicPicker = false
+                                viewModel.isDetailMusic = true
+                                viewModel.musicPicked = music
+                            }
+                    }
                 }
+                .listStyle(.plain)
+            } else {
+                ProgressView()
+                    .padding()
             }
-            .listStyle(.plain)
             
             Spacer()
+        }
+        .onAppear {
+            viewModel.fetchListMusics()
         }
         .ignoresSafeArea()
     }
@@ -104,18 +114,20 @@ struct NewNoteView: View {
         NavigationStack {
             VStack {
                 VStack(spacing: 8) {
-                    Rectangle()
+                    KFImage(URL(string: viewModel.musicPicked?.thumbnailUrl ?? ""))
+                        .resizable()
                         .frame(width: 60, height: 60)
+                        .scaledToFit()
                         .clipShape(
                             .rect(cornerRadius: 10)
                         )
                     
-                    Text("Die with A Smile")
+                    Text(viewModel.musicPicked?.title ?? "Unknown")
                         .bold()
                         .font(.title3)
                         .padding(.top, 5)
                     
-                    Text("Lady Gaga, Bruno Mars")
+                    Text(viewModel.musicPicked?.artist ?? "Unknown")
                         .foregroundStyle(Color(.systemGray))
                         .font(.subheadline)
                 }
@@ -330,8 +342,10 @@ struct NewNoteView: View {
     }
 }
 
+// MARK: - Music Cell View
 struct MusicCellView: View {
     
+    let music: MusicItem
     @State private var playing: Bool = false
     
     var body: some View {
@@ -339,16 +353,18 @@ struct MusicCellView: View {
             
         } label: {
             HStack {
-                Rectangle()
+                KFImage(URL(string: music.thumbnailUrl))
+                    .resizable()
+                    .scaledToFit()
                     .frame(width: 70, height: 70)
                     .clipShape(
                         .rect(cornerRadius: 10)
                     )
                 
                 VStack(alignment: .leading) {
-                    Text("Name Song")
+                    Text(music.title)
                         .bold()
-                    Text("Author the song")
+                    Text(music.artist)
                         .foregroundStyle(Color(.systemGray))
                 }
                 

@@ -7,9 +7,12 @@
 
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
+import FirebaseDatabase
 
 enum FirebaseConstants {
     static let StorageRef = Storage.storage().reference()
+    static let FirestoreRef = Firestore.firestore()
     private static let DatabaseRef = Database.database().reference()
     static let UserRef = DatabaseRef.child("users")
     static let ChannelRef = DatabaseRef.child("channels")
@@ -19,4 +22,5 @@ enum FirebaseConstants {
     static let UserStoryRef = DatabaseRef.child("user-stories")
     static let OnlineUserRef = DatabaseRef.child("user-online-state")
     static let UserNoteRef = DatabaseRef.child("user-note")
+    static let MusicsRef = FirestoreRef.collection("musics")
 }
