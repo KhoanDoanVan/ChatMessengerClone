@@ -92,6 +92,9 @@ struct NewNoteView: View {
                                 viewModel.isShowMusicPicker = false
                                 viewModel.isDetailMusic = true
                                 viewModel.musicPicked = music
+                                Task {
+                                    await viewModel.getAudioLevels(from: music.audioUrl)
+                                }
                             }
                     }
                 }
@@ -150,13 +153,14 @@ struct NewNoteView: View {
                             .clipShape(Capsule())
                         
                         HStack {
+                            /// Still apply audio has 45seconds
                             Rectangle()
                                 .frame(width: viewModel.smallRectangleWidth)
                                 .frame(height: 4)
                                 .foregroundStyle(Color(.white))
                                 .clipShape(Capsule())
                                 .offset(x: viewModel.scrollOffsetXMusic)
-                                .padding(.leading, viewModel.leadingPadding)
+                                .padding(.leading, 29)
                             Spacer()
                         }
                     }
@@ -175,19 +179,16 @@ struct NewNoteView: View {
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 0) {
-                                ForEach(0..<150) { rect in
+                                ForEach(viewModel.listLevels.indices, id: \.self) { index in
+                                    let level = viewModel.listLevels[index]
                                     HStack(spacing: 5) {
                                         Rectangle()
-                                            .frame(width: 2, height: 8)
-                                            .foregroundStyle(Color(.systemGray4))
-                                            .clipShape(Capsule())
-                                        Rectangle()
-                                            .frame(width: 2, height: 15)
+                                            .frame(width: 2, height: CGFloat(level) * 100)
                                             .foregroundStyle(Color(.systemGray4))
                                             .clipShape(Capsule())
                                     }
                                     .padding(.trailing, 5)
-                                    .id(rect)
+                                    .id(index)
                                 }
                             }
                             .background(
@@ -215,13 +216,15 @@ struct NewNoteView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        
+                        viewModel.isDetailMusic = false
+                        viewModel.listLevels = []
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {
-                        
+                        viewModel.isDetailMusic = false
+                        viewModel.listLevels = []
                     }
                 }
             }

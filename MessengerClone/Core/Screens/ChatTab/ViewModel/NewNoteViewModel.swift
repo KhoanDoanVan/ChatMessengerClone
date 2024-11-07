@@ -10,6 +10,7 @@ import FirebaseAuth
 import Combine
 import FirebaseFirestore
 import FirebaseDatabase
+import AVFoundation
 
 class NewNoteViewModel: ObservableObject {
     
@@ -26,16 +27,18 @@ class NewNoteViewModel: ObservableObject {
     @Published var isDetailMusic: Bool = false
     @Published var textSearch: String = ""
     @Published var scrollOffsetXMusic: CGFloat = 0
-    @Published var count: Int = 0
+    @Published var idCount: Int = 0
     /// Width of the main rectangle
     let mainRectangleWidth: CGFloat = 220
     /// Width of the second rectangle
     let smallRectangleWidth: CGFloat = 30
-    var bottomBarContentWidth: CGFloat = 14 * 150 + (190)
+    var bottomBarContentWidth: CGFloat = (6 * 150) + (190)
     var leadingPadding: CGFloat = 14.7714285714
     var times: CGFloat {
+        print("Times: \(bottomBarContentWidth / 220)")
         return bottomBarContentWidth / 220
     }
+    @Published var listLevels: [Float] = []
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -95,6 +98,75 @@ class NewNoteViewModel: ObservableObject {
             }
             
             completion(musics)
+        }
+    }
+
+    /// Download the audio
+    func downloadAudio(from url: URL) async -> URL? {
+        let tempDirectory = FileManager.default.temporaryDirectory
+        let localURL = tempDirectory.appendingPathComponent(url.lastPathComponent)
+        
+        // Download the file to a temporary location
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            try data.write(to: localURL)
+            return localURL
+        } catch {
+            print("Error downloading audio file: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    /// Extract Audio Levels
+    func extractAudioLevels(from url: URL, desiredLevels: Int = 150) {
+//        var audioLevels: [Float] = []
+        
+        do {
+            let audioFile = try AVAudioFile(forReading: url)
+            let totalFrames = Int(audioFile.length)
+            let framesPerSegment = totalFrames / desiredLevels
+            let frameCapacity = AVAudioFrameCount(framesPerSegment)
+            let buffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: frameCapacity)!
+            
+            for _ in 0..<desiredLevels {
+                do {
+                    try audioFile.read(into: buffer, frameCount: frameCapacity)
+                    guard let floatChannelData = buffer.floatChannelData else { continue }
+                    
+                    let frameLength = Int(buffer.frameLength)
+                    let channelData = floatChannelData.pointee
+                    var sumOfSquares: Float = 0.0
+                    
+                    for i in 0..<frameLength {
+                        let sample = channelData[i]
+                        sumOfSquares += sample * sample
+                    }
+                    
+                    let meanSquare = sumOfSquares / Float(frameLength)
+                    let rms = sqrt(meanSquare)
+//                    audioLevels.append(rms)
+                    self.listLevels.append(rms)
+                    
+                } catch {
+                    print("Error reading audio buffer: \(error.localizedDescription)")
+                    break
+                }
+            }
+            
+        } catch {
+            print("Error processing audio file: \(error.localizedDescription)")
+        }
+    }
+
+    /// Get audio levels
+    func getAudioLevels(from remoteURLString: String) async {
+        
+        guard let url = URL(string: remoteURLString) else { return }
+        
+        if let localURL = await downloadAudio(from: url) {
+            extractAudioLevels(from: localURL)
+        } else {
+            return
         }
     }
 }
