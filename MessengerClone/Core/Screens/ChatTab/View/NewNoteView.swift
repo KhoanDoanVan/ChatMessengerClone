@@ -8,11 +8,33 @@
 import SwiftUI
 import Kingfisher
 
+/// 18 levels
+///
+
+struct RectFill {
+    var id: String
+    var fill: Bool = false
+}
+struct LevelFill {
+    var id: String
+    var fill: Bool = false
+    var level: Float = 0
+}
+
 struct NewNoteView: View {
     @FocusState private var isTextFocusState: Bool
     
     @StateObject private var viewModel: NewNoteViewModel
     let handleAction: () -> Void
+    
+    @State private var visibleRange: ClosedRange<CGFloat> = 0...0
+    @State private var isScrolling = false
+    @State private var isPlay: Bool = false
+    @State private var rectsFill: [RectFill] = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
+    @State private var levelsToPlayList: [Float] = []
+    @State private var levelsFill: [LevelFill] = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false), count: 18)
+    let totalTime: Double = 5
+    let interval: Double = 5 / 18
     
     init(currentNote: NoteItem?, completion: @escaping () -> Void) {
         _viewModel = StateObject(wrappedValue: NewNoteViewModel(currentNote: currentNote))
@@ -112,6 +134,7 @@ struct NewNoteView: View {
         .ignoresSafeArea()
     }
     
+    @ViewBuilder
     /// Detail music
     private func detailMusic() -> some View {
         NavigationStack {
@@ -166,49 +189,129 @@ struct NewNoteView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    Image(systemName: "play.fill")
-                        .font(.title2)
-                        .padding(13)
-                        .background(Color(.systemGray3))
-                        .clipShape(Circle())
+                    Button {
+                        setupRectsFill()
+                        buttonFillRectsAction()
+                    } label: {
+                        Image(systemName: isPlay ? "pause.fill" : "play.fill")
+                            .font(.title2)
+                            .padding(13)
+                            .background(Color(.systemGray3))
+                            .clipShape(Circle())
+                            .foregroundStyle(.white)
+                    }
                 }
+                .padding(.top, 30)
                 .padding(.horizontal, 30)
                 
                 /// This is the bottom bar
                 ZStack {
-                    ScrollViewReader { proxy in
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 0) {
-                                ForEach(viewModel.listLevels.indices, id: \.self) { index in
-                                    let level = viewModel.listLevels[index]
-                                    HStack(spacing: 5) {
+                    
+                    ZStack {
+                        /// Fake scrollview
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 2) {
+                                ForEach(0..<132) { levels in
+                                    HStack(spacing: 2) {
                                         Rectangle()
-                                            .frame(width: 2, height: CGFloat(level) * 100)
+                                            .frame(width: 2, height: 8)
+                                            .foregroundStyle(Color(.systemGray4))
+                                            .clipShape(Capsule())
+                                        
+                                        Rectangle()
+                                            .frame(width: 2, height: 12)
                                             .foregroundStyle(Color(.systemGray4))
                                             .clipShape(Capsule())
                                     }
-                                    .padding(.trailing, 5)
-                                    .id(index)
                                 }
                             }
-                            .background(
-                                GeometryReader { geo -> Color in
-                                    DispatchQueue.main.async {
-                                        viewModel.scrollOffsetXMusic = -((geo.frame(in: .global).minX) / viewModel.times)
-                                    }
-                                    return Color.clear
-                                }
-                            )
-                            .padding(.horizontal, (UIScreen.main.bounds.width / 2) - 60)
+                            .offset(x: viewModel.scrollOffsetXMusicCorrectly)
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 80)
+                        
+                        RoundedRectangle(cornerRadius: 5)
+                            .frame(width: 120, height: 50)
+                            .position(x: UIScreen.main.bounds.width / 2, y: 50)
+                            .foregroundStyle(Color(.systemGray6))
                     }
                     
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(.blue, lineWidth: 4)
-                        .frame(width: 120, height: 50)
-                        .foregroundStyle(.clear)
+                    ZStack {
+                        /// Main ScrollView
+                        ScrollViewReader { proxy in
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 0) {
+                                    ForEach(viewModel.listLevels.indices, id: \.self) { index in
+                                        let level = viewModel.listLevels[index]
+                                        let isLeftVisible = index < viewModel.leftVisibleIndex
+                                        let isRightVisible = index > viewModel.rightVisibleIndex
+                                                            
+                                        
+                                        HStack(spacing: 5) {
+                                            Rectangle()
+                                                .frame(width: 2, height: !isLeftVisible || !isRightVisible ? CGFloat(level) * 100 : 12)
+                                                .clipShape(Capsule())
+                                                .foregroundStyle(isLeftVisible || isRightVisible ? .clear : Color(.systemGray4))
+                                        }
+                                        .padding(.trailing, 5)
+                                        .id(index)
+                                    }
+                                }
+                                .background(
+                                    GeometryReader { geo -> Color in
+                                        DispatchQueue.main.async {
+                                            viewModel.scrollOffsetXMusic = -((geo.frame(in: .global).minX) / viewModel.times)
+                                            viewModel.scrollOffsetXMusicCorrectly = geo.frame(in: .global).minX
+                                            viewModel.mainScrollOffset = -geo.frame(in: .global).minX
+                                            
+                                            let visibleWidth = 120
+                                            viewModel.leftVisibleIndex = Int((Int(viewModel.mainScrollOffset + 205) - visibleWidth / 2) / 7)
+                                            viewModel.rightVisibleIndex = Int((Int(viewModel.mainScrollOffset + 205) + visibleWidth / 2) / 7)
+                                            print("LeftIndex: \(viewModel.leftVisibleIndex), RightIndex: \(viewModel.rightVisibleIndex)")
+                                        }
+                                        
+                                        return Color.clear
+                                    }
+                                )
+                                .padding(.horizontal, (UIScreen.main.bounds.width / 2) - 60)
+
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 80)
+                        }
+                    }
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(.blue, lineWidth: 4)
+                            .frame(width: 120, height: 50)
+                            .foregroundStyle(.clear)
+                        
+                        if isPlay {
+                            HStack(spacing: 0) {
+                                ForEach(0..<18) { index in
+                                    Rectangle()
+                                        .frame(width: 120/18, height: 50)
+                                        .foregroundStyle(rectsFill[index].fill ? Color.blue : .clear)
+                                }
+                            }
+                            
+                            HStack(spacing: 0) {
+                                ForEach(0..<18) { index in
+                                    HStack(spacing: 5) {
+                                        Rectangle()
+                                            .frame(width: 2, height: CGFloat(levelsFill[index].level) * 100)
+                                            .clipShape(Capsule())
+                                            .foregroundStyle(levelsFill[index].fill ? .white : .clear)
+                                    }
+                                    .padding(.trailing, 5)
+                                }
+                            }
+                            .frame(width: 120, height: 50)
+                            .padding(.leading, 10)
+                        }
+                        
+                        
+                    }
+
                 }
             }
             .presentationDragIndicator(.visible)
@@ -229,6 +332,47 @@ struct NewNoteView: View {
                 }
             }
         }
+    }
+    
+    /// Setup Rectangle fill
+    private func setupRectsFill() {
+        var index: Int = 0
+        for i in viewModel.leftVisibleIndex..<viewModel.rightVisibleIndex {
+            rectsFill[index].id = "\(i)"
+            levelsFill[index].id = "\(i)"
+            levelsFill[index].level = viewModel.listLevels[i]
+            index += 1
+        }
+    }
+    
+    /// Start Filling Rectangles
+    private func buttonFillRectsAction() {
+        if !isPlay {
+            isPlay = true
+            for i in 0..<rectsFill.count {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * interval) {
+                    withAnimation(.easeInOut(duration: interval)) {
+                        rectsFill[i].fill = true
+                        levelsFill[i].fill = true
+                    }
+                    if i == rectsFill.count - 1 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+                            isPlay = false
+                            resetFillRects()
+                        }
+                    }
+                }
+            }
+        } else {
+            isPlay = false
+            resetFillRects()
+        }
+    }
+    
+    /// Reset Rectangles
+    private func resetFillRects() {
+        self.rectsFill = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
+        self.levelsFill = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false), count: 18)
     }
     
     /// Main note

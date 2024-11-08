@@ -12,6 +12,7 @@ import FirebaseFirestore
 import FirebaseDatabase
 import AVFoundation
 
+@MainActor
 class NewNoteViewModel: ObservableObject {
     
     @Published var text: String = ""
@@ -27,6 +28,12 @@ class NewNoteViewModel: ObservableObject {
     @Published var isDetailMusic: Bool = false
     @Published var textSearch: String = ""
     @Published var scrollOffsetXMusic: CGFloat = 0
+    @Published var scrollOffsetXMusicCorrectly: CGFloat = 0
+    @Published var mainScrollOffset: CGFloat = 0
+    
+    @Published var leftVisibleIndex: Int = 0
+    @Published var rightVisibleIndex: Int = 0
+    
     @Published var idCount: Int = 0
     /// Width of the main rectangle
     let mainRectangleWidth: CGFloat = 220
