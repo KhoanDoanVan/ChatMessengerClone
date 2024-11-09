@@ -34,6 +34,9 @@
 		46389BDC2C75C9A40020D804 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */; };
 		46389BE02C75CD8A0020D804 /* MediaPickerItem_Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BDF2C75CD8A0020D804 /* MediaPickerItem_Types.swift */; };
 		46389BE52C75D89B0020D804 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46389BE42C75D89B0020D804 /* FirebaseHelper.swift */; };
+		4640D19C2CDF0426001F7F12 /* SoundComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4640D19B2CDF0421001F7F12 /* SoundComponent.swift */; };
+		4640D19E2CDF5A04001F7F12 /* InfiniteScrollingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4640D19D2CDF5A02001F7F12 /* InfiniteScrollingTextView.swift */; };
+		4640D1A02CDF7294001F7F12 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4640D19F2CDF7293001F7F12 /* Test.swift */; };
 		464648DB2C7C495900617A6F /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */; };
 		464C26402C96F566008CD4F2 /* ReactionShowSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */; };
 		464C26422C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */; };
@@ -192,6 +195,9 @@
 		46389BDB2C75C9A40020D804 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		46389BDF2C75CD8A0020D804 /* MediaPickerItem_Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerItem_Types.swift; sourceTree = "<group>"; };
 		46389BE42C75D89B0020D804 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		4640D19B2CDF0421001F7F12 /* SoundComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundComponent.swift; sourceTree = "<group>"; };
+		4640D19D2CDF5A02001F7F12 /* InfiniteScrollingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollingTextView.swift; sourceTree = "<group>"; };
+		4640D19F2CDF7293001F7F12 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		464648DA2C7C495900617A6F /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		464C263F2C96F566008CD4F2 /* ReactionShowSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionShowSheetView.swift; sourceTree = "<group>"; };
 		464C26412C97BAF2008CD4F2 /* ReactionShowSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionShowSheetViewModel.swift; sourceTree = "<group>"; };
@@ -358,6 +364,15 @@
 				463094EF2CBB7B0700D9C9CC /* FindChannelHelper.swift */,
 			);
 			path = Hepler;
+			sourceTree = "<group>";
+		};
+		4640D19A2CDF0419001F7F12 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				4640D19B2CDF0421001F7F12 /* SoundComponent.swift */,
+				4640D19D2CDF5A02001F7F12 /* InfiniteScrollingTextView.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 		465EBE5C2C6ABDA600A97E77 /* View */ = {
@@ -718,6 +733,7 @@
 		46E0B57E2C50DB750059C928 /* ChatTab */ = {
 			isa = PBXGroup;
 			children = (
+				4640D19A2CDF0419001F7F12 /* Component */,
 				46E0B5812C50DB860059C928 /* Model */,
 				46E0B5802C50DB7F0059C928 /* ViewModel */,
 				46E0B57F2C50DB7C0059C928 /* View */,
@@ -728,6 +744,7 @@
 		46E0B57F2C50DB7C0059C928 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4640D19F2CDF7293001F7F12 /* Test.swift */,
 				466EA9672C9ACBFE0021F753 /* ChatTabScreen.swift */,
 				46B804E82C58DE9B0091020E /* CreateChatView.swift */,
 				46749F7A2C662F9C00A8A4BD /* GroupChatPickerView.swift */,
@@ -851,7 +868,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					46E0B5472C50D14B0059C928 = {
 						CreatedOnToolsVersion = 15.4;
@@ -973,6 +990,7 @@
 				4669C2B72C9EE0C500C3342D /* CameraScreen.swift in Sources */,
 				46A6439D2CB61C36002CE4B7 /* DetailCurrentNoteView.swift in Sources */,
 				460E085D2C9D2ED900D542EF /* APIConstants.swift in Sources */,
+				4640D1A02CDF7294001F7F12 /* Test.swift in Sources */,
 				465EBE652C6B587B00A97E77 /* SignUpScreen.swift in Sources */,
 				4666C98B2CBF433800B514C4 /* BubbleReplyMessage.swift in Sources */,
 				46AA92732C6232D4003F9CEB /* SidebarScreen.swift in Sources */,
@@ -1020,12 +1038,14 @@
 				4604CB782CB4EC0700388B73 /* NewNoteViewModel.swift in Sources */,
 				46D19B872CA3935A007DB804 /* ColorPickerConstants.swift in Sources */,
 				46749F8B2C67715200A8A4BD /* UserItem.swift in Sources */,
+				4640D19C2CDF0426001F7F12 /* SoundComponent.swift in Sources */,
 				46749F6C2C660CE200A8A4BD /* MessageListView.swift in Sources */,
 				46047D5E2C944E8F00CB5819 /* ReactionPickerMenuViewModel.swift in Sources */,
 				465EBE7D2C6B648200A97E77 /* RootView.swift in Sources */,
 				460E085B2C9D2B0800D542EF /* StickerItem.swift in Sources */,
 				46749F792C662C5E00A8A4BD /* ChatTabScreenViewModel.swift in Sources */,
 				46749F752C6613FE00A8A4BD /* BubbleTextView.swift in Sources */,
+				4640D19E2CDF5A04001F7F12 /* InfiniteScrollingTextView.swift in Sources */,
 				46EE7B732C9940210077ABAB /* ParticipantsView.swift in Sources */,
 				46749F732C66137500A8A4BD /* MessageItem+Types.swift in Sources */,
 				46EE7B712C993F260077ABAB /* VideoScreen.swift in Sources */,
@@ -1274,7 +1294,6 @@
 		46E0B5702C50D14D0059C928 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1295,7 +1314,6 @@
 		46E0B5712C50D14D0059C928 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1315,7 +1333,6 @@
 		46E0B5732C50D14D0059C928 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1332,7 +1349,6 @@
 		46E0B5742C50D14D0059C928 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

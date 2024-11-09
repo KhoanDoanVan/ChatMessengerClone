@@ -76,34 +76,61 @@ struct DetailNoteView: View {
     
     /// Note content
     private var noteContentBubble: some View {
-        Text(viewModel.note.textNote)
-            .padding()
-            .background(Color(.systemGray6))
-            .clipShape(
-                .rect(cornerRadius: 20)
-            )
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        VStack {
+            Text(viewModel.note.textNote)
+                .padding(.vertical, viewModel.note.sound != nil ? 0 : 20)
+                .padding(.top, viewModel.note.sound != nil ? 20 : 0)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: viewModel.note.sound != nil ? .center : .leading)
+            
+            if let noteSound = viewModel.note.sound {
+                VStack {
+                    HStack(spacing: 10){
+                        SoundComponent(size: .medium)
+                        InfiniteScrollingTextView(text: noteSound.songItem.title, speed: 5, width: 120)
+                    }
+                    Text(noteSound.songItem.artist)
+                        .foregroundStyle(Color(.systemGray))
+                }
+                .padding(.bottom, 20)
+            }
+        }
+        .padding(.horizontal)
+        .background(Color(.systemGray6))
+        .clipShape(
+            .rect(cornerRadius: 20)
+        )
+//        Text(viewModel.note.textNote)
+//            .padding()
+//            .background(Color(.systemGray6))
+//            .clipShape(
+//                .rect(cornerRadius: 20)
+//            )
+//            .multilineTextAlignment(.center)
+//            .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     /// TextField
     private var textField: some View {
-        TextField("", text: $viewModel.text, prompt: Text("Send message"))
-            .padding(.leading, 10)
-            .padding(.trailing, 40)
-            .padding(.vertical, 10)
-            .background(Color(.systemGray6))
-            .clipShape(Capsule())
-            .focused($isFocusTextField)
-            .overlay(alignment: .trailing) {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "face.smiling")
-                        .font(.title2)
-                        .padding(10)
+        VStack {
+            TextField("", text: $viewModel.text, prompt: Text("Send message"))
+                .padding(.leading, 10)
+                .padding(.trailing, 40)
+                .padding(.vertical, 10)
+                .background(Color(.systemGray6))
+                .clipShape(Capsule())
+                .focused($isFocusTextField)
+                .overlay(alignment: .trailing) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "face.smiling")
+                            .font(.title2)
+                            .padding(10)
+                    }
                 }
-            }
+        }
+        
     }
     
     /// Bottom Bar

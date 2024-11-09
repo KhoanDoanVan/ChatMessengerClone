@@ -24,6 +24,17 @@ struct NoteCellView: View {
         return title
     }
     
+    private var noteArtistString: String {
+        let maxChar = 10
+        if let noteSong = note.sound {
+            let trailingChars = noteSong.songItem.artist.count > maxChar ? "..." : ""
+            let title = String(noteSong.songItem.artist.prefix(maxChar) + trailingChars)
+            return title
+        } else {
+            return "unknown"
+        }
+    }
+    
     var body: some View {
         ZStack {
             VStack(spacing: 3) {
@@ -41,18 +52,7 @@ struct NoteCellView: View {
             VStack(alignment: .leading) {
                 ZStack {
                     VStack(spacing: 0) {
-                        Text(note == nil ? "Post a note" : noteTitle)
-                            .font(.system(size: 12))
-                            .foregroundStyle(note == nil ? Color(.systemGray) : .white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 5)
-                            .background(Color(.systemGray4))
-                            .lineSpacing(-10)
-                            .clipShape(
-                                .rect(cornerRadius: 15)
-                            )
-                            .multilineTextAlignment(.center)
-                            .shadow(color: Color(.black).opacity(0.45), radius: 1, x: 0, y: 1)
+                        bubble
                         Circle()
                             .frame(width: 15, height: 15)
                             .foregroundStyle(Color(.systemGray4))
@@ -81,9 +81,46 @@ struct NoteCellView: View {
                 }
             }
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 120, height: 120)
         .padding(.top, 30)
         .padding(.bottom, 15)
+    }
+    
+    /// Bubble
+    private var bubble: some View {
+        VStack(spacing: 0) {
+            Text(note == nil ? "Post a note" : noteTitle)
+                .font(.system(size: 12))
+                .foregroundStyle(note == nil ? Color(.systemGray) : .white)
+                .padding(.horizontal, 12)
+                .padding(.vertical, note.sound != nil ? 5 : 0)
+                .padding(.vertical, note.sound != nil ? 0 : 5)
+                .background(Color(.systemGray4))
+                .lineSpacing(-10)
+                .clipShape(
+                    .rect(cornerRadius: 15)
+                )
+                .multilineTextAlignment(.center)
+            
+            if let noteSound = note.sound {
+                VStack(spacing: 5) {
+                    HStack(spacing: 5) {
+                        SoundComponent(size: .mini)
+                        InfiniteScrollingTextView(text: noteSound.songItem.title, speed: 5, width: 50)
+                    }
+                    Text(noteArtistString)
+                        .font(.system(size: 11))
+                        .foregroundStyle(Color(.systemGray))
+                }
+                .padding(.horizontal, 10)
+                .padding(.bottom, 5)
+            }
+        }
+        .background(Color(.systemGray4))
+        .clipShape(
+            .rect(cornerRadius: 15)
+        )
+        .shadow(color: Color(.black).opacity(0.45), radius: 1, x: 0, y: 1)
     }
     
     

@@ -7,6 +7,19 @@
 
 import Foundation
 
+struct SoundNote {
+    let songItem: MusicItem
+    let urlSoundNote: String
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "songItem": songItem.toDictionary(), // Ensure `songItem` can be converted to a dictionary
+            "urlSoundNote": urlSoundNote
+        ]
+    }
+}
+
+
 struct NoteItem: Identifiable {
     
     let id: String
@@ -14,9 +27,8 @@ struct NoteItem: Identifiable {
     let createAt: Date
     let ownerUid: String
     var owner: UserItem?
-    var songUrl: String?
-    var songName: String?
     var isOwnerOnline: (Bool, Date?)?
+    var sound: SoundNote?
     
     static let stubNote: NoteItem = NoteItem(id: UUID().uuidString, textNote: "", createAt: Date(), ownerUid: "")
     
@@ -30,10 +42,21 @@ extension NoteItem {
         let timeStamp = dict[.createAt] as? Double ?? 0
         self.createAt = Date(timeIntervalSince1970: timeStamp)
         self.ownerUid = dict[.ownerUid] as? String ?? ""
+        if let soundData = dict[.sound] as? [String: Any],
+           let urlSoundNote = soundData["urlSoundNote"] as? String,
+           let songItemData = soundData["songItem"] as? [String: Any] {
+            self.sound = SoundNote(
+                songItem: MusicItem(fromDictionary: songItemData),
+                urlSoundNote: urlSoundNote
+            )
+        } else {
+            self.sound = nil
+        }
     }
 }
 
 extension String {
     static let textNote = "textNote"
     static let createAt = "createAt"
+    static let sound = "sound"
 }

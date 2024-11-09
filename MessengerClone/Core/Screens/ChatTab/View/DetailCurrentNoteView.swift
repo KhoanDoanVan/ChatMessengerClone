@@ -40,6 +40,7 @@ struct DetailCurrentNoteView: View {
             }
             .bold()
         }
+        .presentationDragIndicator(.visible)
         .padding(.bottom, 10)
     }
     
@@ -80,14 +81,30 @@ struct DetailCurrentNoteView: View {
     
     /// Note content
     private var noteContentBubble: some View {
-        Text(note.textNote)
-            .padding()
-            .background(Color(.systemGray5))
-            .clipShape(
-                .rect(cornerRadius: 20)
-            )
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity, alignment: .leading)
+        VStack {
+            Text(note.textNote)
+                .padding(.vertical,note.sound != nil ? 0 : 20)
+                .padding(.top, note.sound != nil ? 20 : 0)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, alignment: note.sound != nil ? .center : .leading)
+            
+            if let noteSound = note.sound {
+                VStack {
+                    HStack(spacing: 10){
+                        SoundComponent(size: .medium)
+                        InfiniteScrollingTextView(text: noteSound.songItem.title, speed: 5, width: 120)
+                    }
+                    Text(noteSound.songItem.artist)
+                        .foregroundStyle(Color(.systemGray))
+                }
+                .padding(.bottom, 20)
+            }
+        }
+        .padding(.horizontal)
+        .background(Color(.systemGray5))
+        .clipShape(
+            .rect(cornerRadius: 20)
+        )
     }
     
     /// Button Top Trailing

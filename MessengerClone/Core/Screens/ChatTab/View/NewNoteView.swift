@@ -8,33 +8,12 @@
 import SwiftUI
 import Kingfisher
 
-/// 18 levels
-///
-
-struct RectFill {
-    var id: String
-    var fill: Bool = false
-}
-struct LevelFill {
-    var id: String
-    var fill: Bool = false
-    var level: Float = 0
-}
 
 struct NewNoteView: View {
     @FocusState private var isTextFocusState: Bool
     
     @StateObject private var viewModel: NewNoteViewModel
     let handleAction: () -> Void
-    
-    @State private var visibleRange: ClosedRange<CGFloat> = 0...0
-    @State private var isScrolling = false
-    @State private var isPlay: Bool = false
-    @State private var rectsFill: [RectFill] = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
-    @State private var levelsToPlayList: [Float] = []
-    @State private var levelsFill: [LevelFill] = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false), count: 18)
-    let totalTime: Double = 5
-    let interval: Double = 5 / 18
     
     init(currentNote: NoteItem?, completion: @escaping () -> Void) {
         _viewModel = StateObject(wrappedValue: NewNoteViewModel(currentNote: currentNote))
@@ -193,7 +172,7 @@ struct NewNoteView: View {
                         setupRectsFill()
                         buttonFillRectsAction()
                     } label: {
-                        Image(systemName: isPlay ? "pause.fill" : "play.fill")
+                        Image(systemName: viewModel.isPlay ? "pause.fill" : "play.fill")
                             .font(.title2)
                             .padding(13)
                             .background(Color(.systemGray3))
@@ -285,12 +264,12 @@ struct NewNoteView: View {
                             .frame(width: 120, height: 50)
                             .foregroundStyle(.clear)
                         
-                        if isPlay {
+                        if viewModel.isPlay {
                             HStack(spacing: 0) {
                                 ForEach(0..<18) { index in
                                     Rectangle()
                                         .frame(width: 120/18, height: 50)
-                                        .foregroundStyle(rectsFill[index].fill ? Color.blue : .clear)
+                                        .foregroundStyle(viewModel.rectsFill[index].fill ? Color.blue : .clear)
                                 }
                             }
                             
@@ -298,9 +277,9 @@ struct NewNoteView: View {
                                 ForEach(0..<18) { index in
                                     HStack(spacing: 5) {
                                         Rectangle()
-                                            .frame(width: 2, height: CGFloat(levelsFill[index].level) * 100)
+                                            .frame(width: 2, height: CGFloat(viewModel.levelsFill[index].level) * 100)
                                             .clipShape(Capsule())
-                                            .foregroundStyle(levelsFill[index].fill ? .white : .clear)
+                                            .foregroundStyle(viewModel.levelsFill[index].fill ? .white : .clear)
                                     }
                                     .padding(.trailing, 5)
                                 }
@@ -321,6 +300,7 @@ struct NewNoteView: View {
                     Button("Cancel") {
                         viewModel.isDetailMusic = false
                         viewModel.listLevels = []
+                        viewModel.musicPicked = nil
                     }
                 }
                 
@@ -338,41 +318,41 @@ struct NewNoteView: View {
     private func setupRectsFill() {
         var index: Int = 0
         for i in viewModel.leftVisibleIndex..<viewModel.rightVisibleIndex {
-            rectsFill[index].id = "\(i)"
-            levelsFill[index].id = "\(i)"
-            levelsFill[index].level = viewModel.listLevels[i]
+            viewModel.rectsFill[index].id = "\(i)"
+            viewModel.levelsFill[index].id = "\(i)"
+            viewModel.levelsFill[index].level = viewModel.listLevels[i]
             index += 1
         }
     }
     
     /// Start Filling Rectangles
     private func buttonFillRectsAction() {
-        if !isPlay {
-            isPlay = true
-            for i in 0..<rectsFill.count {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * interval) {
-                    withAnimation(.easeInOut(duration: interval)) {
-                        rectsFill[i].fill = true
-                        levelsFill[i].fill = true
+        if !viewModel.isPlay {
+            viewModel.isPlay = true
+            for i in 0..<viewModel.rectsFill.count {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * viewModel.interval) {
+                    withAnimation(.easeInOut(duration: viewModel.interval)) {
+                        viewModel.rectsFill[i].fill = true
+                        viewModel.levelsFill[i].fill = true
                     }
-                    if i == rectsFill.count - 1 {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-                            isPlay = false
+                    if i == viewModel.rectsFill.count - 1 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + viewModel.interval) {
+                            viewModel.isPlay = false
                             resetFillRects()
                         }
                     }
                 }
             }
         } else {
-            isPlay = false
+            viewModel.isPlay = false
             resetFillRects()
         }
     }
     
     /// Reset Rectangles
     private func resetFillRects() {
-        self.rectsFill = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
-        self.levelsFill = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false), count: 18)
+        viewModel.rectsFill = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
+        viewModel.levelsFill = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false, level: 0), count: 18)
     }
     
     /// Main note
@@ -405,6 +385,7 @@ struct NewNoteView: View {
     /// Bubble Note
     private var bubbleNote: some View {
         VStack(alignment: .leading) {
+            
             textFieldView
                 .shadow(color: Color(.black).opacity(0.45), radius: 1, x: 0, y: 1)
             Circle()
@@ -423,33 +404,59 @@ struct NewNoteView: View {
     
     /// Text Field View
     private var textFieldView: some View {
-        ZStack {
-            Text(viewModel.text)
-                .padding()
-                .background(Color(.systemGray5))
-                .clipShape(
-                    .rect(cornerRadius: 20)
-                )
-                .focused($isTextFocusState)
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(spacing: 0) {
             
-            TextField("", text: $viewModel.text, prompt: Text("Share a thought..."))
-                .padding()
-                .background(Color(.systemGray5))
-                .clipShape(
-                    .rect(cornerRadius: 20)
-                )
-                .focused($isTextFocusState)
-                .multilineTextAlignment(.center)
-                .opacity(viewModel.text.isEmpty ? 1 : 0)
-                .frame(width: 200)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .onChange(of: viewModel.text) { oldValue, newValue in
-                    /// Limit character of the text
-                    viewModel.text = String(viewModel.text.prefix(viewModel.characterLimit))
+            /// Relate to sound
+            if let musicPicked = viewModel.musicPicked {
+                VStack(spacing: 0) {
+                    
+                    /// Animate sound
+                    HStack(spacing: 10) {
+                        SoundComponent(size: .medium)
+                        /// Song name
+                        Text(musicPicked.title)
+                            .fontWeight(.bold)
+                    }
+                    /// Artist name
+                    Text(musicPicked.artist)
+                        .foregroundStyle(Color(.systemGray))
                 }
+                .padding(.top, 10)
+            }
+            
+            /// Main Content
+            ZStack {
+                Text(viewModel.text)
+                    .padding(10)
+                    .background(viewModel.musicPicked != nil ? .clear :  Color(.systemGray5))
+                    .clipShape(
+                        .rect(cornerRadius: 20)
+                    )
+                    .focused($isTextFocusState)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: viewModel.musicPicked != nil ? .center : .leading)
+                
+                TextField("", text: $viewModel.text, prompt: Text("Share a thought..."))
+                    .padding(10)
+                    .background(Color(.systemGray5))
+                    .clipShape(
+                        .rect(cornerRadius: 20)
+                    )
+                    .focused($isTextFocusState)
+                    .multilineTextAlignment(.center)
+                    .opacity(viewModel.text.isEmpty ? 1 : 0)
+                    .frame(width: 200)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onChange(of: viewModel.text) { oldValue, newValue in
+                        /// Limit character of the text
+                        viewModel.text = String(viewModel.text.prefix(viewModel.characterLimit))
+                    }
+            }
         }
+        .background(viewModel.musicPicked != nil ? Color(.systemGray5) : .clear)
+        .clipShape(
+            .rect(cornerRadius: 20)
+        )
     }
     
     /// Top Navigation Bar

@@ -12,7 +12,11 @@ import Firebase
 struct NoteSevice {
     
     /// Upload a note
-    static func uploadANote(_ text: String, completion: @escaping () -> Void) {
+    static func uploadANote(
+        _ text: String,
+        _ soundNote: SoundNote?,
+        completion: @escaping () -> Void
+    ) {
         
         guard let currentUid = Auth.auth().currentUser?.uid,
               let noteId = FirebaseConstants.UserNoteRef.childByAutoId().key
@@ -24,12 +28,16 @@ struct NoteSevice {
         
         let timestamp = Date().timeIntervalSince1970
         
-        let dictNote: [String:Any] = [
+        var dictNote: [String:Any] = [
             .id: noteId,
             .textNote: text,
             .createAt: timestamp,
             .ownerUid: currentUid
         ]
+        
+        if let soundNote = soundNote {
+            dictNote[.sound] = soundNote.toDictionary()
+        }
         
         FirebaseConstants.UserNoteRef.child(noteId).setValue(dictNote)
         
@@ -109,15 +117,19 @@ struct NoteSevice {
     }
     
     /// Change a note
-    static func changeANote(_ idNote: String, _ newText: String, completion: @escaping () -> Void) {
+    static func changeANote(
+        _ idNote: String,
+        _ newText: String,
+        completion: @escaping () -> Void
+    ) {
         
         let timeStamp = Date().timeIntervalSince1970
         
-        let dict: [String:Any] = [
+        var dict: [String:Any] = [
             .createAt: timeStamp,
             .textNote: newText
         ]
-        
+
         FirebaseConstants.UserNoteRef.child(idNote).updateChildValues(dict)
         
         completion()

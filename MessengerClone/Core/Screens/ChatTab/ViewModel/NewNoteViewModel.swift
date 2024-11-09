@@ -12,6 +12,16 @@ import FirebaseFirestore
 import FirebaseDatabase
 import AVFoundation
 
+struct RectFill {
+    var id: String
+    var fill: Bool = false
+}
+struct LevelFill {
+    var id: String
+    var fill: Bool = false
+    var level: Float = 0
+}
+
 @MainActor
 class NewNoteViewModel: ObservableObject {
     
@@ -45,8 +55,18 @@ class NewNoteViewModel: ObservableObject {
         print("Times: \(bottomBarContentWidth / 220)")
         return bottomBarContentWidth / 220
     }
-    @Published var listLevels: [Float] = []
     
+    /// Animation scroll view to pick interval time audio
+    @Published var listLevels: [Float] = []
+    @Published var visibleRange: ClosedRange<CGFloat> = 0...0
+    @Published var isScrolling = false
+    @Published var isPlay: Bool = false
+    @Published var rectsFill: [RectFill] = Array(repeating: RectFill(id: UUID().uuidString ,fill: false), count: 18)
+    @Published var levelsToPlayList: [Float] = []
+    @Published var levelsFill: [LevelFill] = Array(repeating: LevelFill(id: UUID().uuidString ,fill: false), count: 18)
+    let totalTime: Double = 5
+    let interval: Double = 5 / 18
+        
     private var cancellables = Set<AnyCancellable>()
     
     init(currentNote: NoteItem? = nil) {
@@ -71,7 +91,11 @@ class NewNoteViewModel: ObservableObject {
                 print("Update a Note Success")
             }
         } else {
-            NoteSevice.uploadANote(text) {
+            var noteSound: SoundNote?
+            if let music = self.musicPicked {
+                noteSound = SoundNote(songItem: music, urlSoundNote: "")
+            }
+            NoteSevice.uploadANote(text, noteSound) {
                 print("Create a Note success")
             }
         }
